@@ -11,7 +11,6 @@
             </div>
         </div>
     </div>
-
     <div class="flex gap-10 border-top-gray padding-top-20">
         <button type="button"
             class="btn-submit-ok flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
@@ -23,59 +22,78 @@
 </div>
 
 <div class="section-body user-info padding-20 flex flex-col gap-1">
+
+    {* Tìm nhanh + Mã số thuế *}
     <div class="form-row search-tax-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-search" class="form-group quick-search-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Tìm nhanh</p>
-            <input type="text" name="quick_search" class="input-field flex-1 bg-white" placeholder="F2 để tìm nhanh">
+            <input type="text" name="info_timnhanh" id="info_timnhanh" class="input-field flex-1 bg-white"
+                placeholder="F2 để tìm nhanh" onkeyup="searchInfoCusOutput()" autocomplete="off">
+            <input type="hidden" id="id_customer" name="id_customer">
         </div>
         <div id="group-buyer-tax" class="form-group tax-code-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Mã số thuế</p>
-            <input type="text" name="mst" class="input-field flex-1">
+            <input type="text" id="masothue" name="masothue" value="{if isset($mst_cus) && $mst_cus}{$mst_cus}{/if}"
+                class="input-field flex-1" autocomplete="off">
+            <i class="fa fa-search" id="mst_invoice" title="Lấy thông tin mã số thuế" onclick="callTaxCodeAPI(this);"
+                style="cursor:pointer; padding: 0 8px; color: var(--primary-color);"></i>
         </div>
     </div>
 
+    {* Mã đơn vị + Người mua hàng *}
     <div class="form-row client-id-name-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-id" class="form-group client-id-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Mã đơn vị / Mã KH</p>
-            <input type="text" name="client_code" class="input-field flex-1">
+            <input type="text" id="madonvi" name="madonvi" value="{if isset($mst_cus) && $mst_cus}{$mst_cus}{/if}"
+                class="input-field flex-1" autocomplete="off">
         </div>
         <div id="group-buyer-name" class="form-group buyer-name-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Người mua hàng</p>
-            <input type="text" name="name" class="input-field flex-1">
+            <input type="text" id="tennguoimua" name="tennguoimua"
+                value="{if isset($name_cus) && $name_cus}{$name_cus}{/if}" class="input-field flex-1"
+                onchange="checkLengthTypeInput(this,100)">
         </div>
     </div>
 
+    {* Đơn vị mua hàng (full width) *}
     <div class="form-row client-company-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-company" class="form-group company-group flex center-ver jus-sb flex-1 w-full active">
             <p class="flex input-title">Đơn vị mua hàng</p>
-            <input type="text" name="company" class="input-field flex-1">
+            <input type="text" id="tendonvi" name="tendonvi"
+                value="{if isset($donvi_cus) && $donvi_cus}{$donvi_cus}{/if}" class="input-field flex-1"
+                onchange="checkLengthTypeInput(this,400)">
         </div>
     </div>
 
+    {* Địa chỉ (full width) *}
     <div class="form-row client-address-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-address" class="form-group address-group flex center-ver jus-sb flex-1 w-full active">
             <p class="flex input-title">Địa chỉ</p>
-            <input type="text" name="address" class="input-field flex-1">
+            <input type="text" id="diachi" name="diachi" value="{if isset($addr_cus) && $addr_cus}{$addr_cus}{/if}"
+                class="input-field flex-1" onchange="checkLengthTypeInput(this,400)">
         </div>
     </div>
 
+    {* Ghi chú (full width) *}
     <div class="form-row client-note-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-note" class="form-group note-group flex center-ver jus-sb flex-1 w-full active">
             <p class="flex input-title">Ghi chú</p>
-            <textarea name="note" class="input-field flex-1" rows="1"></textarea>
+            <input type="text" id="ghichu" name="ghichu" class="input-field flex-1">
         </div>
     </div>
+
+    {* Action buttons *}
     <div class="form-row flex flex-wrap flex-1">
         <div class="section-actions__block"></div>
         <div class="section-actions flex-1 flex gap-10 end-hor">
-            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-import bg-secondary ">Import
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-import bg-secondary">Import
                 Excel</button>
-            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-download bg-secondary ">Tải
-                file đính kèm</button>
-            <button type="button" class="btn-action__custom cursor-pointer flex-1 bg-secondary ">Cho
-                phép chỉnh
-                thành tiền</button>
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-download bg-secondary">Tải file
+                đính kèm</button>
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 bg-secondary">Cho phép chỉnh thành
+                tiền</button>
             <input type="checkbox" name="allow_edit_total" class="checkbox-field">
         </div>
     </div>
+
 </div>

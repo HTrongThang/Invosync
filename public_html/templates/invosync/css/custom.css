@@ -104,12 +104,26 @@
 
 .dynamic-table {
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     max-width: 100%;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) transparent;
     padding-bottom: 4px;
+    padding-right: 1px;
+}
+
+.dynamic-table th.col-scroll-spacer,
+.dynamic-table td.col-scroll-spacer {
+    min-width: 30px;
+    width: 30px;
+    padding: 0 !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    background: #fff !important;
+    box-shadow: none !important;
 }
 
 .dynamic-table::-webkit-scrollbar {
@@ -228,6 +242,13 @@ select {
     min-width: 148px;
 }
 
+.invoice-info .input-title,
+.user-info .input-title {
+    width: 170px;
+    min-width: 170px;
+    flex-shrink: 0;
+}
+
 .form-invoice {
     width: calc(100% / 2 - 40px);
 }
@@ -237,11 +258,11 @@ select {
 }
 
 .form-row {
-    min-height: 22px;
+    min-height: 26px;
 }
 
 .form-group {
-    border: 0.1px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 .btn-action__custom {
@@ -526,11 +547,16 @@ select {
 #ui-datepicker-div {
     width: 200px;
     border: 1px solid var(--primary-color);
+    z-index: 9999 !important;
+    position: absolute;
 }
 
 #ui-datepicker-div .ui-datepicker-month,
 #ui-datepicker-div .ui-datepicker-year {
-    font-size: calc(var(--font-size-base) - 6px);
+    font-size: 13px;
+    padding: 2px 2px;
+    height: 24px;
+    cursor: pointer;
 }
 
 [class^="col-fit"] {
@@ -1100,4 +1126,60 @@ textarea,
 
 .footer-bottom a:hover {
     color: #fff !important;
+}
+
+/* ── Select Thuế Suất ── */
+.td-thue {
+    padding: 0 !important;
+    min-width: 80px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.select-thue__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.15s ease;
+}
+
+.select-thue__wrapper:hover {
+    background-color: rgba(112, 173, 71, 0.12);
+}
+
+
+.select-thue {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 6px 28px 6px 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--black-color);
+    outline: none;
+    text-align: center;
+    font-family: var(--font-roboto);
+}
+
+.select-thue option {
+    font-weight: 400;
+    background: #fff;
+    color: var(--black-color);
+}
+
+.select-thue__arrow {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--primary-color);
+    font-size: 16px;
+    line-height: 1;
+    opacity: 0.85;
 }

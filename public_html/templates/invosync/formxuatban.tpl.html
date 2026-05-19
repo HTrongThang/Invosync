@@ -63,19 +63,20 @@
                                 <th class="col-fit">Chiết <br> khấu</th>
                                 <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
                                 <th class="col-fit">Ghi <br> chú</th>
+                                <th class="col-fit">Hàng hóa <br> đặc trưng</th>
                                 <th class="insert-anchor col-fit__value110">Mã SKU</th>
                                 <th class="col-fit__value190">Mã hàng</th>
                                 <th class="col-product-name">Tên hàng hóa, <br> dịch vụ</th>
 
-                                <th class="col-oto col-fit ">Số khung</th>
-                                <th class="col-oto col-fit ">Số Máy</th>
+                                <th class="col-oto col-fit">Số khung</th>
+                                <th class="col-oto col-fit">Số Máy</th>
 
-                                <th class="col-vanchuyen col-fit ">Biển kiểm soát <br> phương tiện vận chuyển</th>
+                                <th class="col-vanchuyen col-fit">Biển kiểm soát <br> phương tiện vận chuyển</th>
 
-                                <th class="col-tmdt col-fit ">Tên người <br> gửi hàng</th>
-                                <th class="col-tmdt col-fit ">Địa chỉ người <br> gửi hàng</th>
-                                <th class="col-tmdt col-fit ">MST người <br> gửi hàng</th>
-                                <th class="col-tmdt col-fit ">Số định danh <br> người gửi hàng</th>
+                                <th class="col-tmdt col-fit">Tên người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit">Địa chỉ người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit">MST người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit">Số định danh <br> người gửi hàng</th>
 
                                 <th class="col-fit__value73">Đơn vị</th>
                                 <th class="col-fit__value73">Số <br> lượng</th>
@@ -86,185 +87,209 @@
                                 <th>GTGT (%)</th>
                                 <th>Thuế <br> GTGT</th>
                                 <th>Thành tiền <br> sau thuế</th>
+                                <th class="col-scroll-spacer"></th>
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
+                        <tbody id="dshanghoa">
+                            <tr id="packing">
+                                <td class="text-center stt">1</td>
                                 <td class="table-icon__container">
                                     <div class="table-icon flex gap-2 center-hor">
-                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
-                                            title="Thêm dòng"></i>
-                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
+                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer" title="Thêm dòng"
+                                            onclick="addonerowsOutput()"></i>
+                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng"
+                                            onclick="adddbrowsOutput()">
                                             <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
                                         </span>
                                         <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
-                                            title="Xóa dòng"></i>
+                                            title="Xóa dòng" onclick="deleterowsOutput(this)"></i>
                                         <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
-                                            title="Sao chép"></i>
+                                            title="Sao chép" onclick="duplicaterowOutput(this)"></i>
                                     </div>
                                 </td>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai"></td>
-                                <td class="text-center"><input type="checkbox"></td>
-
-                                <td class="insert-anchor">AAA-00001</td>
-                                <td>CB 100A-220V-001</td>
-                                <td class="text-left">
-                                    <p class="hover-volt" data-volt="điện 220V-001">CB công suất 100A</p>
+                                <td class="text-center addInvoice">
+                                    <input type="checkbox" class="chietkhau col35px input0" name="chietkhau[]" value="1"
+                                        onclick="checkchietkhau(this,0)">
+                                    <input type="hidden" class="chietkhau2" name="chietkhau2[]" value="1">
                                 </td>
-
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="text-center addInvoice">
+                                    <input type="checkbox" class="khuyenmai col70px input0" name="khuyenmai[]"
+                                        onclick="checkkhuyenmai(this,0)">
+                                    <input type="hidden" class="khuyenmai2" name="khuyenmai2[]" value="1">
                                 </td>
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="text-center addInvoice">
+                                    <input type="checkbox" class="ghichupro col35px input0" name="ghichupro[]"
+                                        onclick="checkghichupro(this,0)">
+                                    <input type="hidden" class="ghichupro2" name="ghichupro2[]" value="1">
                                 </td>
-
-                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
-                                        placeholder="..."></td>
-
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="text-center addInvoice">
+                                    <input type="checkbox" class="featuredProduct col35px input0"
+                                        style="width:13px; margin-top:5px;" name="featuredProduct[]"
+                                        onclick="handleProductSelection(this,0)">
+                                    <input type="hidden" class="featuredProductStatus" name="featuredProductStatus[]"
+                                        value="1">
                                 </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-
-                                <td class="text-center">Cái</td>
-                                <td class="text-right">10,00</td>
-                                <td class="text-right">1.000.000.000</td>
-                                <td class="text-right">10.000.000.000</td>
-
-                                <td>1.080.000.000</td>
                                 <td>
-                                    <select>
-                                        <option>8%</option>
-                                    </select>
+                                    <input type="text" class="text-uppercase text-center masku fulltd" name="masku[]"
+                                        autocomplete="off" value="" onkeyup="searchInfoProductInvoice(this,50)">
                                 </td>
-                                <td>800.000.000</td>
-                                <td>10.800.000.000</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
-                                            title="Thêm dòng"></i>
-                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
-                                            <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
-                                        </span>
-                                        <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
-                                            title="Xóa dòng"></i>
-                                        <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
-                                            title="Sao chép"></i>
+                                <td class="error_input" style="position:inherit !important">
+                                    <input type="text" class="mahang fulltd" name="mahang[]" autocomplete="off" value=""
+                                        onkeyup="searchInfoProductInvoice(this,50)">
+                                    <input type="hidden" class="id_sp" name="id_sp[]" value="">
+                                    <div class="error_message error_message--right d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text error_text--right"></div>
+                                    </div>
+                                    <div class="prosku-searching-box"></div>
+                                </td>
+                                <td class="error_input" style="position:inherit !important">
+                                    <input type="text" class="tenhang fulltd" name="tenhang[]" autocomplete="off"
+                                        value="" onkeyup="searchInfoProductInvoice(this,500)">
+                                    <div class="error_message error_message--right d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text error_text--right"></div>
                                     </div>
                                 </td>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai"></td>
-                                <td class="text-center"><input type="checkbox"></td>
-
-                                <td class="insert-anchor">AAA-00002</td>
-                                <td>CB 100A-220V-002</td>
-                                <td class="text-left">
-                                    <p class="hover-volt" data-volt="điện 220V-002">CB công suất 100A</p>
-                                </td>
-
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-
-                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
-                                        placeholder="..."></td>
-
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
-                                </td>
-
-                                <td class="text-center">Cái</td>
-                                <td class="text-right">2,00</td>
-                                <td class="text-right">250.000</td>
-                                <td class="text-right">500.000</td>
-
-                                <td>270.000</td>
-                                <td>
-                                    <select>
-                                        <option>8%</option>
-                                    </select>
-                                </td>
-                                <td>40.000</td>
-                                <td>540.000</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
-                                            title="Thêm dòng"></i>
-                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
-                                            <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
-                                        </span>
-                                        <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
-                                            title="Xóa dòng"></i>
-                                        <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
-                                            title="Sao chép"></i>
+                                {if isset($allow_inventory_soKhung) && $allow_inventory_soKhung == 1}
+                                <td class="input-cell-quantity">
+                                    <input type="text" class="input-quantity-display text-right validation-error"
+                                        disabled style="pointer-events:auto;" name="inventory_soKhung[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-quantity-value" name="actual_quantity[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
                                     </div>
                                 </td>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" checked></td>
-                                <td class="text-center"><input type="checkbox"></td>
-
-                                <td class="insert-anchor">AAA-00003</td>
-                                <td>CB 100A-220V-003</td>
-                                <td class="text-left ">
-                                    <p class="hover-volt" data-volt="điện 220V-003">CB công suất 100A</p>
+                                <td class="input-cell-detail">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_engine_number[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-detail-value" name="actual_engine_number[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                {/if}
+                                {if isset($allow_van_chuyen_chung) && $allow_van_chuyen_chung == 1}
+                                <td class="input-cell-quantity" style="position:relative;">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_shippingLicensePlate[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <span class="message-icon error-tooltip-icon" title=""></span>
+                                    <input type="hidden" class="hidden-quantity-value"
+                                        name="actual_shippingLicensePlate[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                {/if}
+                                {if isset($allow_van_chuyen_so_tm_dt) && $allow_van_chuyen_so_tm_dt == 1}
+                                <td class="input-cell-detail">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_senderName[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-detail-value" name="actual_senderName[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-
-                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
-                                        placeholder="..."></td>
-
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="input-cell-detail">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_senderAddress[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-detail-value" name="actual_senderAddress[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="input-cell-detail">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_senderTaxCode[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-detail-value" name="actual_senderTaxCode[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                <td class="input-cell-detail">
+                                    <input type="text" class="input-detail-display text-right validation-error" disabled
+                                        style="pointer-events:auto;" name="display_senderIdentifier[]" value=""
+                                        autocomplete="off" onchange="validateInputData(this);">
+                                    <input type="hidden" class="hidden-detail-value" name="actual_senderIdentifier[]">
+                                    <div class="validation-message d-none">
+                                        <div class="message-text"></div>
+                                    </div>
                                 </td>
-                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                {/if}
+                                <td class="error_input" style="position:inherit !important">
+                                    <input type="text" name="donvt[]" class="donvt1 fulltd donvi"
+                                        value="{if isset($ma_currency)}{$ma_currency}{/if}" onclick="clickdvt(this)"
+                                        autocomplete="off">
+                                    <div class="load-dvt"></div>
                                 </td>
-
-                                <td class="text-center">Cái</td>
-                                <td class="text-error text-right">2,00</td>
-                                <td class="text-error text-right">250.000</td>
-                                <td class="text-error text-right">500.000</td>
-
-                                <td>270.000</td>
-                                <td>
-                                    <select>
-                                        <option>8%</option>
-                                    </select>
+                                <td class="error_input">
+                                    <input type="text" class="text-right soluong error" name="show_soluong[]" value=""
+                                        autocomplete="off" onchange="clickChangeQuantityOutPut(this);">
+                                    <input type="hidden" class="hidden_soluong" name="hidden_soluong[]">
+                                    <div class="error_message d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text"></div>
+                                    </div>
                                 </td>
-                                <td>40.000</td>
-                                <td>500.000</td>
+                                <td class="error_input">
+                                    <input type="text" class="text-right dgtt dongia fulltd" name="show_dongia[]"
+                                        autocomplete="off" onchange="clickChangePriceOutPut(this);">
+                                    <input type="hidden" class="hidden_dongia" name="hidden_dongia[]">
+                                    <div class="error_message d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text"></div>
+                                    </div>
+                                </td>
+                                <td class="error_input">
+                                    <input type="text" class="text-right dgtt dongianhansoluong fulltd"
+                                        onchange="clickChangeTotalMoneyNoVat(this)" value="">
+                                    <input type="hidden" class="hidden_dongianhansoluong" value="">
+                                </td>
+                                <td class="error_input">
+                                    <input type="text" class="text-right dgtt dongiavat fulltd" name="show_dongiavat[]"
+                                        autocomplete="off" onchange="clickChangePriceVat(this);">
+                                    <input type="hidden" class="hidden_dongiavat" name="hidden_dongiavat[]">
+                                    <div class="error_message d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text"></div>
+                                    </div>
+                                </td>
+                                {include file="$userTemplate/component/select-thue.html"}
+                                <td class="error_input">
+                                    <input type="text" class="text-right dgtt thueGTGT fulltd" name="show_thueGTGT[]"
+                                        autocomplete="off" {if isset($storeId) && ($storeId==187 ||
+                                        $storeId==220)}onchange="clickChangeGTGTOutPutEditPriceGTGT(this);"
+                                        {else}onchange="clickChangeGTGTOutPut(this);" {/if}>
+                                    <input type="hidden" class="hidden_thueGTGT" name="hidden_thueGTGT[]">
+                                    <div class="error_message d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text"></div>
+                                    </div>
+                                </td>
+                                <td class="set-thanhtien-col error_input">
+                                    <input type="text" class="text-right dgtt thanhtienGTGT fulltd"
+                                        name="show_thanhtienGTGT[]" autocomplete="off"
+                                        onchange="clickChangeIntoMoneyOutPut(this);">
+                                    <input type="hidden" class="hidden_thanhtienGTGT" name="hidden_thanhtienGTGT[]">
+                                    <div class="error_message d-none">
+                                        <div class="error_icon"></div>
+                                        <div class="error_text"></div>
+                                    </div>
+                                </td>
+                                <td class="col-scroll-spacer"></td>
                             </tr>
                         </tbody>
 
                         <tfoot>
                             <tr class="spacer-row">
-                                <td class="spacer-col" colspan="16"></td>
+                                <td class="spacer-col" colspan="21"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -273,7 +298,8 @@
                 <div class="total-bar">
                     <div class="total-bar__spacer"></div>
                     <div class="total-bar__label border-orange bold">Tổng tiền thanh toán</div>
-                    <div class="total-bar__amount border-orange bold text-error">10.002.000.000</div>
+                    <div class="total-bar__amount border-orange bold text-error">{if
+                        isset($tongTienThanhToan)}{$tongTienThanhToan}{else}0{/if}</div>
                 </div>
                 <div class="section-icon__wrapper-second section-icon__position cursor-pointer pos-abs">
                     <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png"
@@ -297,7 +323,7 @@
         function applyFrozenColumns() {
             var table = document.querySelector('.dynamic-table__content');
             if (!table) return;
-            var frozenCount = 8;
+            var frozenCount = 9;
             var headerRow = table.querySelector('thead tr');
             if (!headerRow) return;
 

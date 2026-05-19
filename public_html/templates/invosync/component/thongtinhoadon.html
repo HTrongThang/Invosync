@@ -21,83 +21,117 @@
             class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
     </div>
 </div>
-<div class="section-body invoice-info padding-20 flex flex-col gap-1 ">
+
+<div class="section-body invoice-info padding-20 flex flex-col gap-1">
+
+    {* Ngày xuất + Số phiếu *}
     <div class="form-row date-serial-row flex flex-wrap gap-1 flex-1">
         <div id="group-inv-date" class="form-group date-group flex center-ver jus-sb col-2 flex-1 active">
-            <p class="flex input-title">Ngày xuất</p>
-            <input type="text" name="date_created" class="input-field flex-1 datepicker-custom"
-                value="{$suggestedDate}">
+            <p class="flex input-title">Ngày xuất <span class="redcolor">*</span></p>
+            <input type="text" name="show_ngayhoadon" id="show_ngayhoadon" class="input-field flex-1 datepicker-custom"
+                value="{$suggestedDate}" autocomplete="off">
+            <input type="hidden" name="hidden_ngayhoadon" id="hidden_ngayhoadon" value="{$suggestedDate}">
         </div>
         <div id="group-inv-serial" class="form-group serial-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Số phiếu</p>
-            <input type="text" name="code" class="input-field flex-1 text-error" placeholder="Auto serial"
-                value="{$suggestedCode}">
+            <input type="text" name="show_sohoadon" id="show_sohoadon" class="input-field flex-1"
+                value="{$suggestedCode}" disabled>
+            <input type="hidden" name="hidden_sohoadon" id="hidden_sohoadon" value="{$suggestedCode}">
+            <input type="hidden" name="hidden_sohoadon_storage" id="hidden_sohoadon_storage" value="{$suggestedCode}">
         </div>
     </div>
 
+
+    {* Số ngày được nợ + Hạn thanh toán *}
     <div class="form-row debt-deadline-row flex flex-wrap gap-1 flex-1">
         <div id="group-inv-debt" class="form-group debt-days-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Số ngày được nợ</p>
-            <input type="text" name="debt_days" class="input-field flex-1" value="0">
+            <input type="number" name="debit_term" id="debit_term" class="input-field flex-1" value="0"
+                onchange="dateCalculation1()">
         </div>
         <div id="group-inv-deadline"
             class="form-group payment-deadline-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Hạn thanh toán</p>
-            <input type="text" name="payment_deadline" class="input-field datepicker-custom flex-1"
-                value="{$suggestedDate}">
+            <input type="text" name="show_payment_term" id="show_payment_term"
+                class="input-field datepicker-custom flex-1" value="{$suggestedDate}" autocomplete="off"
+                onchange="dateCalculation2()">
+            <input type="hidden" name="hidden_payment_term" id="hidden_payment_term" value="{$suggestedDate}">
         </div>
     </div>
 
-    <div class="form-row payment-staff-row flex flex-wrap gap-1 flex-1">
+    {* Hình thức thanh toán + Kênh bán hàng *}
+    <div class="form-row payment-channel-row flex flex-wrap gap-1 flex-1">
         <div id="group-inv-payment" class="form-group payment-method-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Hình thức thanh toán</p>
-            <div class="bg-white flex-1 flex padding-0-10-0-0">
-                <select name="payment_method" class="input-field flex-1 ">
-                    <option value="Chuyển khoản">Chuyển khoản</option>
-                    <option value="Tiền mặt">Tiền mặt</option>
-                </select>
-            </div>
+            <select name="payment_method" id="payment_method" class="input-field flex-1">
+                {if isset($listPayment) && $listPayment}
+                {foreach key=key from=$listPayment item=item}
+                <option value="{$item->getId()}" {if $item->getStatusInv()}selected{/if}>{$item->getName()}</option>
+                {/foreach}
+                {else}
+                <option value="Chuyển khoản">Chuyển khoản</option>
+                <option value="Tiền mặt">Tiền mặt</option>
+                {/if}
+            </select>
         </div>
-        <div id="group-inv-staff" class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active">
-            <p class="flex input-title">Nhân viên bán hàng</p>
-            <div class="bg-white flex-1 flex padding-0-10-0-0">
-                <select name="saleman" class="input-field flex-1">
-                    <option value="Nguyễn Văn A">Nguyễn Văn A</option>
-                    <option value="Nguyễn Thu Hiền">Nguyễn Thu Hiền</option>
-                </select>
-            </div>
+        <div id="group-inv-channel" class="form-group sale-channel-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Kênh bán hàng</p>
+            <select name="salechannel" id="salechannel" class="input-field flex-1">
+                {if isset($listSaleChannel) && $listSaleChannel}
+                {foreach key=key from=$listSaleChannel item=item}
+                <option value="{$item->getId()}">{$item->getName()}</option>
+                {/foreach}
+                {else}
+                <option value="Shopee">Shopee</option>
+                <option value="Lazada">Lazada</option>
+                <option value="TikTok Shop">TikTok Shop</option>
+                <option value="Bán trực tiếp">Bán trực tiếp</option>
+                {/if}
+            </select>
         </div>
     </div>
 
-    <div class="form-row channel-warehouse-row flex flex-wrap gap-1 flex-1">
-        <div id="group-inv-channel" class="form-group sale-channel-group flex center-ver jus-sb col-2 flex-1 active">
-            <p class="flex input-title">Kênh bán hàng</p>
-            <div class="bg-white flex-1 flex padding-0-10-0-0">
-                <select name="channel" class="input-field flex-1">
-                    <option value="Shopee">Shopee</option>
-                    <option value="Lazada">Lazada</option>
-                    <option value="TikTok Shop">TikTok Shop</option>
-                    <option value="Bán trực tiếp">Bán trực tiếp</option>
-                </select>
-            </div>
+    {* Nhân viên bán hàng + Kho hàng xuất *}
+    <div class="form-row staff-warehouse-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-staff" class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Nhân viên bán hàng</p>
+            <input type="text" name="sales_person" id="sales_person" class="input-field flex-1 show_nhanvien"
+                autocomplete="off" placeholder="Tìm nhân viên...">
+            <input type="hidden" name="hidden_sales_person" class="hidden_nhanvien">
         </div>
         <div id="group-inv-warehouse"
             class="form-group export-warehouse-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Kho hàng xuất</p>
-            <div class="bg-white flex-1 flex padding-0-10-0-0">
-                <select name="warehouse" class="input-field flex-1">
-                    <option value="Kho A">Kho A</option>
-                    <option value="Kho B">Kho B</option>
-                </select>
-            </div>
+            <select name="warehouse" id="warehouse" class="input-field flex-1">
+                {if isset($listWarehouse) && $listWarehouse}
+                {foreach key=key from=$listWarehouse item=item}
+                <option value="{$item->getId()}">{$item->getName()}</option>
+                {/foreach}
+                {else}
+                <option value="Kho A">Kho A</option>
+                <option value="Kho B">Kho B</option>
+                {/if}
+            </select>
         </div>
     </div>
 
-    <div class="form-row business-location-row flex flex-wrap gap-5 flex-1">
-        <div id="group-inv-location" class="form-group location-group flex center-ver jus-sb col-2 flex-1 active">
+    <div class="form-row business-location-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-location" class="form-group location-group flex center-ver jus-sb flex-1 w-full active">
             <p class="flex input-title">Địa điểm kinh doanh</p>
-            <input type="text" name="business_location" class="input-field flex-1" value="341 Lê Trọng Tấn">
+            <select name="businessBranch" id="businessBranch" class="input-field flex-1">
+                {if isset($BusinessObj) && $BusinessObj}
+                <option value="" selected disabled>--- Chọn địa điểm ---</option>
+                {foreach key=key from=$BusinessObj item=item}
+                <option value="{$item->getId()}">{$item->getCodeBusiness()} - {$item->getNameBusiness()}</option>
+                {/foreach}
+                {else}
+                <option value="">--- Chọn địa điểm ---</option>
+                <option value="341 Lê Trọng Tấn">341 Lê Trọng Tấn</option>
+                {/if}
+            </select>
         </div>
     </div>
+
+
 
 </div>
