@@ -1,0 +1,103 @@
+<div class="section-header bg-white-second flex jus-sb center-ver border-bottom-gray">
+    <h4 class="bold">THÔNG TIN HÓA ĐƠN</h4>
+    <div class="section-icon__wrapper cursor-pointer">
+        <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png" alt="">
+    </div>
+</div>
+<div class="flex-col gap-10 form-invoice__slot ">
+    <div class="flex flex-wrap gap-30">
+        <div class="flex-1 flex flex-col gap-5">
+            <div id="popup-list-inv" class="flex flex-wrap gap-5 popup-list-inv">
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-10 border-top-gray padding-top-20">
+        <button type="button"
+            class="btn-submit-ok flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+        <button type="button"
+            class="btn-submit-reset flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">reset</button>
+        <button type="button"
+            class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+    </div>
+</div>
+<div class="section-body invoice-info padding-20 flex flex-col gap-1 ">
+    <div class="form-row date-serial-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-date" class="form-group date-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Ngày xuất</p>
+            <input type="text" name="date_created" class="input-field flex-1 datepicker-custom"
+                value="{$suggestedDate}">
+        </div>
+        <div id="group-inv-serial" class="form-group serial-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Số phiếu</p>
+            <input type="text" name="code" class="input-field flex-1 text-error" placeholder="Auto serial"
+                value="{$suggestedCode}">
+        </div>
+    </div>
+
+    <div class="form-row debt-deadline-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-debt" class="form-group debt-days-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Số ngày được nợ</p>
+            <input type="text" name="debt_days" class="input-field flex-1" value="0">
+        </div>
+        <div id="group-inv-deadline"
+            class="form-group payment-deadline-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Hạn thanh toán</p>
+            <input type="text" name="payment_deadline" class="input-field datepicker-custom flex-1"
+                value="{$suggestedDate}">
+        </div>
+    </div>
+
+    <div class="form-row payment-staff-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-payment" class="form-group payment-method-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Hình thức thanh toán</p>
+            <div class="bg-white flex-1 flex padding-0-10-0-0">
+                <select name="payment_method" class="input-field flex-1 ">
+                    <option value="Chuyển khoản">Chuyển khoản</option>
+                    <option value="Tiền mặt">Tiền mặt</option>
+                </select>
+            </div>
+        </div>
+        <div id="group-inv-staff" class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Nhân viên bán hàng</p>
+            <div class="bg-white flex-1 flex padding-0-10-0-0">
+                <select name="saleman" class="input-field flex-1">
+                    <option value="Nguyễn Văn A">Nguyễn Văn A</option>
+                    <option value="Nguyễn Thu Hiền">Nguyễn Thu Hiền</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row channel-warehouse-row flex flex-wrap gap-1 flex-1">
+        <div id="group-inv-channel" class="form-group sale-channel-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Kênh bán hàng</p>
+            <div class="bg-white flex-1 flex padding-0-10-0-0">
+                <select name="channel" class="input-field flex-1">
+                    <option value="Shopee">Shopee</option>
+                    <option value="Lazada">Lazada</option>
+                    <option value="TikTok Shop">TikTok Shop</option>
+                    <option value="Bán trực tiếp">Bán trực tiếp</option>
+                </select>
+            </div>
+        </div>
+        <div id="group-inv-warehouse"
+            class="form-group export-warehouse-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Kho hàng xuất</p>
+            <div class="bg-white flex-1 flex padding-0-10-0-0">
+                <select name="warehouse" class="input-field flex-1">
+                    <option value="Kho A">Kho A</option>
+                    <option value="Kho B">Kho B</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row business-location-row flex flex-wrap gap-5 flex-1">
+        <div id="group-inv-location" class="form-group location-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Địa điểm kinh doanh</p>
+            <input type="text" name="business_location" class="input-field flex-1" value="341 Lê Trọng Tấn">
+        </div>
+    </div>
+
+</div>

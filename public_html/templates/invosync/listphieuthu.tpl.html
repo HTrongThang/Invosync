@@ -1,0 +1,185 @@
+{include file="$userTemplate/component/header.html"}
+<!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH DANH SÁCH PHIẾU THU -->
+<main class="container-f flex flex-col flex-1 pos-rel">
+    <section class="container-f flex flex-col bg-white">
+        <div class="invoice-main-wrapper flex flex-col gap-10">
+            <div class="invoice-top-section flex flex-col">
+
+                <div class="invoice-header border-bottom-dark">
+                    <h1 class="invoice-title uppercase bold text-primary">DANH SÁCH CÔNG NỢ KHÁCH HÀNG</h1>
+                </div>
+
+                <div class="invoice-breadcrumb-row flex jus-sb center-ver">
+                    <div class="breadcrumb-text flex gap-5 center-ver">
+                        <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
+                        <p>|</p>
+                        <a href="/{$aScript}?op=receipt&act=rec&mod=list">Phiếu thu</a>
+                        <p>|</p>
+                        <a href="javascript:void(0)">Danh sách công nợ</a>
+                    </div>
+                    <div class="section-icon__wrapper cursor-pointer" data-_toggle-bound="true">
+                        <img class="section-icon img-content"
+                            src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png" alt="">
+                    </div>
+                </div>
+
+                <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
+
+                    <div class="toolbar-left flex center-ver ">
+                        <span
+                            class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green">Số
+                            kết quả mỗi trang</span>
+                        <select class="pagination-select cursor-pointer">
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-right flex center-ver gap-5 flex-wrap">
+                        <input type="text" class="filter-input  item-padding-5" placeholder="Từ ngày">
+                        <input type="text" class="filter-input  item-padding-5" placeholder="Đến ngày">
+                        <input type="text" class="filter-input  item-padding-5"
+                            placeholder="Số phiếu thu">
+                        <input type="text" class="filter-input  item-padding-5"
+                            placeholder="Mã số thuế">
+                        <input type="text" class="filter-input exception  item-padding-5 input-large"
+                            placeholder="Đơn vị mua hàng / Mã đơn vị">
+
+                        <button type="button" class="btn-search bg-secondary bold cursor-pointer">
+                            Tìm nhanh
+                        </button>
+
+                        <a href="/{$aScript}?op=receipt&act=rec&mod=add" class="btn-add-red cursor-pointer flex center-ver center-hor">
+                            <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" alt="Add New" class="img-content">
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="pos-rel">
+                <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+                    <table class="fill-view dynamic-table__content w-full">
+                        <thead class="bg-third text-color-black">
+                            <tr>
+                                <th class="col-fit text-center"><input type="checkbox"></th>
+                                <th class="col-fit text-center">STT</th>
+                                <th class="table-icon__container col-fit text-center">Chức năng</th>
+                                <th class="text-center">Số phiếu</th>
+                                <th class="text-center">Ngày thu</th>
+                                <th class="text-center">Mã đơn vị</th>
+                                <th>Tên đơn vị</th>
+                                <th>Diễn giải – Nội dung thanh toán</th>
+                                <th class="text-right">Nợ kỳ trước</th>
+                                <th class="text-right">Vừa thu tiền</th>
+                                <th class="text-center">Dư nợ</th>
+                                <th class="text-right">Hạn mức nợ</th>
+                                <th class="text-center">Ghi chú</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- Dòng 1 -->
+                            <tr>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center">1</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">P12345687</td>
+                                <td class="text-center">4/2/2026</td>
+                                <td class="text-center">LONGAN447</td>
+                                <td>Chị Hồng Long An 447</td>
+                                <td></td>
+                                <td class="text-right">150,000,000</td>
+                                <td class="text-right">150,000,000</td>
+                                <td class="text-center">-</td>
+                                <td class="text-right">150,000,000</td>
+                                <td class="text-center">Gần vượt mức</td>
+                            </tr>
+
+                            <!-- Dòng 2 -->
+                            <tr>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center">2</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">P12345688</td>
+                                <td class="text-center">4/5/2026</td>
+                                <td class="text-center">LONGAN447</td>
+                                <td>Chị Hồng Long An 447</td>
+                                <td></td>
+                                <td class="text-right">70,000,000</td>
+                                <td class="text-right">60,000,000</td>
+                                <td class="text-right">10,000,000</td>
+                                <td class="text-right">50,000,000</td>
+                                <td class="text-center">Nợ vượt mức</td>
+                            </tr>
+
+                            <!-- Dòng 3 -->
+                            <tr>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center">3</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">P12345689</td>
+                                <td class="text-center">4/8/2026</td>
+                                <td class="text-center">LONGAN447</td>
+                                <td>Chị Hồng Long An 447</td>
+                                <td></td>
+                                <td class="text-right">20,000,000</td>
+                                <td class="text-right">100,000,000</td>
+                                <td class="text-right">(80,000,000)</td>
+                                <td class="text-right">80,000,000</td>
+                                <td class="text-center">Gần vượt mức</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+{include file="$userTemplate/component/footer.html"}

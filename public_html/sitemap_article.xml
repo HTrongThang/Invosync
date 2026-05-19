@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">	
+<url>
+  <loc>https://digitrust.vn</loc>
+  <lastmod>2026-03-03T16:07:11+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>https://digitrust.vn</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/digitrustlogo.png</image:loc>
+      <image:caption>DigiTrust - Đối tác Platinum DigiCert tại Việt Nam | Cloud Server - Email</image:caption>
+      <image:title>DigiTrust - Đối tác Platinum DigiCert tại Việt Nam | Cloud Server - Email</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/bi-quyet-xac-thuc-doanh-nghiep-thanh-cong</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T12:12:47+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/orga_88115_l.webp</image:loc>
+      <image:caption>Bí Quyết Xác Thực Doanh Nghiệp Thành Công</image:caption>
+      <image:title>Bí Quyết Xác Thực Doanh Nghiệp Thành Công</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/cach-khac-phuc-hoan-toan-canh-bao-unknown-publisher-tren-windows-10-11</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T12:11:08+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/unknow_94435_l.webp</image:loc>
+      <image:caption>Cách Khắc Phục Hoàn Toàn Cảnh Báo Unknown Publisher Trên Windows 1011</image:caption>
+      <image:title>Cách Khắc Phục Hoàn Toàn Cảnh Báo Unknown Publisher Trên Windows 1011</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/dieu-khoan-su-dung</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T12:07:39+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/cate-banner_98538_l_84502_l.webp</image:loc>
+      <image:caption>Điều khoản sử dụng</image:caption>
+      <image:title>Điều khoản sử dụng</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/chinh-sach-bao-mat</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T12:07:27+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/cate-banner_98538_l_90615_l.webp</image:loc>
+      <image:caption>Chính sách bảo mật</image:caption>
+      <image:title>Chính sách bảo mật</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/chinh-sach-phap-ly</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T12:07:14+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/cate-banner_98538_l_42951_l.webp</image:loc>
+      <image:caption>Chính sách pháp l</image:caption>
+      <image:title>Chính sách pháp l</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/s-mime-certificate-linter</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:25:49+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/smine_59216_l.webp</image:loc>
+      <image:caption>SMIME Certificate Linter</image:caption>
+      <image:title>SMIME Certificate Linter</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ssl-install-diagnostics</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:28:12+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/ssl-diag_28743_l.webp</image:loc>
+      <image:caption>SSL Install Diagnostics</image:caption>
+      <image:title>SSL Install Diagnostics</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/certificate-utility-for-windows</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:33:44+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/cer-utility_54605_l.webp</image:loc>
+      <image:caption>Certificate Utility for Windows</image:caption>
+      <image:title>Certificate Utility for Windows</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/csr-creator</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:25:15+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/csr-createor_12519_l.webp</image:loc>
+      <image:caption>CSR Creator</image:caption>
+      <image:title>CSR Creator</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/check-csr</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:33:14+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/check-csr_82847_l.webp</image:loc>
+      <image:caption>Check CSR</image:caption>
+      <image:title>Check CSR</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ssl-certificate-installation-instructor</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T10:49:48+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/ssl-install_74466_l.webp</image:loc>
+      <image:caption>SSL Certificate Installation Instructor</image:caption>
+      <image:title>SSL Certificate Installation Instructor</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/huong-dan-su-dung-digicert-certificate-utility-for-window</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:23:22+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/certi-utility_87814_l.webp</image:loc>
+      <image:caption>Hớng Dẫn Sử Dụng DigiCert Certificate Utility for Windows Công Cụ Cứu Cánh Cho IT Admin</image:caption>
+      <image:title>Hớng Dẫn Sử Dụng DigiCert Certificate Utility for Windows Công Cụ Cứu Cánh Cho IT Admin</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/chan-doan-loi-ssl</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:14:02+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/dia-tool_24900_l.webp</image:loc>
+      <image:caption>Chẩn Đoán Lỗi Cài Đặt SSL Nhanh Chóng Với DigiCert Diagnostics Tool</image:caption>
+      <image:title>Chẩn Đoán Lỗi Cài Đặt SSL Nhanh Chóng Với DigiCert Diagnostics Tool</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/huong-dan-su-dung-digicert-s-mime-certificate-linter</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:17:45+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/smine-cer-linter_98839_l.webp</image:loc>
+      <image:caption>Bảo Mật Email Tối Đa Hớng Dẫn Sử Dụng DigiCert SMIME Certificate Linter</image:caption>
+      <image:title>Bảo Mật Email Tối Đa Hớng Dẫn Sử Dụng DigiCert SMIME Certificate Linter</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/huong-dan-khoi-tao-csr</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:18:14+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/cre-csr_72602_l.webp</image:loc>
+      <image:caption>Hớng Dẫn Toàn Tập Khởi Tạo Mã Yêu Cầu K Chứng Chỉ CSR Chuẩn Xác Cho Mọi Máy Chủ</image:caption>
+      <image:title>Hớng Dẫn Toàn Tập Khởi Tạo Mã Yêu Cầu K Chứng Chỉ CSR Chuẩn Xác Cho Mọi Máy Chủ</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/huong-dan-su-dung-check-csr</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:18:29+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/csr-check_86861_l.webp</image:loc>
+      <image:caption>Giải Mã CSR Nhanh Chóng Hớng Dẫn Sử Dụng Công Cụ DigiCert Check CSR</image:caption>
+      <image:title>Giải Mã CSR Nhanh Chóng Hớng Dẫn Sử Dụng Công Cụ DigiCert Check CSR</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/huong-dan-cai-dat-chung-chi-ssl</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-03T11:08:03+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/1/2026/install-ssl_55192_l.webp</image:loc>
+      <image:caption>Hớng Dẫn Toàn Tập Tra Cứu  Cài Đặt Chứng Chỉ SSL Lên Máy Chủ</image:caption>
+      <image:title>Hớng Dẫn Toàn Tập Tra Cứu  Cài Đặt Chứng Chỉ SSL Lên Máy Chủ</image:title>
+    </image:image>
+</url>
+</urlset>

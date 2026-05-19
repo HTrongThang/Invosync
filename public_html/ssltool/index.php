@@ -1,0 +1,55 @@
+<?php
+# CSR decoder, by Mai Minh
+# Last updated: 2015-03-23
+#-----
+
+$csr_text = "-----BEGIN CERTIFICATE REQUEST-----
+MIIDdzCCAl8CAQAwdDELMAkGA1UEBhMCVk4xDzANBgNVBAgTBkhhIE5vaTEPMA0G
+A1UEBxMGSGEgTm9pMREwDwYDVQQKEwhGb25lU2FmZTEWMBQGA1UECxMNSVQgRGVw
+YXJ0bWVudDEYMBYGA1UEAxMPd3d3LmZvbmVzYWZlLnZuMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAwsXMhJAGMxD2SLD7fv3wfSkF9Rz3sXZLVn5nNk5f
+P871WeiBq9IlFlUzw4X2+JuFydNKU2WkTS0NGCQKpc5VnjggY8prWObx6BM7TL9j
+7gndd94Mzjt+ElAbJp5sbfznhshmR6AnngWUqrvXhJqtbPBiq68UaKFsrcnOpW5h
+YrKNcKfYwWHpTRClfD6FMRKigHSErSi5JiOwg8mtKGaAWAIgF2+bJqTS0MLObqxw
+ZJ64p6eXnmzXoNJd/dWdiBd5etBHIVrdj+vns+euFbgApwkdYj2YH0t37HfxG0UB
+Ec0jHNM2d/+U8lrfGb7TdXXX2zsmTWBiKDAZbnXKtdTJyQIDAQABoIG9MIG6Bgkq
+hkiG9w0BCQ4xgawwgakwCQYDVR0TBAIwADATBgNVHSUEDDAKBggrBgEFBQcDATCB
+hgYDVR0RBH8wfYIPd3d3LmZvbmVzYWZlLnZuggtmb25lc2FmZS52boISc3RhdGlj
+LmZvbmVzYWZlLnZughBkYXRhLmZvbmVzYWZlLnZughB0ZXN0LmZvbmVzYWZlLnZu
+ghBraWRzLmZvbmVzYWZlLnZughNwcm90ZWN0LmZvbmVzYWZlLnZuMA0GCSqGSIb3
+DQEBBQUAA4IBAQC7Xt1QFGge8YjA2enaH2/kN4p9N5po0yCRbjfAPb11OddC7ghS
+Gcd9Yf68btA0D0Lks0Dd2ZQ9Is38IrvTttQ98Euf26wGXNtyg5HKwkWyAygDzxVm
+bayHyPoFYO0aTKrOeEr+S2wUvAJiOda+df/QzVXgAeloBDWbFlulFs9zFSyg1uoH
+khs9lsSA7WEpyXa8MRIofgz0hxqKUI9ZaupThW4IO1sUyiB8WHps9/jfW/GGm4nS
+N80stIw6lUPEkapgbE+eLWZbPJ/VYnImVWa+ZfEXBSPkJ4v4GqTp5nAO5SAe+SZH
+6HFCJXCpUAGyOVKpBnQUlOCGnX7suSpdg62e
+-----END CERTIFICATE REQUEST-----";
+
+$subject = openssl_csr_get_subject($csr_text);
+echo "<br>Common name: ".$subject['CN'];
+echo "<br>Organization: ".$subject['O'];
+echo "<br>Organization Unit: ".$subject['OU'];
+echo "<br>City/Locality: ".$subject['L'];
+echo "<br>State/Province: ".$subject['ST'];
+echo "<br>Country: ".$subject['C'];
+
+# Get SANs list
+require('File/X509.php');
+$x509 = new File_X509();
+$file = $x509->loadCSR($csr_text);
+$sans_array = $file['certificationRequestInfo']['attributes'][0]['value'][0][2]['extnValue'];
+$sans = '';
+$numItems = count($sans_array);
+$i = 0;
+if($sans_array) {
+	foreach($sans_array as $key => $value) {
+		$sans .= $value['dNSName'];
+		if(++$i !== $numItems) $sans .= ',';
+	}
+}
+echo "<br>SANs: ".$sans;
+
+# Get Key size
+$key_length = openssl_pkey_get_details(openssl_csr_get_public_key($csr_text));
+echo "<br>Key size: ".$key_length['bits']." bit";
+?>

@@ -1,0 +1,170 @@
+{include file="$userTemplate/component/header.html"}
+
+{* ── Main Dashboard Content ── *}
+<main class="container-f flex flex-col pos-rel flex-1 dashboard-main">
+    <div class="container-f flex flex-col" style="padding: 0 4%; box-sizing: border-box; max-width: 100%;">
+
+        {* ── Welcome & Info Card ── *}
+        <div class="welcome-card">
+            <div>
+                <h1 class="welcome-title">Xin chào, {if isset($authUser)}{$authUser->getFullName()}{else}Guest{/if}!
+                </h1>
+                <p class="welcome-subtitle">Chào mừng quay trở lại InvoSync. Chúc bạn có một ngày làm việc hiệu quả!
+                </p>
+            </div>
+            <div class="welcome-date">
+                <i class="ri-calendar-todo-line"></i>
+                <span>{"d/m/Y"|date}</span>
+            </div>
+        </div>
+
+
+        {* ── Statistics Dashboard Row ── *}
+        <div class="stats-grid">
+            <div class="stat-card revenue">
+                <div class="stat-info">
+                    <span class="stat-label">Tổng Doanh Thu</span>
+                    <span class="stat-val">{$totalRevenue|number_format:0:",":"."} đ</span>
+                </div>
+                <div class="stat-icon">
+                    <i class="ri-money-dollar-circle-line"></i>
+                </div>
+            </div>
+
+            <div class="stat-card invoices">
+                <div class="stat-info">
+                    <span class="stat-label">Hóa Đơn Đã Lập</span>
+                    <span class="stat-val">{$totalInvoices}</span>
+                </div>
+                <div class="stat-icon">
+                    <i class="ri-file-list-3-line"></i>
+                </div>
+            </div>
+
+            <div class="stat-card customers">
+                <div class="stat-info">
+                    <span class="stat-label">Khách Hàng</span>
+                    <span class="stat-val">{$totalCustomers}</span>
+                </div>
+                <div class="stat-icon">
+                    <i class="ri-user-star-line"></i>
+                </div>
+            </div>
+
+            <div class="stat-card pending">
+                <div class="stat-info">
+                    <span class="stat-label">Hóa Đơn Chờ Thu</span>
+                    <span class="stat-val">{$pendingInvoices}</span>
+                </div>
+                <div class="stat-icon">
+                    <i class="ri-error-warning-line"></i>
+                </div>
+            </div>
+        </div>
+
+        {* ── Two Column Workspace Layout ── *}
+        <div class="dashboard-layout">
+
+            {* ── Left Area: Recent Invoices ── *}
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="ri-history-line"></i>
+                        <span>Hóa đơn phát hành gần đây</span>
+                    </h2>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Mã hóa đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Giá trị (VND)</th>
+                                <th>Phương thức</th>
+                                <th>Ngày phát hành</th>
+                                <th>Trạng thái</th>
+                                <th style="text-align: center;">Xem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$latestOrders item=order}
+                            <tr>
+                                <td style="font-weight: 700; color: #1e293b;">{$order.code}</td>
+                                <td>
+                                    <div
+                                        style="font-weight: 600; color: #0f172a; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {$order.name}
+                                    </div>
+                                </td>
+                                <td style="font-weight: 600; color: #0f172a;">
+                                    {$order.total|number_format:0:",":"."}
+                                </td>
+                                <td>
+                                    <span style="font-size: 13px; color: #64748b;">
+                                        {$order.payment_method}
+                                    </span>
+                                </td>
+                                <td style="color: #64748b;">{$order.date_created}</td>
+                                <td>
+                                    {if $order.status == 1}
+                                    <span class="badge badge-paid">Đã thanh toán</span>
+                                    {else}
+                                    <span class="badge badge-pending">Chờ thanh toán</span>
+                                    {/if}
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="/{$aScript}?op=manage&act=order&mod=edit&id={$order.id}" class="btn-view"
+                                        title="Xem chi tiết hóa đơn">
+                                        <i class="ri-eye-line"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {* ── Right Area: Quick Tools & Shortcut Panel ── *}
+            <div class="flex flex-col">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i class="ri-apps-2-line"></i>
+                            <span>Thao tác nhanh</span>
+                        </h2>
+                    </div>
+
+                    <div class="actions-grid">
+                        <a href="/{$aScript}?op=manage&act=product" class="action-card">
+                            <i class="ri-file-add-line" style="color: #10b981;"></i>
+                            <span>Xuất hóa đơn</span>
+                        </a>
+
+                        <a href="/{$aScript}?op=manage&act=static" class="action-card">
+                            <i class="ri-bank-card-line" style="color: #3b82f6;"></i>
+                            <span>Lập phiếu thu</span>
+                        </a>
+
+                        <a href="/{$aScript}?op=manage&act=menu" class="action-card">
+                            <i class="ri-wallet-3-line" style="color: #f59e0b;"></i>
+                            <span>Lập công nợ</span>
+                        </a>
+
+                        <a href="/{$aScript}?op=manage&act=customer" class="action-card">
+                            <i class="ri-user-settings-line" style="color: #8b5cf6;"></i>
+                            <span>Khách hàng</span>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+{include file="$userTemplate/component/footer.html"}

@@ -1,0 +1,136 @@
+<div class="tableContent">
+    {if $result_code}<div class="message">{$amessages.result_code.$result_code}</div>{/if}
+    {if $error_code}<div class="message2">{$amessages.error_code.$error_code}</div>{/if}
+    <div class="contType">
+        <h2>{$locale->msg('notes')}:</h2>{$locale->msg('config_site_down_notes')}
+    </div>
+    {if $error}{if $error.invalid || $error.message}
+    {assign var=input value=$error.INPUT}
+    <div class="errorBox">
+        <h2>{$locale->msg('error_notes')}:</h2>
+        <ul class="listStyle">{foreach from=$input item=field}{if $field.error}<li>{$field.message}</li>{/if}{/foreach}
+            <li>{$error.message}</li>
+        </ul>
+    </div>
+    {/if}{/if}
+
+    <div class="formContent">
+        <h1>Số lượt truy cập</h1>
+        <!-- Load estore info -->
+        <form action="/{$aScript}" method="post" name="formEdit" id="formEdit">
+            <fieldset>
+                <p class="date-picker">
+                    <label for="month">Chọn tháng</label>
+                    <select id="month">
+                        <!-- Các tùy chọn tháng sẽ được thêm động bằng JS -->
+                    </select>
+                    <label for="year">Chọn năm</label>
+                    <select id="year">
+                        <!-- Các tùy chọn năm sẽ được thêm động bằng JS -->
+                    </select>
+                </p>
+                <p id="csscustom_click_phone"><label for="custom_click_phone">Số điện thoại</label>
+                    <input type="text" value="{$counttel}" name="custom_click_phone" id="custom_click_phone">
+                </p>
+                <p id="csscustom_click_zalo"><label for="custom_click_zalo">Zalo</label>
+                    <input type="text" value="{$countzalo}" name="custom_click_zalo" id="custom_click_zalo">
+                </p>
+                <p id="csscustom_click_fanpage"><label for="custom_click_fanpage">Fanpage</label>
+                    <input type="text" value="{$countfanpage}" name="custom_click_fanpage" id="custom_click_fanpage">
+                </p>
+                <p id="csscustom_click_map"><label for="custom_click_map">Map</label>
+                    <input type="text" value="{$countmap}" name="custom_click_map" id="custom_click_map">
+                </p>
+                <p id="csscustom_click_gg"><label for="custom_click_gg">Google</label>
+                    <input type="text" value="{$countgoogle}" name="custom_click_gg" id="custom_click_gg">
+                </p>
+                <p id="csscustom_click_tt"><label for="custom_click_tt">Tiktok</label>
+                    <input type="text" value="{$counttiktok}" name="custom_click_tt" id="custom_click_tt">
+                </p>
+                <p id="csscustom_click_youtube"><label for="custom_click_youtube">Youtube</label>
+                    <input type="text" value="{$countyoutube}" name="custom_click_youtube" id="custom_click_youtube">
+                </p>
+                <p id="csscustom_click_mess"><label for="custom_click_mess">Mess fb</label>
+                    <input type="text" value="{$countmess}" name="custom_click_mess" id="custom_click_mess">
+                </p>
+                <br />
+                <p class="btn">
+                    <input type="hidden" name="op" value="system" />
+                    <input type="hidden" name="act" value="config" />
+                    <input type="hidden" name="mod" value="countclick" />
+                    <input type="hidden" name="doo" value="submit" />
+                    <input type="hidden" name="month" id="hiddenMonth" value="{$month}">
+                    <input type="hidden" name="year" id="hiddenYear" value="{$year}">
+                    <input type="submit" value="Xuất excel" title="Submit" name="btnSubmit" />
+                    <input type="reset" value="{$locale->msg('button_reset')}" title="Reset" name="btnReset"
+                        id="btnReset" />
+
+                </p>
+        </form>
+        </fieldset>
+
+    </div>
+</div>
+<script>
+    // Lấy tham chiếu đến các phần tử select và input ẩn
+    const monthSelect = document.getElementById('month');
+    const yearSelect = document.getElementById('year');
+    const hiddenMonth = document.getElementById('hiddenMonth').value;
+    const hiddenYear = document.getElementById('hiddenYear').value;
+
+    // Tạo danh sách các tháng
+    const months = [
+        'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+        'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+    ];
+
+    // Thêm tùy chọn tháng vào select
+    months.forEach((month, index) => {
+    const option = document.createElement('option');
+    option.value = String(index + 1).padStart(2, '0'); // Giá trị từ '01'-'12'
+    option.textContent = month;
+    if (hiddenMonth === option.value) { // So sánh với giá trị từ input ẩn
+        option.selected = true;
+    }
+    monthSelect.appendChild(option);
+});
+
+    // Tạo danh sách các năm (từ currentYear - 10 đến currentYear + 50)
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear - 10; year <= currentYear + 50; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        if (hiddenYear == year) { // So sánh với giá trị từ input ẩn
+            option.selected = true;
+        }
+        yearSelect.appendChild(option);
+    }
+
+    // Nếu không có giá trị từ input ẩn, đặt mặc định là tháng và năm hiện tại
+    if (!hiddenMonth) {
+        monthSelect.value = new Date().getMonth() + 1;
+    }
+    if (!hiddenYear) {
+        yearSelect.value = currentYear;
+    }
+</script>
+<script>
+    document.getElementById('month').addEventListener('change', redirectToLink);
+    document.getElementById('year').addEventListener('year', redirectToLink);
+
+    function redirectToLink() {
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
+        if (month && year) {
+            // Thay đổi URL sau bằng URL bạn muốn chuyển hướng tới
+            var url = 'https://thanhanautocare.com/admin.php?op=system&act=config&mod=countclick&month=' + month + '&year=' + year;
+            window.location.href = url;
+        }
+    }
+</script>
+<script>
+    document.getElementById('btnReset').addEventListener('click', function () {
+        window.location.href = 'https://thanhanautocare.com/admin.php?op=system&act=config&mod=countclick'; // Replace with your desired URL
+    });
+</script>

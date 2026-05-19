@@ -1,0 +1,209 @@
+{include file="$userTemplate/component/header.html"}
+<!-- BẮT ĐẦU GIAO DIỆN FORM PHIẾU THU -->
+<main class="container-f flex flex-col flex-1 pos-rel">
+    <section class="container-f flex flex-col bg-white">
+        <div class="container-l flex flex-col gap-2">
+            <div class="flex flex-wrap jus-sb form-invoice__container">
+                <div class="form-invoice invoice-info-section flex flex-col gap-1">
+                    <div class="section-header bg-white-second flex jus-sb center-ver border-bottom-gray">
+                        <h4 class="bold">PHIẾU THU</h4>
+                    </div>
+                    <div class="flex-col gap-10 form-invoice__slot ">
+                        <div class="flex flex-wrap gap-30">
+                            <div class="flex-1 flex flex-col gap-5">
+                                <div id="popup-list-inv" class="flex flex-wrap gap-5 popup-list-inv">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-10 border-top-gray padding-top-20">
+                            <button
+                                class="btn-submit-ok flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+                            <button
+                                class="btn-submit-reset flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">reset</button>
+                            <button
+                                class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="section-body invoice-info padding-20 flex flex-col gap-1 ">
+                        <form method="post" action="/{$aScript}?op=receipt&act=rec&mod=add&doo=submit">
+                            <!-- Dòng 1: Số phiếu | [Trống] -->
+                            <div class="form-row date-serial-row flex flex-wrap gap-1 flex-1">
+                                <div id="group-inv-serial"
+                                    class="form-group serial-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Số phiếu</p>
+                                    <input type="text" name="receipt_code" class="input-field flex-1"
+                                        value="{$suggestedCode}">
+                                </div>
+                                <div id="group-inv-date"
+                                    class="form-group date-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title"></p>
+                                    <input type="text" class="input-field flex-1" value="">
+                                </div>
+                            </div>
+
+                            <!-- Dòng 2: Ngày thu | Số tiền -->
+                            <div class="form-row debt-deadline-row flex flex-wrap gap-1 flex-1">
+                                <div id="group-inv-debt"
+                                    class="form-group debt-days-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Ngày thu</p>
+                                    <input type="text" name="date_collected" class="input-field flex-1"
+                                        value="{$suggestedDate}">
+                                </div>
+                                <div id="group-inv-deadline"
+                                    class="form-group payment-deadline-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Số tiền</p>
+                                    <input type="text" name="amount" class="input-field flex-1" value="">
+                                </div>
+                            </div>
+
+                            <!-- Dòng 3: Nội dung thanh toán -->
+                            <div class="form-row business-location-row flex flex-wrap gap-5 flex-1">
+                                <div id="group-inv-location"
+                                    class="form-group location-group flex center-ver jus-sb col-2 flex-1 active w-full">
+                                    <p class="flex input-title">Nội dung thanh toán</p>
+                                    <input type="text" name="payment_content" class="input-field flex-1" value="">
+                                </div>
+                            </div>
+
+                            <!-- Dòng 4: Hình thức thanh toán | Nhân viên thu tiền -->
+                            <div class="form-row payment-staff-row flex flex-wrap gap-1 flex-1">
+                                <div id="group-inv-payment"
+                                    class="form-group payment-method-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Hình thức thanh toán</p>
+                                    <div class="bg-white flex-1 flex padding-0-10-0-0">
+                                        <select name="payment_method" class="input-field flex-1 ">
+                                            <option>Chuyển khoản</option>
+                                            <option>Tiền mặt</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="group-inv-staff"
+                                    class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Nhân viên thu tiền</p>
+                                    <div class="bg-white flex-1 flex padding-0-10-0-0">
+                                        <select name="collector" class="input-field flex-1">
+                                            <option>Nguyễn Thu Hiền</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dòng 5: Số tài khoản | Ngân hàng -->
+                            <div class="form-row channel-warehouse-row flex flex-wrap gap-1 flex-1">
+                                <div id="group-inv-channel"
+                                    class="form-group sale-channel-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Số tài khoản</p>
+                                    <div class="bg-white flex-1 flex padding-0-10-0-0">
+                                        <select name="bank_account" class="input-field flex-1">
+                                            <option>123456</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="group-inv-warehouse"
+                                    class="form-group export-warehouse-group flex center-ver jus-sb col-2 flex-1 active">
+                                    <p class="flex input-title">Ngân hàng</p>
+                                    <div class="bg-white flex-1 flex padding-0-10-0-0 center-ver">
+                                        <input type="text" name="bank_name" class="input-field flex-1" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="form-invoice buyer-info-section flex flex-col gap-1">
+                    <div class="section-header bg-white-second flex jus-sb center-ver border-bottom-gray">
+                        <h4 class="bold">THÔNG TIN ĐƠN VỊ THANH TOÁN</h4>
+                    </div>
+                    <div class="flex-col gap-10 form-invoice__slot">
+                        <div class="flex flex-wrap gap-30">
+                            <div class="flex-1 flex flex-col gap-5">
+                                <div id="popup-list-buyer" class="flex flex-wrap gap-5">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-10 border-top-gray padding-top-20">
+                            <button
+                                class="btn-submit-ok flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+                            <button
+                                class="btn-submit-reset flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">reset</button>
+                            <button
+                                class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="section-body user-info padding-20 flex flex-col gap-1">
+                        <!-- Dòng 1: Tìm nhanh | Mã số thuế -->
+                        <div class="form-row search-tax-row flex flex-wrap gap-1 flex-1">
+                            <div id="group-buyer-search"
+                                class="form-group quick-search-group flex center-ver jus-sb col-2 flex-1 active">
+                                <p class="flex input-title">Tìm nhanh</p>
+                                <input type="text" name="quick_search" class="input-field flex-1 bg-white">
+                            </div>
+                            <div id="group-buyer-tax"
+                                class="form-group tax-code-group flex center-ver jus-sb col-2 flex-1 active">
+                                <p class="flex input-title">Mã số thuế</p>
+                                <input type="text" name="client_tax" class="input-field flex-1">
+                            </div>
+                        </div>
+
+                        <!-- Dòng 2: Mã đơn vị / Mã KH | Người thanh toán -->
+                        <div class="form-row client-id-name-row flex flex-wrap gap-1 flex-1">
+                            <div id="group-buyer-id"
+                                class="form-group client-id-group flex center-ver jus-sb col-2 flex-1 active">
+                                <p class="flex input-title">Mã đơn vị / Mã KH</p>
+                                <input type="text" name="client_code" class="input-field flex-1">
+                            </div>
+                            <div id="group-buyer-name"
+                                class="form-group buyer-name-group flex center-ver jus-sb col-2 flex-1 active">
+                                <p class="flex input-title">Người thanh toán</p>
+                                <input type="text" name="client_name" class="input-field flex-1">
+                            </div>
+                        </div>
+
+                        <!-- Dòng 3: Đơn vị thanh toán -->
+                        <div class="form-row client-company-row flex flex-wrap gap-1 flex-1">
+                            <div id="group-buyer-company"
+                                class="form-group company-group flex center-ver jus-sb flex-1 w-full active">
+                                <p class="flex input-title">Đơn vị thanh toán</p>
+                                <input type="text" name="client_company" class="input-field flex-1">
+                            </div>
+                        </div>
+
+                        <!-- Dòng 4: Địa chỉ -->
+                        <div class="form-row client-address-row flex flex-wrap gap-1 flex-1">
+                            <div id="group-buyer-address"
+                                class="form-group address-group flex center-ver jus-sb flex-1 w-full active">
+                                <p class="flex input-title">Địa chỉ</p>
+                                <input type="text" name="client_address" class="input-field flex-1">
+                            </div>
+                        </div>
+
+                        <!-- Dòng 5: Ghi chú -->
+                        <div class="form-row client-note-row flex flex-wrap gap-1 flex-1">
+                            <div id="group-buyer-note"
+                                class="form-group note-group flex center-ver jus-sb flex-1 w-full active">
+                                <p class="flex input-title">Ghi chú</p>
+                                <input type="text" name="note" class="input-field flex-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pos-rel flex-col flex gap-2">
+                <div class="flex function-container gap-20 flex-wrap jus-sb mt-10">
+                    <a href="/{$aScript}?op=receipt&act=rec&mod=list"
+                        class="btn-action__custom padding-5-20 bg-secondary bold color-text-black">Danh
+                        sách</a>
+                    <div class="function-right__container flex gap-20 flex-1 end-hor">
+                        <button class="btn-action__custom padding-5-20 bg-secondary bold color-text-black">Hủy</button>
+                        <button class="btn-action__custom padding-5-20 bg-secondary bold color-text-black">Hoàn
+                            tất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{include file="$userTemplate/component/footer.html"}

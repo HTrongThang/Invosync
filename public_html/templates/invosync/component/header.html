@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{if isset($pageTitle)}{$pageTitle}{else}Invoice | Hệ thống hóa đơn{/if}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/base.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/custom.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/font.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/responsive.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/utility.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/dashboard.css">
+</head>
+
+<body class="flex flex-col gap-10">
+
+    <!-- ── Premium Redesigned Navigation Header ── -->
+    <header class="premium-header">
+        <a href="/{$aScript}?op=dashboard" class="brand-wrapper">
+            <div class="brand-logo-icon">
+                <i class="ri-file-shield-2-line"></i>
+            </div>
+            <span class="brand-name">Invo<span>Sync</span></span>
+        </a>
+
+        <nav class="nav-menu">
+            <div class="nav-item nav-item-dropdown">
+                <i class="ri-file-add-line"></i>
+                <span>Xuất hóa đơn</span>
+                <i class="ri-arrow-down-s-line" style="font-size: 12px; margin-left: 2px;"></i>
+                <div class="nav-dropdown-menu">
+                    <a href="/{$aScript}?op=newinvoice&act=new&mod=list" class="nav-dropdown-link">
+                        <i class="ri-receipt-line"></i>
+                        <span>Danh sách hóa đơn</span>
+                    </a>
+                    <a href="/{$aScript}?op=newinvoice&act=new&mod=add" class="nav-dropdown-link">
+                        <i class="ri-file-add-line"></i>
+                        <span>Thêm mới hóa đơn</span>
+                    </a>
+                    <a href="/{$aScript}?op=newinvoice&act=list&mod=other" class="nav-dropdown-link">
+                        <i class="ri-more-fill"></i>
+                        <span>Hóa đơn khác</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-item nav-item-dropdown">
+                <i class="ri-bank-card-line"></i>
+                <span>Phiếu thu</span>
+                <i class="ri-arrow-down-s-line" style="font-size: 12px; margin-left: 2px;"></i>
+                <div class="nav-dropdown-menu">
+                    <a href="/{$aScript}?op=receipt&act=rec&mod=list" class="nav-dropdown-link">
+                        <i class="ri-receipt-line"></i>
+                        <span>Danh sách phiếu thu</span>
+                    </a>
+                    <a href="/{$aScript}?op=receipt&act=rec&mod=add" class="nav-dropdown-link">
+                        <i class="ri-add-box-line"></i>
+                        <span>Lập phiếu thu</span>
+                    </a>
+                    <a href="/{$aScript}?op=receipt&act=rec&mod=other" class="nav-dropdown-link">
+                        <i class="ri-more-fill"></i>
+                        <span>Phiếu thu khác</span>
+                    </a>
+                </div>
+            </div>
+
+
+            <a href="/{$aScript}?op=manage&act=menu" class="nav-item">
+                <i class="ri-file-list-3-line"></i>
+                <span>Danh sách công nợ</span>
+            </a>
+
+            <a href="/{$aScript}?op=manage&act=menu" class="nav-item">
+                <i class="ri-bar-chart-box-line"></i>
+                <span>Tổng hợp công nợ</span>
+            </a>
+
+            <a href="/{$aScript}?op=manage&act=customer" class="nav-item">
+                <i class="ri-group-line"></i>
+                <span>Khách hàng</span>
+            </a>
+
+            <a href="/{$aScript}?op=manage&act=customfield" class="nav-item">
+                <i class="ri-settings-4-line"></i>
+                <span>Cấu hình</span>
+            </a>
+        </nav>
+
+        <div class="user-widget">
+            <div class="user-avatar">
+                {if isset($authUser)}
+                {$authUser->getFullName()|substr:0:2|upper}
+                {else}
+                AD
+                {/if}
+            </div>
+            <div class="user-details">
+                <span class="user-name">{if isset($authUser)}{$authUser->getFullName()}{else}Guest{/if}</span>
+                <span class="user-role">Quản trị viên</span>
+            </div>
+            <i class="ri-arrow-down-s-line" style="font-size: 14px; color: #64748b; margin-left: 2px;"></i>
+
+            <div class="user-dropdown-menu">
+                {if isset($authUser)}
+                <a href="/{$aScript}?op=manage&act=customer&mod=edit&id={$authUser->getId()}"
+                    class="user-dropdown-link">
+                    <i class="ri-user-line"></i>
+                    <span>Tài khoản</span>
+                </a>
+                {/if}
+                <a href="/{$aScript}?op=manage&act=customfield" class="user-dropdown-link">
+                    <i class="ri-settings-line"></i>
+                    <span>Cài đặt</span>
+                </a>
+                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 4px 0;">
+                <a href="/{$aScript}?op=logout" class="user-dropdown-link logout-link">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            </div>
+        </div>
+    </header>

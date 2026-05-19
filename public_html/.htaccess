@@ -1,0 +1,182 @@
+#-----------------------------------------
+# Mai Minh Hotmeal.vn 24/03/2012
+#-----------------------------------------
+
+<Files .htaccess>
+deny from all
+</Files>
+
+<Files config.php>
+deny from all
+</Files>
+
+#Options -Indexes
+#Options +FollowSymLinks
+
+# Extra Security Headers
+<IfModule mod_headers.c>
+	Header set X-XSS-Protection "1; mode=block"
+	Header always append X-Frame-Options SAMEORIGIN
+	Header set X-Content-Type-Options nosniff
+</IfModule>
+
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+<IfModule mod_dir.c>
+DirectoryIndex /admin.php
+#DirectoryIndex index.php index.html
+</IfModule>
+
+# Main site
+RewriteRule ^maintenance\.html$ index.php?op=estore&act=maintenance [L,NC]
+#RewriteRule ^indexcustomer\.html$ index.php?op=estore&act=index&lang=$1 [L,NC]
+RewriteRule ^index\.html$ admin.php?op=dashboard [L,NC]
+RewriteRule ^customerreply-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=customerreply&cid=$1&confirm=$2 [L,NC]
+RewriteRule ^customerreplydelivery-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=customerreplydelivery&did=$1&confirm=$2 [L,NC]
+
+RewriteRule ^dochoadon\.html$ index.php?op=estore&act=readinvoice [L,NC]
+
+#RewriteRule ^invoiceconfirmationcode-([0-9-_]+)-([0-9-_]+)\.html$ index.php?op=estore&act=confirmationinvoice&cid=$1&rad=$2 [L,NC]
+RewriteRule ^invoiceconfirmationcode\.html$ index.php?op=estore&act=confirmationinvoice [L,NC]
+RewriteRule ^deliveryconfirmationcode\.html$ index.php?op=estore&act=confirmationdelivery [L,NC]
+RewriteRule ^personaltaxconfirmationcode\.html$ index.php?op=estore&act=confirmationpersonaltax [L,NC]
+#RewriteRule ^invoiceconfirmationcode-([0-9-_]+)-([0-9-_]+)&error\.html$ index.php?op=estore&act=confirmationinvoice&cid=$1&rad=$2&error=1 [L,NC]
+RewriteRule ^deliveryconfirmationcode&error\.html$ index.php?op=estore&act=confirmationdelivery&error=1 [L,NC]
+RewriteRule ^invoiceconfirmationcode&error\.html$ index.php?op=estore&act=confirmationinvoice&error=1 [L,NC]
+RewriteRule ^personaltaxconfirmationcode&error\.html$ index.php?op=estore&act=confirmationpersonaltax&error=1 [L,NC]
+#RewriteRule ^viewinvoice-([0-9-_]+)-([0-9-_]+)\.html$ index.php?op=estore&act=viewinvoice&cid=$1&rad=$2 [L,NC]
+RewriteRule ^viewinvoice-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=viewinvoice&cid=$1&codebm=$2 [L,NC]
+RewriteRule ^newviewinvoice-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=newviewinvoice&cid=$1&codebm=$2 [L,NC]
+RewriteRule ^newviewinvoicetosign-([0-9-_]+)-([a-z0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=newviewinvoicetosign&cid=$1&codebm=$2&role=$3 [L,NC]
+RewriteRule ^viewdelivery-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=viewdelivery&cid=$1&codebm=$2 [L,NC]
+RewriteRule ^newviewpersonaltax-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=newviewpersonaltax&cid=$1&codebm=$2 [L,NC]
+RewriteRule ^success.html$ index.php?op=estore&act=customerreply&success=1 [L,NC]
+#Changepassword
+RewriteRule ^changepassword-([0-9-_]+)\.html$ index.php?op=estore&act=changepass&plus=changepass&id=$1 [L,NC]
+RewriteRule ^trahoadon-([0-9-_]+)\.html$ index.php?op=estore&act=checkinvoice&idInvoice=$1 [L,NC]
+
+#Contract
+RewriteRule ^hop-dong\.html$ index.php?op=estore&act=contract [L,NC]
+RewriteRule ^hop-dong&error1\.html$ index.php?op=estore&act=contract&error=1 [L,NC]
+RewriteRule ^hop-dong&error2\.html$ index.php?op=estore&act=contract&error=2 [L,NC]
+RewriteRule ^contract-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=viewcontract&id=$1&code=$2 [L,NC]
+
+#Addendum
+RewriteRule ^phu-luc\.html$ index.php?op=estore&act=addendum [L,NC]
+RewriteRule ^phu-luc&error1\.html$ index.php?op=estore&act=addendum&error=1 [L,NC]
+RewriteRule ^phu-luc&error2\.html$ index.php?op=estore&act=addendum&error=2 [L,NC]
+RewriteRule ^addendum-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=viewaddendum&id=$1&code=$2 [L,NC]
+
+#Protocol
+RewriteRule ^bien-ban\.html$ index.php?op=estore&act=protocol [L,NC]
+RewriteRule ^bien-ban&error1\.html$ index.php?op=estore&act=protocol&error=1 [L,NC]
+RewriteRule ^bien-ban&error2\.html$ index.php?op=estore&act=protocol&error=2 [L,NC]
+RewriteRule ^protocol-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=viewprotocol&id=$1&code=$2 [L,NC]
+
+#Forgotpassword
+RewriteRule ^forgotpassword/([0-9-_]+)-([0-9-_]+)-([a-z0-9-_]+)\.html$ index.php?op=estore&act=forgotpassword&plus=changepass&tel=$1&addon=$2&confirm=$3 [L,NC]
+RewriteRule ^forgotpassword\.html$ index.php?op=estore&act=forgotpassword [L,NC]
+
+#Search
+
+#RewriteRule ^search/page-([0-9-_]+)\.html$ index.php?op=estore&act=search&slug=search&pg=$1 [L,NC]
+#RewriteRule ^search\.html&key=(.*)$ index.php?op=estore&act=search&kw=$1 [L,NC]
+
+# Sitemap
+#RewriteRule ^sitemap.html$ index.php?op=estore&act=sitemap [L,NC]
+
+# Cart
+#RewriteRule ^cart\.html$ index.php?op=estore&act=cart [L,NC]
+
+
+
+# Order
+#RewriteRule ^order\.html$ index.php?op=estore&act=order [L,NC]
+#RewriteRule ^ordersuccess\.html$ index.php?op=estore&act=order&plus=success [L,NC]
+#RewriteRule ^orderinfo/([a-z0-9-_]+)/([0-9-_]+)\.html$ index.php?op=estore&act=orderinfo&email=$1&id=$2&plus=checkorder [L,NC]
+
+# Login
+#RewriteRule ^login\.html$ index.php?op=estore&act=login [L,NC]
+
+#RewriteRule ^logout.html$ index.php?op=estore&act=logout [L,NC]
+
+# Register
+#RewriteRule ^register\.html$ index.php?op=estore&act=register [L,NC]
+
+# Category
+#RewriteRule ^SSL-Certificates\.html$ index.php?op=estore&act=products&slug=SSL-Certificates&cid=39 [L,NC]
+#RewriteRule ^SSL-Certificates/page-([0-9-_]+)\.html$ index.php?op=estore&act=products&slug=SSL-Certificates&cid=39&pg=$1 [L,NC]
+#RewriteRule ^Code-Signing-Certificates\.html$ index.php?op=estore&act=products&slug=Code-Signing-Certificates&cid=40 [L,NC]
+#RewriteRule ^Code-Signing-Certificates/page-([0-9-_]+)\.html$ index.php?op=estore&act=products&slug=Code-Signing-Certificates&cid=40&pg=$1 [L,NC]
+
+# Support 
+#RewriteRule ^ho-tro-ky-thuat\.html$ index.php?op=estore&act=news&slug=ho-tro-ky-thuat&cid=1 [L,NC]
+#RewriteRule ^([a-z0-9-_]+)-c([0-9-_]+)\.htm$ index.php?op=estore&act=news&slug=$1&cid=$2 [L,NC]
+#RewriteRule ^([a-z0-9-_]+)-c([0-9-_]+)/page-([0-9-_]+)\.htm$ index.php?op=estore&act=news&slug=$1&cid=$2&pg=$3 [L,NC]
+#RewriteRule ^searchdate\.html&date=(.*)$ index.php?op=estore&act=newsdate&date=$1 [L,NC]
+
+# Static
+#RewriteRule ^([a-z0-9-_]+)\.htm$ index.php?op=estore&act=static&slug=$1 [L,NC]
+
+# Contact
+#RewriteRule ^contact\.html$ index.php?op=estore&act=contactform&slug=$1 [L,NC]
+#RewriteRule ^lien-he\.html$ index.php?op=estore&act=contactform [L,NC]
+
+# Product
+#RewriteRule ^([a-z0-9-_]+)/page-([0-9-_]+)\.html$ index.php?op=estore&act=products&slug=$1&pg=$2 [L,NC]
+#RewriteRule ^([a-z0-9-_]+)/([a-z0-9-_]+)-p([0-9-_]+)\.html$ index.php?op=estore&act=product&catslug=$1&slug=$2&id=$3 [L,NC]
+#RewriteRule ^([a-z0-9-_]+)/([a-z0-9-_]+)-([0-9-_]+)\.html$ index.php?op=estore&act=product2&catslug=$1&slug=$2&id=$3 [L,NC]
+
+
+# Category
+#RewriteRule ^([a-z0-9-_]+)/([a-z0-9-_]+)-([0-9-_]+)\.htm$ index.php?op=estore&act=newdetail&cateslug=$1&slug=$2&id=$3 [L,NC]
+
+# Authimg
+RewriteRule ^authimg/authimg.gif authimg.php [L,NC]
+
+</IfModule>
+
+
+# DISABLE CACHING
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</IfModule>
+
+#<IfModule mod_headers.c>
+#    Header set Access-Control-Allow-Origin "*"
+#    Header set Access-Control-Allow-Credentials true
+#    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+#</IfModule>
+
+#<FilesMatch "\.(css|flv|gif|htm|html|ico|jpe|jpeg|jpg|js|mp3|mp4|png|pdf|swf|txt)$">
+#    <IfModule mod_expires.c>
+#        ExpiresActive Off
+#    </IfModule>
+#    <IfModule mod_headers.c>
+#        FileETag None
+#        Header unset ETag
+#        Header unset Pragma
+#        Header unset Cache-Control
+#        Header unset Last-Modified
+#        Header set Pragma "no-cache"
+#       Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#        Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
+#    </IfModule>
+#</FilesMatch>
+
+#<FilesMatch "\.(js|css|jpg|png|jpeg|gif|xml|json|txt|pdf|mov|avi|otf|woff|ico|swf)$">
+#    RequestHeader unset Cookie
+#    Header unset Cookie
+#    Header unset Set-Cookie
+#</FilesMatch>
+
+#Header unset Cookie
+#Header unset Set-Cookie

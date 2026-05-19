@@ -1,0 +1,259 @@
+<div class="bg-white service-info__section flex-col gap-10 mb-20">
+    <div class="flex flex-col gap-10 service-info__checkout">
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-oto">
+            Hàng hóa là xe ô tô, xe mô tô
+        </label>
+
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-vanchuyen">
+            Cấu hình dịch vụ vận chuyển
+        </label>
+
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-tmdt">
+            Cấu hình dịch vụ vận chuyển TMĐT
+        </label>
+    </div>
+    <div class="flex gap-10 border-top-gray padding-top-20">
+        <button
+            type="button" class="btn-submit-ok__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+        <button
+            type="button" class="btn-submit-reset__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">Reset</button>
+        <button
+            type="button" class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+    </div>
+</div>
+<div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+    <table class="fill-view dynamic-table__content w-full">
+        <thead class="bg-third text-color-black">
+            <tr>
+                <th class="col-fit">STT</th>
+                <th class="table-icon__container col-fit">Hành động</th>
+                <th class="col-fit">Chiết <br> khấu</th>
+                <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
+                <th class="col-fit">Ghi <br> chú</th>
+                <th class="insert-anchor col-fit__value110">Mã SKU</th>
+                <th class="col-fit__value190">Mã hàng</th>
+                <th>Tên hàng hóa, dịch vụ</th>
+
+                <th class="col-oto col-fit ">Số khung</th>
+                <th class="col-oto col-fit ">Số Máy</th>
+
+                <th class="col-vanchuyen col-fit ">Biển kiểm soát <br> phương tiện vận chuyển</th>
+
+                <th class="col-tmdt col-fit ">Tên người gửi hàng</th>
+                <th class="col-tmdt col-fit ">Địa chỉ người gửi hàng</th>
+                <th class="col-tmdt col-fit ">MST người gửi hàng</th>
+                <th class="col-tmdt col-fit ">Số định danh <br> người gửi hàng</th>
+
+                <th class="col-fit__value73">Đơn vị</th>
+                <th class="col-fit__value73">Số lượng</th>
+                <th class="col-fit__value110">Đơn giá</th>
+                <th class="col-fit__value110">Thành tiền</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="text-center">1</td>
+                <td class="table-icon__container">
+                    <div class="table-icon flex gap-2 center-hor">
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Add">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus-2.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/trash.svg" alt="Delete">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center"><input type="checkbox" name="items[0][discount]"></td>
+                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[0][promo]"></td>
+                <td class="text-center"><input type="checkbox" name="items[0][note]"></td>
+
+                <td class="insert-anchor">
+                    <input type="text" name="items[0][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00001">
+                </td>
+                <td>
+                    <input type="text" name="items[0][code]" class="border-none w-full bg-transparent text-center" value="CB 100A-220V-001">
+                </td>
+                <td class="text-left">
+                    <input type="text" name="items[0][name]" class="border-none w-full bg-transparent" value="CB công suất 100A - điện 220V-001">
+                </td>
+
+                <td class="col-oto "><input type="text" name="items[0][frame_no]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-oto "><input type="text" name="items[0][engine_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-vanchuyen "><input type="text" name="items[0][plate_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-tmdt "><input type="text" name="items[0][sender_name]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[0][sender_addr]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[0][sender_mst]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[0][sender_id]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="text-center">
+                    <input type="text" name="items[0][unit]" class="border-none w-full bg-transparent text-center" value="Cái">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[0][qty]" class="border-none w-full bg-transparent text-right" value="10">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[0][price]" class="border-none w-full bg-transparent text-right" value="1000000000">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[0][total]" class="border-none w-full bg-transparent text-right" value="10000000000">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="text-center">2</td>
+                <td class="table-icon__container">
+                    <div class="table-icon flex gap-2 center-hor">
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Add">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus-2.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/trash.svg" alt="Delete">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center"><input type="checkbox" name="items[1][discount]"></td>
+                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[1][promo]"></td>
+                <td class="text-center"><input type="checkbox" name="items[1][note]"></td>
+
+                <td class="insert-anchor">
+                    <input type="text" name="items[1][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00002">
+                </td>
+                <td>
+                    <input type="text" name="items[1][code]" class="border-none w-full bg-transparent text-center" value="CB 100A-220V-002">
+                </td>
+                <td class="text-left">
+                    <input type="text" name="items[1][name]" class="border-none w-full bg-transparent" value="CB công suất 100A - điện 220V-002">
+                </td>
+
+                <td class="col-oto "><input type="text" name="items[1][frame_no]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-oto "><input type="text" name="items[1][engine_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-vanchuyen "><input type="text" name="items[1][plate_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-tmdt "><input type="text" name="items[1][sender_name]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[1][sender_addr]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[1][sender_mst]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[1][sender_id]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="text-center">
+                    <input type="text" name="items[1][unit]" class="border-none w-full bg-transparent text-center" value="Cái">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[1][qty]" class="border-none w-full bg-transparent text-right" value="2">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[1][price]" class="border-none w-full bg-transparent text-right" value="250000">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[1][total]" class="border-none w-full bg-transparent text-right" value="500000">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="text-center">3</td>
+                <td class="table-icon__container">
+                    <div class="table-icon flex gap-2 center-hor">
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Add">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/plus-2.svg" alt="Minus">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/trash.svg" alt="Delete">
+                        </div>
+                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
+                            <img class="img-content" src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center"><input type="checkbox" name="items[2][discount]"></td>
+                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[2][promo]" checked></td>
+                <td class="text-center"><input type="checkbox" name="items[2][note]"></td>
+
+                <td class="insert-anchor">
+                    <input type="text" name="items[2][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00003">
+                </td>
+                <td>
+                    <input type="text" name="items[2][code]" class="border-none w-full bg-transparent text-center" value="CB 100A-220V-003">
+                </td>
+                <td class="text-left">
+                    <input type="text" name="items[2][name]" class="border-none w-full bg-transparent" value="CB công suất 100A - điện 220V-003 (Hàng mẫu không thu tiền)">
+                </td>
+
+                <td class="col-oto "><input type="text" name="items[2][frame_no]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-oto "><input type="text" name="items[2][engine_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-vanchuyen "><input type="text" name="items[2][plate_no]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="col-tmdt "><input type="text" name="items[2][sender_name]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[2][sender_addr]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[2][sender_mst]" class="w-full border-none" placeholder="..."></td>
+                <td class="col-tmdt "><input type="text" name="items[2][sender_id]" class="w-full border-none" placeholder="..."></td>
+
+                <td class="text-center">
+                    <input type="text" name="items[2][unit]" class="border-none w-full bg-transparent text-center" value="Cái">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[2][qty]" class="border-none w-full bg-transparent text-right text-error" value="2">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[2][price]" class="border-none w-full bg-transparent text-right text-error" value="250000">
+                </td>
+                <td class="text-right">
+                    <input type="text" name="items[2][total]" class="border-none w-full bg-transparent text-right text-error" value="500000">
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr class="spacer-row">
+                <td class="spacer-col" colspan="12"></td>
+            </tr>
+            <tr class="row-total">
+                <td colspan="9" class="border-orange total-span-col"></td>
+                <td colspan="2" class="text-center border-orange bold">Tổng tiền thanh toán</td>
+                <td class="text-error text-right border-orange bold">
+                    <input type="text" name="total" id="txtTotal" class="border-none bg-transparent text-right bold text-error w-full" value="10002100000" readonly>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="flex function-container gap-20 flex-wrap jus-sb mt-10">
+    <button type="button" class="btn-action__custom padding-5-20 bg-secondary bold color-text-black" onclick="window.location.href='/{$aScript}?op=newinvoice&act=new&mod=list'">DANH SÁCH</button>
+    <div class="function-right__container flex gap-20 flex-1 end-hor">
+        <button type="button" class="btn-action__custom padding-5-20 bg-secondary bold color-text-black" onclick="window.location.href='/{$aScript}?op=newinvoice&act=new&mod=list'">HỦY</button>
+        <button type="submit" class="btn-action__custom padding-5-20 bg-secondary bold color-text-black">HOÀN TẤT</button>
+    </div>
+</div>
+<div class="section-icon__wrapper-second section-icon__position cursor-pointer pos-abs">
+    <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png" alt="">
+</div>

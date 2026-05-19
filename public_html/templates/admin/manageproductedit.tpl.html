@@ -1,0 +1,754 @@
+{if isset($result_code)}<div class="message">{$amessages.result_code.$result_code}</div>{/if}
+{if isset($error_code)}<div class="message2">{$amessages.error_code.$error_code}</div>{/if}
+{if isset($error)}
+{if $error.invalid || $error.message}
+{assign var=input value=$error.INPUT}
+<div class="errorBox">
+<h2>{$locale->msg('error_notes')}:</h2>
+<ul class="listStyle">
+{foreach from=$input item=field}
+{if $field.error}<li>{$field.message}</li>{/if}
+{/foreach}
+<li>{$error.message}</li>
+</ul>
+</div>
+{/if}
+{/if}
+<div class="formContent">
+<h1>{$locale->msg('edit_product')}</h1>
+{if $validItem}
+{if isset($item)}
+<!-- Load product info -->
+<form action="/{$aScript}" method="post" name="formEdit" id="formEdit" enctype="multipart/form-data" >
+<fieldset>
+<p><strong>* {$locale->msg('required_fields')}</strong></p>
+
+<p><label for="category_id">{$locale->msg('of_procate')}</label>
+<select name="category_id" id="category_id" class="small">
+{$productCategoriesCombo}
+</select></p>
+
+<p><label for="status">{$locale->msg('system_status')}</label>
+<select name="status" id="status" class="small">
+<option value="1"{if $item->getStatus() eq "1"} selected="selected"{/if}>{$locale->msg('enable')}</option>
+<option value="0"{if $item->getStatus() eq "0"} selected="selected"{/if}>{$locale->msg('disable')}</option>
+</select></p>
+
+<p><label for="position">{$locale->msg('position')}:</label>
+<input class="verysmall" type="text" value="{$item->getPosition()}" name="position" id="position" /></p>
+
+<p><label for="slug">* {$locale->msg('slug')}:</label>
+<input class="medium" type="text" value="{$item->getSlug()}" name="slug" id="slug" /></p>
+
+<p><label for="name">* {$locale->msg('product_name')}:</label>
+<input class="medium" type="text" value="{$item->getName()}" name="name" id="name" /></p>
+
+<p><label for="keyword">* {$locale->msg('keyword')}:</label>
+<input class="medium" type="text" value="{$item->getKeyword()}" name="keyword" id="keyword" /></p>
+
+<p><label for="description">* {$locale->msg('description')}:</label></p>
+<textarea rows="10" cols="20" name="description" id="description">{$item->getDescription()}</textarea>
+{literal}<script type="text/javascript">var editor = CKEDITOR.replace('description');</script>{/literal}
+
+<p><label for="detail">* {$locale->msg('detail')}:</label></p>
+<textarea rows="10" cols="20" name="detail" id="detail">{$item->getDetail()}</textarea>
+{literal}<script type="text/javascript">var editor = CKEDITOR.replace('detail');</script>{/literal}
+
+<p>
+<label for="product_feature_ids">{$locale->msg('product_features')}</label>
+<select name="product_feature_ids[]" id="product_feature_ids" class="small" multiple="multiple">
+  {foreach from=$productFeatureList item=feature}
+    {assign var="fid" value=$feature->getId()}
+    <option value="{$fid}"
+      {if (isset($error.INPUT) && $error.INPUT.product_feature_ids.value && in_array($fid, $error.INPUT.product_feature_ids.value))
+          || (isset($productFeatureIds) && in_array($fid, $productFeatureIds))}
+        selected="selected"
+      {/if}>
+      {$feature->getName()}
+    </option>
+  {/foreach}
+</select>
+</p>
+
+<p><label for="highlight_feature_ids">{$locale->msg('highlight_features')}</label>
+<select name="highlight_feature_ids[]" id="highlight_feature_ids" class="small" multiple="multiple">
+  {foreach from=$productFeatureList item=feature}
+    {assign var="fid" value=$feature->getId()}
+    <option value="{$fid}"
+      {if (isset($error.INPUT) && $error.INPUT.highlight_feature_ids.value && in_array($fid, $error.INPUT.highlight_feature_ids.value))
+          || (isset($highlightFeatureIds) && in_array($fid, $highlightFeatureIds))}
+        selected="selected"
+      {/if}>
+      {$feature->getName()}
+    </option>
+  {/foreach}
+</select>
+</p>
+
+<p><label for="price">{$locale->msg('price')}:</label>
+<input class="medium" type="number" value="{$item->getPrice()}" name="price" id="price" />
+<input type="checkbox" name="currency_usd" id="currency_usd" />
+<label for="currency_usd">US Dollar</label>
+<input type="hidden" name="exchange_rate" id="exchange_rate" value="{$estore->getProperty('custom_exchange_rate')}">
+</p>
+
+<p><label for="period">{$locale->msg('period')}:</label>
+<input class="medium" type="text" value="{$item->getPeriod()}" name="period" id="period" /></p>
+
+<p><label for="validation_level">{$locale->msg('validation_level')}:</label>
+<input class="medium" type="text" value="{$item->getValidationLevel()}" name="validation_level" id="validation_level" /></p>
+
+<p><label for="trust_seal_type">{$locale->msg('trust_seal_type')}:</label>
+<input class="medium" type="text" value="{$item->getTrustSealType()}" name="trust_seal_type" id="trust_seal_type" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="warranty_amount">{$locale->msg('warranty_amount')}:</label>
+<input class="medium" type="number" value="{$item->getWarrantyAmount()}" name="warranty_amount" id="warranty_amount" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="issuance_time">{$locale->msg('issuance_time')}:</label>
+<input class="medium" type="text" value="{$item->getIssuanceTime()}" name="issuance_time" id="issuance_time" /></p>
+
+<p><label for="green_bar">{$locale->msg('green_bar')}</label>
+<select name="green_bar" id="green_bar" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if $item->getGreenBar() eq "1"} selected="selected"{/if}>{$locale->msg('display')}</option>
+<option value="0"{if $item->getGreenBar() eq "0"} selected="selected"{/if}>{$locale->msg('display_not')}</option>
+</select></p>
+
+<p><label for="encryption_strength">{$locale->msg('encryption_strength')}:</label>
+<input class="medium" type="text" value="{$item->getEncryptionStrength()}" name="encryption_strength" id="encryption_strength" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="algorithm">{$locale->msg('algorithm')}:</label>
+<input class="medium" type="text" value="{$item->getAlgorithm()}" name="algorithm" id="algorithm" /></p>
+
+<p><label for="san_support">{$locale->msg('san_support')}</label>
+<select name="san_support" id="san_support" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if $item->getSanSupport() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getSanSupport() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="wildcard_support">{$locale->msg('wildcard_support')}</label>
+<select name="wildcard_support" id="wildcard_support" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if $item->getWildcardSupport() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getWildcardSupport() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="malware_scan">{$locale->msg('malware_scan')}</label>
+<select name="malware_scan" id="malware_scan" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if $item->getMalwareScan() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getMalwareScan() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="vulnerability_scan">{$locale->msg('vulnerability_scan')}</label>
+<select name="vulnerability_scan" id="vulnerability_scan" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if $item->getVulnerabilityScan() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getVulnerabilityScan() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="browser_compatibility">{$locale->msg('browser_compatibility')}:</label>
+<input class="medium" type="text" value="{$item->getBrowserCompatibility()}" name="browser_compatibility" id="browser_compatibility" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="server_licenses">{$locale->msg('server_licenses')}:</label>
+<input class="medium" type="text" value="{$item->getServerLicenses()}" name="server_licenses" id="server_licenses" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="reissue_policy">{$locale->msg('reissue_policy')}:</label>
+<input class="medium" type="text" value="{$item->getReissuePolicy()}" name="reissue_policy" id="reissue_policy" data-show-on="129, 130, 131, 132"/></p>
+
+<!-- <p><label for="expiration_date">Hạn sử dụng:</label>
+<input class="medium" type="text" value="{$item->getExpirationDate()}" name="expiration_date" id="expiration_date" /></p>
+
+<p><label for="availability">Tình trạng:</label>
+<select name="availability" id="availability" class="small">
+<option value="1"{if $item->getAvailability() eq 1} selected="selected"{/if}>Còn hàng</option>
+<option value="0"{if $item->getAvailability() eq 0} selected="selected"{/if}>Không còn hàng</option>
+</select>
+</p> -->
+
+<p><label for="smart_screen">{$locale->msg('smart_screen')}:</label>
+<input class="medium" type="text" value="{$item->getSmartScreen()}" name="smart_screen" id="smart_screen" data-show-on="141"/></p>
+
+<p><label for="windows_hardware">{$locale->msg('windows_hardware')}:</label>
+<select name="windows_hardware" id="windows_hardware" class="small" data-show-on="141">
+<option value="1"{if $item->getWindowsHardware() eq "1"} selected="selected"{/if}>{$locale->msg('support')}</option>
+<option value="0"{if $item->getWindowsHardware() eq "0"} selected="selected"{/if}>{$locale->msg('support_not')}</option>
+</select></p>
+
+<p><label for="supported_platform">{$locale->msg('supported_platform')}:</label>
+<input class="medium" type="text" value="{$item->getSupportedPlatform()}" name="supported_platform" id="supported_platform" data-show-on="141"/></p>
+
+<p><label for="storage">{$locale->msg('storage')}:</label>
+<input class="medium" type="text" value="{$item->getStorage()}" name="storage" id="storage" data-show-on="141, 142"/></p>
+
+<p><label for="time_tamping">{$locale->msg('time_tamping')}:</label>
+<select name="time_tamping" id="time_tamping" class="small" data-show-on="141, 142">
+<option value="1"{if $item->getTimeTamping() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getTimeTamping() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="supported_format">{$locale->msg('supported_format')}:</label>
+<input class="medium" type="text" value="{$item->getSupportedFormat()}" name="supported_format" id="supported_format" data-show-on="142"/></p>
+
+<p><label for="compliance_standard">{$locale->msg('compliance_standard')}:</label>
+<input class="medium" type="text" value="{$item->getComplianceStandard()}" name="compliance_standard" id="compliance_standard" /></p>
+
+<p><label for="service_type">{$locale->msg('service_type')}:</label>
+<select name="service_type" id="service_type" class="small">
+<option value="1"{if $item->getServiceType() eq "1"} selected="selected"{/if}>{$locale->msg('web_hosting')}</option>
+<option value="2"{if $item->getServiceType() eq "2"} selected="selected"{/if}>{$locale->msg('vps')}</option>
+<option value="0"{if $item->getServiceType() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="operating_system">{$locale->msg('operating_system')}:</label>
+<select name="operating_system" id="operating_system" class="small">
+<option value="1"{if $item->getOperatingSystem() eq "1"} selected="selected"{/if}>{$locale->msg('linux')}</option>
+<option value="2"{if $item->getOperatingSystem() eq "2"} selected="selected"{/if}>{$locale->msg('windows_server')}</option>
+<option value="0"{if $item->getOperatingSystem() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="storage_capacity">{$locale->msg('storage_capacity')}:</label>
+<input class="medium" type="text" value="{$item->getStorageCapacity()}" name="storage_capacity" id="storage_capacity" data-show-on="136, 140"/></p>
+
+<p><label for="cpu">{$locale->msg('cpu')}:</label>
+<input class="medium" type="text" value="{$item->getCpu()}" name="cpu" id="cpu" data-show-on="136"/></p>
+
+<p><label for="ram">{$locale->msg('ram')}:</label>
+<input class="medium" type="text" value="{$item->getRam()}" name="ram" id="ram" data-show-on="136"/></p>
+
+<p><label for="bandwidth">{$locale->msg('bandwidth')}:</label>
+<input class="medium" type="text" value="{$item->getBandwidth()}" name="bandwidth" id="bandwidth" data-show-on="136"/></p>
+
+<p><label for="ip_address">{$locale->msg('ip_address')}:</label>
+<input class="medium" type="text" value="{$item->getIpAddress()}" name="ip_address" id="ip_address" data-show-on="136, 140"/></p>
+
+<p><label for="web_server">{$locale->msg('web_server')}:</label>
+<input class="medium" type="text" value="{$item->getWebServer()}" name="web_server" id="web_server" data-show-on="136"/></p>
+
+<p><label for="control_panel">{$locale->msg('control_panel')}:</label>
+<input class="medium" type="text" value="{$item->getControlPanel()}" name="control_panel" id="control_panel" data-show-on="136"/></p>
+
+<p><label for="php_version">{$locale->msg('php_version')}:</label>
+<input class="medium" type="text" value="{$item->getPhpVersion()}" name="php_version" id="php_version" data-show-on="136"/></p>
+
+<p><label for="framework">{$locale->msg('framework')}:</label>
+<input class="medium" type="text" value="{$item->getFramework()}" name="framework" id="framework" data-show-on="136"/></p>
+
+<p><label for="mysql_db_type">{$locale->msg('mysql_db_type')}:</label>
+<input class="medium" type="text" value="{$item->getMysqlDbType()}" name="mysql_db_type" id="mysql_db_type" data-show-on="136"/></p>
+
+<p><label for="ssl_certificate">{$locale->msg('ssl_certificate')}:</label>
+<input class="medium" type="text" value="{$item->getSslCertificate()}" name="ssl_certificate" id="ssl_certificate" data-show-on="136"/></p>
+
+<p><label for="backup">{$locale->msg('backup')}:</label>
+<input class="medium" type="text" value="{$item->getBackup()}" name="backup" id="backup" data-show-on="136, 140"/></p>
+
+<p><label for="ddos_protection">{$locale->msg('ddos_protection')}:</label>
+<select name="ddos_protection" id="ddos_protection" class="small" data-show-on="136">
+<option value="1"{if $item->getDdosProtection() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getDdosProtection() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="uptime_commitment">{$locale->msg('uptime_commitment')}:</label>
+<input class="medium" type="text" value="{$item->getUptimeCommitment()}" name="uptime_commitment" id="uptime_commitment" data-show-on="136, 140"/></p>
+
+<p><label for="allowed_accounts">{$locale->msg('allowed_accounts')}:</label>
+<input class="medium" type="text" value="{$item->getAllowedAccounts()}" name="allowed_accounts" id="allowed_accounts" /></p>
+
+<p><label for="mailbox_storage">{$locale->msg('mailbox_storage')}:</label>
+<input class="medium" type="text" value="{$item->getMailboxStorage()}" name="mailbox_storage" id="mailbox_storage" data-show-on="140"/></p>
+
+<p><label for="max_attachment_size">{$locale->msg('max_attachment_size')}:</label>
+<input class="medium" type="text" value="{$item->getMaxAttachmentSize()}" name="max_attachment_size" id="max_attachment_size" data-show-on="140"/></p>
+
+<p><label for="send_limit">{$locale->msg('send_limit')}:</label>
+<input class="medium" type="text" value="{$item->getSendLimit()}" name="send_limit" id="send_limit" data-show-on="140"/></p>
+
+<p><label for="dedicated_ip">{$locale->msg('dedicated_ip')}:</label>
+<input class="medium" type="text" value="{$item->getDedicatedIp()}" name="dedicated_ip" id="dedicated_ip" data-show-on="136, 140"/></p>
+
+<p><label for="supported_protocol">{$locale->msg('supported_protocol')}:</label>
+<input class="medium" type="text" value="{$item->getSupportedProtocol()}" name="supported_protocol" id="supported_protocol" data-show-on="140"/></p>
+
+<p><label for="webmail">{$locale->msg('webmail')}:</label>
+<input class="medium" type="text" value="{$item->getWebmail()}" name="webmail" id="webmail" data-show-on="140"/></p>
+
+<p><label for="has_encryption">{$locale->msg('has_encryption')}:</label>
+<select name="has_encryption" id="has_encryption" class="small" data-show-on="140">
+<option value="1"{if $item->getHasEncryption() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getHasEncryption() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="dns_config">{$locale->msg('dns_config')}:</label>
+<input class="medium" type="text" value="{$item->getDnsConfig()}" name="dns_config" id="dns_config" data-show-on="140"/></p>
+
+<p><label for="spam_filter">{$locale->msg('spam_filter')}:</label>
+<select name="spam_filter" id="spam_filter" class="small" data-show-on="140">
+<option value="1"{if $item->getSpamFilter() eq "1"} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if $item->getSpamFilter() eq "0"} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p>
+  <label for="avatar">Hình ảnh sản phẩm:</label>
+  <input type="file" name="avatar" id="avatar" />
+</p>
+{if $avatarImg}
+  <p>
+    <label>Ảnh sản phẩm:</label>
+    <a href="{$avatarImg->getPath()}/{$avatarImg->getUrlL()}" target="_blank" rel="noopener noreferrer"><img src="{$avatarImg->getPath()}/{$avatarImg->getUrlA()}" /></a>
+    <a href="/{$aScript}?op=manage&act=product&mod=edit&id={$item->getId()}&doo=delAvatar&lang={$lang}" style="color:#c00;font-size:12px;">Xóa</a>
+   </p> 
+{/if}
+
+<p><label for="files">Hình ảnh đính kèm</label><input type="file" multiple="multiple" name="files[]" id="files[]" /></p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;">
+{foreach from=$fileImgs item=file}
+  <div style="display:flex;align-items:center;gap:6px;">
+    <a href="{$file->getPath()}/{$file->getUrlL()}"
+       target="_blank" rel="noopener noreferrer">
+      <img src="{$file->getPath()}/{$file->getUrlA()}"
+           style="height:60px;display:block;" />
+    </a>
+
+    <a href="/{$aScript}?op=manage&act=product&mod=edit&id={$item->getId()}&doo=delFile&file={$file->getId()}&lang={$lang}"
+       style="font-size:12px;color:#c00;text-decoration:none;">
+      Xóa
+    </a>
+  </div>
+{/foreach}
+</div>
+
+<br>
+
+<!-- PO -->
+<h2>Danh Sách Product Options</h2>
+<button type="button" id="toggle-options-btn" style="margin-bottom: 10px; padding: 7px; background-color: orange; color: white; border-radius: 3px; cursor: pointer; border: none;">
+  Hiện Danh Sách Product Options
+</button>
+<div id="options-wrapper" style="display: none;">
+  {foreach from=$listProductOptions key=optionIndex item=option}
+  <div class="option-block">
+    <div class="option-name-group">
+      <p>
+        <label style="font-weight: 700;">* Tên option</label>
+        <input type="text" name="option_names[]" value="{$option.name|escape}" placeholder="VD: Kích thước" required>
+      </p>
+    </div>
+    <div class="values-wrapper">
+      {foreach from=$option.values key=valueIndex item=value}
+      <div class="value-row" style="position: relative;">
+        <p>
+          <label>Tên giá trị</label>
+          <input type="text" name="value_names[{$optionIndex}][]" value="{$value.value|escape}" placeholder="Tên giá trị" required>
+          <button type="button" class="remove-value-btn" style="margin-top: 10px; padding: 3px 5px; background-color: white; position: absolute; bottom: 40px; border: none; cursor: pointer;"><i class="fa fa-times fa-lg" style="color: red;"></i></button>
+        </p>
+        <p>
+          <label>Giá trị quy định</label>
+          <input type="number" name="value_modifiers[{$optionIndex}][]" value="{$value.price_modifier|escape}" required>
+        </p>
+      </div>
+      {/foreach}
+    </div>
+    <button type="button" class="add-value-btn" data-index="{$optionIndex}" style="padding: 5px; margin-left: 395px; background-color: #283373; color: white; border-radius: 3px; cursor: pointer; border: none;">Thêm giá trị</button>
+    <button type="button" class="remove-option-btn" style="margin-top: 10px; background-color: crimson; color: white; padding: 5px 10px; border-radius: 3px; cursor: pointer; border: none;">Xóa option</button>
+  </div>
+  {/foreach}
+</div>
+
+<button type="button" id="add-option-btn" style="margin-bottom: 10px; padding: 7px; background-color: #283373; color: white; border-radius: 3px; cursor: pointer; border: none; display: none;">Thêm option</button>
+
+{if isset($fieldOptionList)}
+<br /><h2>{$locale->msg('list_custom_options')}</h2>
+{foreach key=no from=$fieldOptionList item=field}
+    {assign var=field_name value=$field->getFieldName()}
+    {assign var=fieldId value=$field->getId()}
+    {if isset($error.INPUT.$field_name)}
+    {$field->displayHTML($error.INPUT.$field_name.value, $error.INPUT.$field_name.error)}
+    {else}
+    {$field->displayHTML($allFieldValues[$fieldId]|default:'','')}
+    {/if}
+{/foreach}
+{/if}
+
+{if isset($fieldList)}
+<br /><h2>{$locale->msg('list_custom_field')}</h2>
+{foreach key=no from=$fieldList item=field}
+{$field->displayHTML($item->getProperty($field->getName()))}
+{/foreach}
+{/if}
+
+<br />
+<p class="btn">
+<input type="hidden" name="op" value="manage" />
+<input type="hidden" name="act" value="product" />
+<input type="hidden" name="mod" value="edit" />
+<input type="hidden" name="doo" value="submit" />
+<input type="hidden" name="sCode" value="{$sCode}_" />
+<input type="hidden" name="id" value="{$item->getId()}" />
+<input type="hidden" name="current_avatar" value="{$item->getAvatar()|escape}" />
+<input type="hidden" name="lang" value="{$lang}" />
+<input type="submit" value="{$locale->msg('button_submit')}" title="{$locale->msg('button_submit')}" name="btnSubmit" />
+<input type="reset" value="{$locale->msg('button_reset')}" title="{$locale->msg('button_reset')}" name="btnReset" />
+<input type="button" onclick="javascript:formSubmit('formEdit','list','cancel',0);" value="{$locale->msg('button_cancel')}" title="{$locale->msg('button_cancel')}" name="btnCancel" />
+<a href="/{$item->getSlug()}" target="_blank"><input type="button"  value="Xem trước" title="Xem trước" name="btnCancel"/></a>
+
+</p>
+</fieldset>
+</form>
+
+{else}
+<!-- Load submitted info -->
+<form action="/{$aScript}" method="post" name="formEdit" id="formEdit" enctype="multipart/form-data" >
+<fieldset>
+<p><strong>* {$locale->msg('required_fields')}</strong></p>
+
+<p><label for="category_id">{$locale->msg('of_procate')}</label>
+<select name="category_id" id="category_id">
+{$productCategoriesCombo}
+</select></p>
+
+<p><label for="status">{$locale->msg('system_status')}</label>
+<select name="status" id="status">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.status.value eq 1} selected="selected"{/if}>{$locale->msg('enable')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.status.value eq 0} selected="selected"{/if}>{$locale->msg('disable')}</option>
+</select></p>
+
+<p{if isset($error.INPUT.slug) && $error.INPUT.slug.error} class="errormsg"{/if}><label for="slug">* {$locale->msg('slug')}</label>
+<input class="medium" type="text" name="slug" id="slug" value="{if isset($error.INPUT.slug)}{$error.INPUT.slug.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.slug) && $error.INPUT.name.error} class="errormsg"{/if}><label for="name">* {$locale->msg('product_name')}</label>
+<input class="medium" type="text" value="{if isset($error.INPUT)}{$error.INPUT.name.value}{/if}" name="name" id="name" /></p>
+
+<p{if isset($error.INPUT.keyword) && $error.INPUT.keyword.error} class="errormsg"{/if}><label for="keyword">* {$locale->msg('keyword')}</label>
+<input class="medium" type="text" name="keyword" id="keyword" value="{if isset($error.INPUT.keyword)}{$error.INPUT.keyword.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.description) && $error.INPUT.description.error} class="errormsg"{/if}><label for="description">* {$locale->msg('description')}</label></p>
+<textarea rows="10" cols="20" name="description" id="description">{if isset($error.INPUT)}{$error.INPUT.description.value}{/if}</textarea>
+{literal}<script type="text/javascript">var editor = CKEDITOR.replace('description');</script>{/literal}
+
+<p{if isset($error.INPUT.detail) && $error.INPUT.detail.error} class="errormsg"{/if}><label for="detail">* {$locale->msg('detail')}:</label></p>
+<textarea rows="10" cols="20" name="detail" id="detail">{if isset($error.INPUT)}{$error.INPUT.detail.value}{/if}</textarea>
+{literal}<script type="text/javascript">var editor = CKEDITOR.replace('detail');</script>{/literal}
+
+<p>
+<label for="product_feature_ids">{$locale->msg('product_features')}</label>
+<select name="product_feature_ids[]" id="product_feature_ids" class="small" multiple="multiple">
+  {foreach from=$productFeatureList item=feature}
+    {assign var="fid" value=$feature->getId()}
+    <option value="{$fid}"
+      {if (isset($error.INPUT) && $error.INPUT.product_feature_ids.value && in_array($fid, $error.INPUT.product_feature_ids.value))
+          || (isset($productFeatureIds) && in_array($fid, $productFeatureIds))}
+        selected="selected"
+      {/if}>
+      {$feature->getName()}
+    </option>
+  {/foreach}
+</select>
+</p>
+
+<p>
+<label for="highlight_feature_ids">{$locale->msg('highlight_features')}</label>
+<select name="highlight_feature_ids[]" id="highlight_feature_ids" class="small" multiple="multiple">
+  {foreach from=$productFeatureList item=feature}
+    {assign var="fid" value=$feature->getId()}
+    <option value="{$fid}"
+      {if (isset($error.INPUT) && $error.INPUT.highlight_feature_ids.value && in_array($fid, $error.INPUT.highlight_feature_ids.value))
+          || (isset($highlightFeatureIds) && in_array($fid, $highlightFeatureIds))}
+        selected="selected"
+      {/if}>
+      {$feature->getName()}
+    </option>
+  {/foreach}
+</select>
+</p>
+
+<p{if isset($error.INPUT.price) && $error.INPUT.price.error} class="errormsg"{/if}><label for="price">{$locale->msg('price')}:</label>
+<input class="medium" type="number" name="price" id="price" value="{if isset($error.INPUT.price)}{$error.INPUT.price.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.period) && $error.INPUT.period.error} class="errormsg"{/if}><label for="period">{$locale->msg('period')}:</label>
+<input class="medium" type="text" name="period" id="period" value="{if isset($error.INPUT.period)}{$error.INPUT.period.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.validation_level) && $error.INPUT.validation_level.error} class="errormsg"{/if}><label for="validation_level">{$locale->msg('validation_level')}:</label>
+<input class="medium" type="text" name="validation_level" id="validation_level" value="{if isset($error.INPUT.validation_level)}{$error.INPUT.validation_level.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.trust_seal_type) && $error.INPUT.trust_seal_type.error} class="errormsg"{/if}><label for="trust_seal_type">{$locale->msg('trust_seal_type')}:</label>
+<input class="medium" type="text" name="trust_seal_type" id="trust_seal_type" value="{if isset($error.INPUT.trust_seal_type)}{$error.INPUT.trust_seal_type.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.warranty_amount) && $error.INPUT.warranty_amount.error} class="errormsg"{/if}><label for="warranty_amount">{$locale->msg('warranty_amount')}:</label>
+<input class="medium" type="text" name="warranty_amount" id="warranty_amount" value="{if isset($error.INPUT.warranty_amount)}{$error.INPUT.warranty_amount.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.issuance_time) && $error.INPUT.issuance_time.error} class="errormsg"{/if}><label for="issuance_time">{$locale->msg('issuance_time')}:</label>
+<input class="medium" type="text" name="issuance_time" id="issuance_time" value="{if isset($error.INPUT.issuance_time)}{$error.INPUT.issuance_time.value}{else}{/if}" /></p>
+
+<p><label for="green_bar">{$locale->msg('green_bar')}</label>
+<select name="green_bar" id="green_bar" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.green_bar.value eq 1} selected="selected"{/if}>{$locale->msg('display')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.green_bar.value eq 0} selected="selected"{/if}>{$locale->msg('display_not')}</option>
+</select></p>
+
+<p{if isset($error.INPUT.encryption_strength) && $error.INPUT.encryption_strength.error} class="errormsg"{/if}><label for="encryption_strength">{$locale->msg('encryption_strength')}:</label>
+<input class="medium" type="text" name="encryption_strength" id="encryption_strength" value="{if isset($error.INPUT.encryption_strength)}{$error.INPUT.encryption_strength.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.algorithm) && $error.INPUT.algorithm.error} class="errormsg"{/if}><label for="algorithm">{$locale->msg('algorithm')}:</label>
+<input class="medium" type="text" name="algorithm" id="algorithm" value="{if isset($error.INPUT.algorithm)}{$error.INPUT.algorithm.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p><label for="san_support">{$locale->msg('san_support')}</label>
+<select name="san_support" id="san_support" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.san_support.value eq 1} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.san_support.value eq 0} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="wildcard_support">{$locale->msg('wildcard_support')}</label>
+<select name="wildcard_support" id="wildcard_support" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.wildcard_support.value eq 1} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.wildcard_support.value eq 0} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="malware_scan">{$locale->msg('malware_scan')}</label>
+<select name="malware_scan" id="malware_scan" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.malware_scan.value eq 1} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.malware_scan.value eq 0} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p><label for="vulnerability_scan">{$locale->msg('vulnerability_scan')}</label>
+<select name="vulnerability_scan" id="vulnerability_scan" class="small" data-show-on="129, 130, 131, 132">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.vulnerability_scan.value eq 1} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.vulnerability_scan.value eq 0} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p{if isset($error.INPUT.browser_compatibility) && $error.INPUT.browser_compatibility.error} class="errormsg"{/if}><label for="browser_compatibility">{$locale->msg('browser_compatibility')}:</label>
+<input class="medium" type="text" name="browser_compatibility" id="browser_compatibility" value="{if isset($error.INPUT.browser_compatibility)}{$error.INPUT.browser_compatibility.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.server_licenses) && $error.INPUT.server_licenses.error} class="errormsg"{/if}><label for="server_licenses">{$locale->msg('server_licenses')}:</label>
+<input class="medium" type="text" name="server_licenses" id="server_licenses" value="{if isset($error.INPUT.server_licenses)}{$error.INPUT.server_licenses.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.reissue_policy) && $error.INPUT.reissue_policy.error} class="errormsg"{/if}><label for="reissue_policy">{$locale->msg('reissue_policy')}:</label>
+<input class="medium" type="text" name="reissue_policy" id="reissue_policy" value="{if isset($error.INPUT.reissue_policy)}{$error.INPUT.reissue_policy.value}{else}{/if}" data-show-on="129, 130, 131, 132"/></p>
+
+<p{if isset($error.INPUT.smart_screen) && $error.INPUT.smart_screen.error} class="errormsg"{/if}><label for="smart_screen">{$locale->msg('smart_screen')}:</label>
+<input class="medium" type="text" name="smart_screen" id="smart_screen" value="{if isset($error.INPUT.smart_screen)}{$error.INPUT.smart_screen.value}{else}{/if}" data-show-on="141"/></p>
+
+<p><label for="windows_hardware">{$locale->msg('windows_hardware')}</label>
+<select name="windows_hardware" id="windows_hardware" class="small" data-show-on="141">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.windows_hardware.value eq 1} selected="selected"{/if}>{$locale->msg('support')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.windows_hardware.value eq 0} selected="selected"{/if}>{$locale->msg('support_not')}</option>
+</select></p>
+
+<p{if isset($error.INPUT.supported_platform) && $error.INPUT.supported_platform.error} class="errormsg"{/if}><label for="supported_platform">{$locale->msg('supported_platform')}:</label>
+<input class="medium" type="text" name="supported_platform" id="supported_platform" value="{if isset($error.INPUT.supported_platform)}{$error.INPUT.supported_platform.value}{else}{/if}" data-show-on="141"/></p>
+
+<p{if isset($error.INPUT.storage) && $error.INPUT.storage.error} class="errormsg"{/if}><label for="storage">{$locale->msg('storage')}:</label>
+<input class="medium" type="text" name="storage" id="storage" value="{if isset($error.INPUT.storage)}{$error.INPUT.storage.value}{else}{/if}" data-show-on="141, 142"/></p>
+
+<p><label for="time_tamping">{$locale->msg('time_tamping')}</label>
+<select name="time_tamping" id="time_tamping" class="small" data-show-on="141, 142">
+<option value="1"{if isset($error.INPUT) && $error.INPUT.time_tamping.value eq 1} selected="selected"{/if}>{$locale->msg('yes')}</option>
+<option value="0"{if isset($error.INPUT) && $error.INPUT.time_tamping.value eq 0} selected="selected"{/if}>{$locale->msg('no')}</option>
+</select></p>
+
+<p{if isset($error.INPUT.supported_format) && $error.INPUT.supported_format.error} class="errormsg"{/if}><label for="supported_format">{$locale->msg('supported_format')}:</label>
+<input class="medium" type="text" name="supported_format" id="supported_format" value="{if isset($error.INPUT.supported_format)}{$error.INPUT.supported_format.value}{else}{/if}" data-show-on="142"/></p>
+
+<p{if isset($error.INPUT.compliance_standard) && $error.INPUT.compliance_standard.error} class="errormsg"{/if}><label for="compliance_standard">{$locale->msg('compliance_standard')}:</label>
+<input class="medium" type="text" name="compliance_standard" id="compliance_standard" value="{if isset($error.INPUT.compliance_standard)}{$error.INPUT.compliance_standard.value}{else}{/if}" data-show-on="142"/></p>
+
+<p{if isset($error.INPUT.service_type) && $error.INPUT.service_type.error} class="errormsg"{/if}><label for="service_type">{$locale->msg('service_type')}:</label>
+<select name="service_type" class="small" id="service_type">
+  <option value="1" {if isset($error.INPUT) && $error.INPUT.service_type.value eq 1} selected="selected" {/if}>{$locale->msg('web_hosting')}</option>
+  <option value="2" {if isset($error.INPUT) && $error.INPUT.service_type.value eq 2} selected="selected" {/if}>{$locale->msg('vps')}</option>
+  <option value="0" {if isset($error.INPUT) && $error.INPUT.service_type.value eq 0} selected="selected" {/if}>{$locale->msg('no')}</option>
+</select>
+</p>
+
+<p{if isset($error.INPUT.operating_system) && $error.INPUT.operating_system.error} class="errormsg"{/if}><label for="operating_system">{$locale->msg('operating_system')}:</label>
+<select name="operating_system" class="small" id="operating_system">
+  <option value="1" {if isset($error.INPUT) && $error.INPUT.operating_system.value eq 1} selected="selected" {/if}>{$locale->msg('linux')}</option>
+  <option value="2" {if isset($error.INPUT) && $error.INPUT.operating_system.value eq 2} selected="selected" {/if}>{$locale->msg('windows_server')}</option>
+  <option value="0" {if isset($error.INPUT) && $error.INPUT.operating_system.value eq 0} selected="selected" {/if}>{$locale->msg('no')}</option>
+</select>
+</p>
+
+<p{if isset($error.INPUT.storage_capacity) && $error.INPUT.storage_capacity.error} class="errormsg"{/if}><label for="storage_capacity">{$locale->msg('storage_capacity')}:</label>
+<input class="medium" type="text" name="storage_capacity" id="storage_capacity" value="{if isset($error.INPUT.storage_capacity)}{$error.INPUT.storage_capacity.value}{else}{/if}" data-show-on="136, 140"/></p>
+
+<p{if isset($error.INPUT.ram) && $error.INPUT.ram.error} class="errormsg"{/if}><label for="ram">{$locale->msg('ram')}:</label>
+<input class="medium" type="text" name="ram" id="ram" value="{if isset($error.INPUT.ram)}{$error.INPUT.ram.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.cpu) && $error.INPUT.ram.error} class="errormsg"{/if}><label for="cpu">{$locale->msg('cpu')}:</label>
+<input class="medium" type="text" name="cpu" id="cpu" value="{if isset($error.INPUT.cpu)}{$error.INPUT.cpu.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.bandwidth) && $error.INPUT.bandwidth.error} class="errormsg"{/if}><label for="bandwidth">{$locale->msg('bandwidth')}:</label>
+<input class="medium" type="text" name="bandwidth" id="bandwidth" value="{if isset($error.INPUT.bandwidth)}{$error.INPUT.bandwidth.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.ip_address) && $error.INPUT.ip_address.error} class="errormsg"{/if}><label for="ip_address">{$locale->msg('ip_address')}:</label>
+<input class="medium" type="text" name="ip_address" id="ip_address" value="{if isset($error.INPUT.ip_address)}{$error.INPUT.ip_address.value}{else}{/if}" data-show-on="136, 140"/></p>
+
+<p{if isset($error.INPUT.web_server) && $error.INPUT.web_server.error} class="errormsg"{/if}><label for="web_server">{$locale->msg('web_server')}:</label>
+<input class="medium" type="text" name="web_server" id="web_server" value="{if isset($error.INPUT.web_server)}{$error.INPUT.web_server.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.control_panel) && $error.INPUT.control_panel.error} class="errormsg"{/if}><label for="control_panel">{$locale->msg('control_panel')}:</label>
+<input class="medium" type="text" name="control_panel" id="control_panel" value="{if isset($error.INPUT.control_panel)}{$error.INPUT.control_panel.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.php_version) && $error.INPUT.php_version.error} class="errormsg"{/if}><label for="php_version">{$locale->msg('php_version')}:</label>
+<input class="medium" type="text" name="php_version" id="php_version" value="{if isset($error.INPUT.php_version)}{$error.INPUT.php_version.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.framework) && $error.INPUT.framework.error} class="errormsg"{/if}><label for="framework">{$locale->msg('framework')}:</label>
+<input class="medium" type="text" name="framework" id="framework" value="{if isset($error.INPUT.framework)}{$error.INPUT.framework.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.mysql_db_type) && $error.INPUT.mysql_db_type.error} class="errormsg"{/if}><label for="mysql_db_type">{$locale->msg('mysql_db_type')}:</label>
+<input class="medium" type="text" name="mysql_db_type" id="mysql_db_type" value="{if isset($error.INPUT.mysql_db_type)}{$error.INPUT.mysql_db_type.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.ssl_certificate) && $error.INPUT.ssl_certificate.error} class="errormsg"{/if}><label for="ssl_certificate">{$locale->msg('ssl_certificate')}:</label>
+<input class="medium" type="text" name="ssl_certificate" id="ssl_certificate" value="{if isset($error.INPUT.ssl_certificate)}{$error.INPUT.ssl_certificate.value}{else}{/if}" data-show-on="136"/></p>
+
+<p{if isset($error.INPUT.backup) && $error.INPUT.backup.error} class="errormsg"{/if}><label for="backup">{$locale->msg('backup')}:</label>
+<input class="medium" type="text" name="backup" id="backup" value="{if isset($error.INPUT.backup)}{$error.INPUT.backup.value}{else}{/if}" data-show-on="136, 140"/></p>
+
+<p{if isset($error.INPUT.ddos_protection) && $error.INPUT.ddos_protection.error} class="errormsg"{/if}><label for="ddos_protection">{$locale->msg('ddos_protection')}:</label>
+<select name="ddos_protection" class="small" id="ddos_protection" data-show-on="136">
+  <option value="1" {if isset($error.INPUT) && $error.INPUT.ddos_protection.value eq 1} selected="selected" {/if}>{$locale->msg('yes')}</option>
+  <option value="0" {if isset($error.INPUT) && $error.INPUT.ddos_protection.value eq 0} selected="selected" {/if}>{$locale->msg('no')}</option>
+</select>
+</p>
+
+<p{if isset($error.INPUT.uptime_commitment) && $error.INPUT.uptime_commitment.error} class="errormsg"{/if}><label for="uptime_commitment">{$locale->msg('uptime_commitment')}:</label>
+<input class="medium" type="text" name="uptime_commitment" id="uptime_commitment" value="{if isset($error.INPUT.uptime_commitment)}{$error.INPUT.uptime_commitment.value}{else}{/if}" data-show-on="136, 140"/></p>
+
+<p{if isset($error.INPUT.allowed_accounts) && $error.INPUT.allowed_accounts.error} class="errormsg"{/if}><label for="allowed_accounts">{$locale->msg('allowed_accounts')}:</label>
+<input class="medium" type="text" name="allowed_accounts" id="allowed_accounts" value="{if isset($error.INPUT.allowed_accounts)}{$error.INPUT.allowed_accounts.value}{else}{/if}" /></p>
+
+<p{if isset($error.INPUT.mailbox_storage) && $error.INPUT.mailbox_storage.error} class="errormsg"{/if}><label for="mailbox_storage">{$locale->msg('mailbox_storage')}:</label>
+<input class="medium" type="text" name="mailbox_storage" id="mailbox_storage" value="{if isset($error.INPUT.mailbox_storage)}{$error.INPUT.mailbox_storage.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.max_attachment_size) && $error.INPUT.max_attachment_size.error} class="errormsg"{/if}><label for="max_attachment_size">{$locale->msg('max_attachment_size')}:</label>
+<input class="medium" type="text" name="max_attachment_size" id="max_attachment_size" value="{if isset($error.INPUT.max_attachment_size)}{$error.INPUT.max_attachment_size.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.send_limit) && $error.INPUT.send_limit.error} class="errormsg"{/if}><label for="send_limit">{$locale->msg('send_limit')}:</label>
+<input class="medium" type="text" name="send_limit" id="send_limit" value="{if isset($error.INPUT.send_limit)}{$error.INPUT.send_limit.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.dedicated_ip) && $error.INPUT.dedicated_ip.error} class="errormsg"{/if}><label for="dedicated_ip">{$locale->msg('dedicated_ip')}:</label>
+<input class="medium" type="text" name="dedicated_ip" id="dedicated_ip" value="{if isset($error.INPUT.dedicated_ip)}{$error.INPUT.dedicated_ip.value}{else}{/if}" data-show-on="136, 140"/></p>
+
+<p{if isset($error.INPUT.supported_protocol) && $error.INPUT.supported_protocol.error} class="errormsg"{/if}><label for="supported_protocol">{$locale->msg('supported_protocol')}:</label>
+<input class="medium" type="text" name="supported_protocol" id="supported_protocol" value="{if isset($error.INPUT.supported_protocol)}{$error.INPUT.supported_protocol.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.webmail) && $error.INPUT.webmail.error} class="errormsg"{/if}><label for="webmail">{$locale->msg('webmail')}:</label>
+<input class="medium" type="text" name="webmail" id="webmail" value="{if isset($error.INPUT.webmail)}{$error.INPUT.webmail.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.has_encryption) && $error.INPUT.has_encryption.error} class="errormsg"{/if}><label for="has_encryption">{$locale->msg('has_encryption')}:</label>
+<select name="has_encryption" class="small" id="has_encryption" data-show-on="140">
+  <option value="1" {if isset($error.INPUT) && $error.INPUT.has_encryption.value eq 1} selected="selected" {/if}>{$locale->msg('yes')}</option>
+  <option value="0" {if isset($error.INPUT) && $error.INPUT.has_encryption.value eq 0} selected="selected" {/if}>{$locale->msg('no')}</option>
+</select>
+</p>
+
+<p{if isset($error.INPUT.dns_config) && $error.INPUT.dns_config.error} class="errormsg"{/if}><label for="dns_config">{$locale->msg('dns_config')}:</label>
+<input class="medium" type="text" name="dns_config" id="dns_config" value="{if isset($error.INPUT.dns_config)}{$error.INPUT.dns_config.value}{else}{/if}" data-show-on="140"/></p>
+
+<p{if isset($error.INPUT.spam_filter) && $error.INPUT.spam_filter.error} class="errormsg"{/if}><label for="spam_filter">{$locale->msg('spam_filter')}:</label>
+<select name="spam_filter" class="small" id="spam_filter" data-show-on="140">
+  <option value="1" {if isset($error.INPUT) && $error.INPUT.spam_filter.value eq 1} selected="selected" {/if}>{$locale->msg('yes')}</option>
+  <option value="0" {if isset($error.INPUT) && $error.INPUT.spam_filter.value eq 0} selected="selected" {/if}>{$locale->msg('no')}</option>
+</select>
+</p>
+
+
+
+<p>
+  <label for="avatar">Hình ảnh sản phẩm:</label>
+  <input type="file" name="avatar" id="avatar" />
+</p>
+{if $avatarImg && $item}
+  <p>
+    <label>Ảnh sản phẩm:</label>
+    <a href="{$avatarImg->getPath()}/{$avatarImg->getUrlL()}" target="_blank" rel="noopener noreferrer">
+      <img src="{$avatarImg->getPath()}/{$avatarImg->getUrlA()}" />
+    </a>
+    <a href="/{$aScript}?op=manage&act=product&mod=edit&id={$item->getId()}&doo=delAvatar&lang={$lang}"
+       style="color:#c00;font-size:12px;">Xóa</a>
+   </p> 
+{/if}
+
+<p><label for="files">Hình ảnh đính kèm</label><input type="file" multiple="multiple" name="files[]" id="files[]" /></p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;">
+{foreach from=$fileImgs item=file}
+  {if $item}
+  <div style="display:flex;align-items:center;gap:6px;">
+    <a href="{$file->getPath()}/{$file->getUrlL()}" target="_blank" rel="noopener noreferrer">
+      <img src="{$file->getPath()}/{$file->getUrlA()}" style="height:60px;display:block;" />
+    </a>
+    <a href="/{$aScript}?op=manage&act=product&mod=edit&id={$item->getId()}&doo=delFile&file={$file->getId()}&lang={$lang}"
+       style="font-size:12px;color:#c00;text-decoration:none;">
+      Xóa
+    </a>
+  </div>
+  {/if}
+{/foreach}
+</div>
+
+{if isset($fieldOptionList)}
+<br /><h2>{$locale->msg('list_custom_options')}</h2>
+{foreach key=no from=$fieldOptionList item=field}
+{assign var=field_name value=$field->getFieldName()}
+{if isset($error.INPUT.$field_name)}
+{$field->displayHTML($error.INPUT.$field_name.value, $error.INPUT.$field_name.error)}
+{/if}
+{/foreach}
+{/if}
+
+{if $fieldList}
+<br /><h2>{$locale->msg('list_custom_field')}</h2>
+{foreach key=no from=$fieldList item=field}
+{if isset($error.INPUT)}
+{assign var=field_name value=$field->getName()}
+{$field->displayHTML($error.INPUT.$field_name.value)}
+{/if}
+{/foreach}
+{/if}
+<br />
+<p class="btn">
+<input type="hidden" name="op" value="manage" />
+<input type="hidden" name="act" value="product" />
+<input type="hidden" name="mod" value="edit" />
+<input type="hidden" name="doo" value="submit" />
+<input type="hidden" name="id" value="{$id}" />
+<input type="hidden" name="sCode" value="{$sCode}_" />
+<input type="hidden" name="lang" value="{$lang}" />
+<input type="submit" value="{$locale->msg('button_submit')}" title="{$locale->msg('button_submit')}" name="btnSubmit" />
+<input type="reset" value="{$locale->msg('button_reset')}" title="{$locale->msg('button_reset')}" name="btnReset" />
+<input type="button" onClick="javascript:formSubmit('formEdit','list','cancel',0);" value="{$locale->msg('button_cancel')}" title="{$locale->msg('button_cancel')}" name="btnCancel" />
+</p>
+</fieldset>
+</form>
+
+{/if}
+{else}{$locale->msg('code_invalid')}...{/if}
+</div>
+</div>
+
+<script>
+function toggleFields() {
+    var category = $('#category_id').val();
+
+    // Lấy tất cả field có data-show-on
+    $('[data-show-on]').each(function() {
+        var $field = $(this);
+        var showOn = $field.data('show-on').toString().split(',').map(s => s.trim());
+
+        var container = $field.closest('p'); // <p> bao quanh field
+        var select2Container = $field.next('.select2-container'); // nếu là select2
+
+        // logic hiển thị
+        if(showOn.includes(category)){
+            if(container) container.show();
+            if(select2Container.length) select2Container.show();
+        } else {
+            if(container) container.hide();
+            if(select2Container.length) select2Container.hide();
+        }
+    });
+}
+
+$(document).ready(function() {
+    toggleFields(); // chạy lúc load
+    $('#category_id').on('change', toggleFields); // chạy khi đổi category
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

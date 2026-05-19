@@ -1,0 +1,160 @@
+{* ══════════════════════════════════════
+COMPONENT: Login Form Panel (Right Side)
+Form đăng nhập, hiển thị lỗi, nút submit
+══════════════════════════════════════ *}
+
+<div class="auth-form-side">
+	<div class="auth-form-inner">
+
+		<div class="form-badge">
+			<i class="ri-store-2-line"></i> Quản trị cửa hàng
+		</div>
+
+		<h2 class="form-heading">Đăng nhập</h2>
+		<p class="form-desc">Nhập thông tin tài khoản của bạn để tiếp tục sử dụng hệ thống</p>
+
+		{* ── Hiển thị lỗi đăng nhập ── *}
+		{if isset($error) && is_array($error) && ($error.invalid || $error.message)}
+		<div class="alert-box">
+			{if isset($error.message) && is_array($error.message)}
+			{foreach from=$error.message item=item}
+			<div class="alert-item">
+				<i class="ri-error-warning-fill" style="margin-top: 2px;"></i>
+				<span>{$item}</span>
+			</div>
+			{/foreach}
+			{/if}
+			{if isset($error.INPUT) && is_array($error.INPUT)}
+			{foreach from=$error.INPUT item=field}
+			{if isset($field.error) && $field.error}
+			<div class="alert-item">
+				<i class="ri-error-warning-fill" style="margin-top: 2px;"></i>
+				<span>{$field.message}</span>
+			</div>
+			{/if}
+			{/foreach}
+			{/if}
+		</div>
+		{/if}
+
+		{if isset($error_doimk) && $error_doimk != ''}
+		<div class="alert-box">
+			<div class="alert-item">
+				<i class="ri-error-warning-fill" style="margin-top: 2px;"></i>
+				<span>{$error_doimk}</span>
+			</div>
+		</div>
+		{/if}
+
+		{* ── Form đăng nhập ── *}
+		<form action="/{$aScript}" method="post" class="js-validate-form" data-form="login">
+
+			<div class="input-group">
+				<label class="input-label" for="login-username">Tài khoản</label>
+				<div class="input-wrapper">
+					<i class="ri-user-3-line input-icon-left"></i>
+					<input type="text" id="login-username" name="username" class="input-control"
+						placeholder="Nhập tên đăng nhập" required autocomplete="username"
+						value="{if isset($error.INPUT.username.value)}{$error.INPUT.username.value}{/if}"
+						data-msg="Vui lòng nhập tài khoản">
+				</div>
+			</div>
+
+			<div class="input-group">
+				<label class="input-label" for="login-password">Mật khẩu</label>
+				<div class="input-wrapper is-pw">
+					<i class="ri-lock-password-line input-icon-left"></i>
+					<input type="password" id="login-password" name="password" class="input-control"
+						placeholder="Nhập mật khẩu" required minlength="6" autocomplete="current-password"
+						data-msg="Mật khẩu tối thiểu 6 ký tự">
+					<i class="ri-eye-off-line pw-toggle" id="toggle-pw-btn" title="Hiện/Ẩn mật khẩu"></i>
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<a href="/forgotpassword.html">Quên mật khẩu?</a>
+			</div>
+
+			<input type="hidden" value="admin" name="site">
+			<input type="hidden" value="login" name="op">
+			<input type="hidden" value="{if isset($redirectLink)}{$redirectLink}{else}/index.html{/if}"
+				name="redirectLink">
+
+			<button type="submit" class="btn-submit" id="login-submit-btn">
+				<span>Đăng nhập hệ thống</span>
+				<i class="ri-arrow-right-line"></i>
+			</button>
+		</form>
+
+		<div class="form-footer">
+			Gặp sự cố truy cập? <a href="javascript:void(0)" id="open-support-dialog">Liên hệ hỗ trợ kỹ thuật</a>
+		</div>
+
+	</div>
+</div>
+
+{* ── Dialog: Thông tin hỗ trợ kỹ thuật ── *}
+<div class="support-overlay" id="support-overlay"></div>
+<div class="support-dialog" id="support-dialog" role="dialog" aria-modal="true" aria-labelledby="support-dialog-title">
+	<div class="support-dialog-header">
+		<div class="support-dialog-icon">
+			<i class="ri-customer-service-2-fill"></i>
+		</div>
+		<div>
+			<h3 id="support-dialog-title" class="support-dialog-title">Hỗ trợ kỹ thuật</h3>
+			<p class="support-dialog-subtitle">Liên hệ đội ngũ kỹ thuật để được hỗ trợ nhanh nhất</p>
+		</div>
+		<button type="button" class="support-dialog-close" id="close-support-dialog" aria-label="Đóng">
+			<i class="ri-close-line"></i>
+		</button>
+	</div>
+
+	<div class="support-dialog-body">
+		<a href="tel:0909000000" class="support-item">
+			<div class="support-item-icon si-phone">
+				<i class="ri-phone-fill"></i>
+			</div>
+			<div class="support-item-info">
+				<span class="support-item-label">Hotline hỗ trợ</span>
+				<span class="support-item-value">0909 000 000</span>
+			</div>
+			<i class="ri-arrow-right-s-line support-item-arrow"></i>
+		</a>
+
+		<a href="mailto:support@acconline.vn" class="support-item">
+			<div class="support-item-icon si-email">
+				<i class="ri-mail-fill"></i>
+			</div>
+			<div class="support-item-info">
+				<span class="support-item-label">Email hỗ trợ</span>
+				<span class="support-item-value">support@acconline.vn</span>
+			</div>
+			<i class="ri-arrow-right-s-line support-item-arrow"></i>
+		</a>
+
+		<a href="https://zalo.me/0909000000" target="_blank" rel="noopener noreferrer" class="support-item">
+			<div class="support-item-icon si-zalo">
+				<i class="ri-chat-3-fill"></i>
+			</div>
+			<div class="support-item-info">
+				<span class="support-item-label">Zalo hỗ trợ</span>
+				<span class="support-item-value">ACCONLINE Support</span>
+			</div>
+			<i class="ri-arrow-right-s-line support-item-arrow"></i>
+		</a>
+
+		<div class="support-item support-item-static">
+			<div class="support-item-icon si-time">
+				<i class="ri-time-fill"></i>
+			</div>
+			<div class="support-item-info">
+				<span class="support-item-label">Giờ làm việc</span>
+				<span class="support-item-value">T2 – T7 · 08:00 – 17:30</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="support-dialog-footer">
+		<p>&copy; {$currentYear} CÔNG TY ACCONLINE · Phòng Kỹ Thuật</p>
+	</div>
+</div>

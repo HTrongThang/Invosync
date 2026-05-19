@@ -1,0 +1,81 @@
+<div class="section-header bg-white-second flex jus-sb center-ver border-bottom-gray">
+    <h4 class="bold">THÔNG TIN NGƯỜI MUA</h4>
+    <div class="section-icon__wrapper cursor-pointer">
+        <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png" alt="">
+    </div>
+</div>
+<div class="flex-col gap-10 form-invoice__slot">
+    <div class="flex flex-wrap gap-30">
+        <div class="flex-1 flex flex-col gap-5">
+            <div id="popup-list-buyer" class="flex flex-wrap gap-5">
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-10 border-top-gray padding-top-20">
+        <button type="button"
+            class="btn-submit-ok flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+        <button type="button"
+            class="btn-submit-reset flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">reset</button>
+        <button type="button"
+            class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+    </div>
+</div>
+
+<div class="section-body user-info padding-20 flex flex-col gap-1">
+    <div class="form-row search-tax-row flex flex-wrap gap-1 flex-1">
+        <div id="group-buyer-search" class="form-group quick-search-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Tìm nhanh</p>
+            <input type="text" name="quick_search" class="input-field flex-1 bg-white" placeholder="F2 để tìm nhanh">
+        </div>
+        <div id="group-buyer-tax" class="form-group tax-code-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Mã số thuế</p>
+            <input type="text" name="mst" class="input-field flex-1">
+        </div>
+    </div>
+
+    <div class="form-row client-id-name-row flex flex-wrap gap-1 flex-1">
+        <div id="group-buyer-id" class="form-group client-id-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Mã đơn vị / Mã KH</p>
+            <input type="text" name="client_code" class="input-field flex-1">
+        </div>
+        <div id="group-buyer-name" class="form-group buyer-name-group flex center-ver jus-sb col-2 flex-1 active">
+            <p class="flex input-title">Người mua hàng</p>
+            <input type="text" name="name" class="input-field flex-1">
+        </div>
+    </div>
+
+    <div class="form-row client-company-row flex flex-wrap gap-1 flex-1">
+        <div id="group-buyer-company" class="form-group company-group flex center-ver jus-sb flex-1 w-full active">
+            <p class="flex input-title">Đơn vị mua hàng</p>
+            <input type="text" name="company" class="input-field flex-1">
+        </div>
+    </div>
+
+    <div class="form-row client-address-row flex flex-wrap gap-1 flex-1">
+        <div id="group-buyer-address" class="form-group address-group flex center-ver jus-sb flex-1 w-full active">
+            <p class="flex input-title">Địa chỉ</p>
+            <input type="text" name="address" class="input-field flex-1">
+        </div>
+    </div>
+
+    <div class="form-row client-note-row flex flex-wrap gap-1 flex-1">
+        <div id="group-buyer-note" class="form-group note-group flex center-ver jus-sb flex-1 w-full active">
+            <p class="flex input-title">Ghi chú</p>
+            <textarea name="note" class="input-field flex-1" rows="1"></textarea>
+        </div>
+    </div>
+    <div class="form-row flex flex-wrap flex-1">
+        <div class="section-actions__block"></div>
+        <div class="section-actions flex-1 flex gap-10 end-hor">
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-import bg-secondary ">Import
+                Excel</button>
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 btn-download bg-secondary ">Tải
+                file đính kèm</button>
+            <button type="button" class="btn-action__custom cursor-pointer flex-1 bg-secondary ">Cho
+                phép chỉnh
+                thành tiền</button>
+            <input type="checkbox" name="allow_edit_total" class="checkbox-field">
+        </div>
+    </div>
+</div>

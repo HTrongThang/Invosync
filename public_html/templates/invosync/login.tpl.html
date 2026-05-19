@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{if $pageTitle}{$pageTitle|strip_tags} - {/if}Đăng nhập · {$estore->getName()}</title>
+
+	{* ── Fonts & Icons ── *}
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+	{* ── Stylesheets ── *}
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/base.css">
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/custom.css">
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/font.css">
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/responsive.css">
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/utility.css">
+	<link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/login.css">
+</head>
+
+<body>
+
+	<div class="auth-page-wrapper">
+		<div class="auth-container">
+
+			{include file="$userTemplate/component/login-brand.html"}
+
+			{include file="$userTemplate/component/login-form.html"}
+
+		</div>
+	</div>
+
+	{* ── Scripts ── *}
+	<script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+	<script defer src="/{$templatePath}/{$userTemplate}/js/frontend.js"></script>
+	<script defer src="/{$templatePath}/{$userTemplate}/js/login.js"></script>
+
+</body>
+
+</html>

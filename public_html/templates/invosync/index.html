@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice | Trang chủ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="../css/style.min.css"> -->
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/custom.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/utility.css">
+</head>
+
+<body class="flex flex-col gap-10">
+    <header class="container-f bg-secondary" data-include="./component/header.html"></header>
+    <main class="container-f flex flex-col pos-rel flex-1">
+        <section class="container-f flex flex-col bg-white">
+            <div class="container-l flex flex-col gap-2">
+                <div class="flex flex-wrap jus-sb form-invoice__container">
+                    <div class="form-invoice invoice-info-section flex flex-col gap-1"
+                        data-include="./component/thongtinhoadon.html"></div>
+                    <div class="form-invoice buyer-info-section flex flex-col gap-1"
+                        data-include="./component/thongtinnguoimua.html"></div>
+                </div>
+                <div class="pos-rel" data-include="./component/table.html"></div>
+                <div class="theme-switcher bg-white border-radius-5">
+                    <h4 class="bold border-bottom-gray padding-10 text-center">Chọn Giao Diện</h4>
+                    <div class="padding-10 flex flex-col gap-10">
+                        <label class="theme-option flex center-ver gap-10 cursor-pointer">
+                            <input type="radio" name="themeSelector" value="green" checked>
+                            <span class="color-preview" style="background: #70AD47;"></span>
+                            Xanh lá (Mặc định)
+                        </label>
+
+                        <label class="theme-option flex center-ver gap-10 cursor-pointer">
+                            <input type="radio" name="themeSelector" value="blue">
+                            <span class="color-preview" style="background: #4472C4;"></span>
+                            Xanh dương
+                        </label>
+
+                        <label class="theme-option flex center-ver gap-10 cursor-pointer">
+                            <input type="radio" name="themeSelector" value="orange">
+                            <span class="color-preview" style="background: #ED7D31;"></span>
+                            Cam
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="container-f bg-secondary center-ver flex flex-col item-padding-80-0 gap-30" data-include="./component/footer.html"></footer>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script defer src="./js/frontend.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+{assign var="bg_url" value="{if $storeId == 48}/upload/background_null.png{else}{$background}{/if}"}
+
+<div class="auth-brand">
+	<div class="auth-brand-bg" style="background-image: url('{$bg_url}');"></div>
+	<div class="auth-brand-overlay"></div>
+
+	<div class="auth-brand-content">
+		{if $logo != ''}
+		<img src="{$logo}" alt="{$estore->getName()}" class="auth-logo">
+		{/if}
+
+		<div class="auth-text-area">
+			<h1 class="auth-title">Nền tảng quản lý<br>bán hàng toàn diện</h1>
+			<p class="auth-subtitle">Giải pháp vận hành kinh doanh, kiểm soát tồn kho và theo dõi doanh thu tối
+				ưu dành cho cửa hàng của bạn.</p>
+		</div>
+
+		<div class="auth-features">
+			<div class="feature-card">
+				<div class="feature-icon"><i class="ri-shopping-cart-2-line"></i></div>
+				<span class="feature-text">Quản lý bán hàng & đơn hàng đa kênh</span>
+			</div>
+			<div class="feature-card">
+				<div class="feature-icon"><i class="ri-box-3-line"></i></div>
+				<span class="feature-text">Kiểm soát tồn kho & chuỗi cung ứng</span>
+			</div>
+			<div class="feature-card">
+				<div class="feature-icon"><i class="ri-line-chart-line"></i></div>
+				<span class="feature-text">Báo cáo doanh thu & lợi nhuận trực quan</span>
+			</div>
+		</div>
+
+		<div class="auth-footer">
+			&copy; {$currentYear} CÔNG TY ACCONLINE · Bảo lưu mọi quyền.
+		</div>
+	</div>
+</div>

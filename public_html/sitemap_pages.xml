@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8'?>
+	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">	
+<url>
+  <loc>https://digitrust.vn</loc>
+  <lastmod>2026-04-02T09:01:01+00:00</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>https://digitrust.vn</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-04-02</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Chứng chỉ SSL, Bảo mật Website & Hạ tầng | Digitrust</image:caption>
+      <image:title>Chứng chỉ SSL, Bảo mật Website & Hạ tầng | Digitrust</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-bao-mat</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:12:45+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Giải pháp bảo mật</image:caption>
+      <image:title>Giải pháp bảo mật</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ha-tang</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:34:36+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Hạ tầng</image:caption>
+      <image:title>Hạ tầng</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ve-chung-toi</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:34:42+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Về chúng tôi</image:caption>
+      <image:title>Về chúng tôi</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/lien-he</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:34:48+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Liên hệ</image:caption>
+      <image:title>Liên hệ</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-digicert</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Digicert</image:caption>
+      <image:title>Digicert</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-geotrust</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>GeoTrust</image:caption>
+      <image:title>GeoTrust</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-rapidssl</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>RapidSSL</image:caption>
+      <image:title>RapidSSL</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-thawte</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Thawte</image:caption>
+      <image:title>Thawte</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-code-signing-certificates</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Code Signing Certificates</image:caption>
+      <image:title>Code Signing Certificates</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/giai-phap-digital-signatures</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Digital Signatures</image:caption>
+      <image:title>Digital Signatures</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/web-hosting-vps</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-06T10:37:11+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Web Hosting  VPS</image:caption>
+      <image:title>Web Hosting  VPS</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/email-hosting</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Email Hosting</image:caption>
+      <image:title>Email Hosting</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ten-mien</loc>
+  <priority>0.3</priority>
+  <lastmod>2026-03-03T16:19:54+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Tên Miền</image:caption>
+      <image:title>Tên Miền</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/trung-tam-tro-giup</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:13:42+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Trung tâm trợ giúp</image:caption>
+      <image:title>Trung tâm trợ giúp</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/cong-cu</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:13:29+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Công cụ</image:caption>
+      <image:title>Công cụ</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/dieu-khoan-su-dung</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:30:04+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Điều khoản sử dụng</image:caption>
+      <image:title>Điều khoản sử dụng</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/chinh-sach-bao-mat</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:30:40+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Chính sách bảo mật</image:caption>
+      <image:title>Chính sách bảo mật</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/chinh-sach-phap-ly</loc>
+  <priority>1</priority>
+  <lastmod>2026-03-04T10:31:06+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Chính sách pháp l</image:caption>
+      <image:title>Chính sách pháp l</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/digicert</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:02:17+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>DigiCert</image:caption>
+      <image:title>DigiCert</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/geotrust</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:02:33+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>GeoTrust</image:caption>
+      <image:title>GeoTrust</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/rapidssl</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:02:48+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>RapidSSL</image:caption>
+      <image:title>RapidSSL</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/thawte</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:03:05+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Thawte</image:caption>
+      <image:title>Thawte</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/web-hosting-vps</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:07:04+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Web Hosting  VPS</image:caption>
+      <image:title>Web Hosting  VPS</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/ten-mien</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:07:59+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Tên miền</image:caption>
+      <image:title>Tên miền</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/email-hosting</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:08:46+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Email Hosting</image:caption>
+      <image:title>Email Hosting</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/code-signing-certificates</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:04:02+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Code Signing Certificates</image:caption>
+      <image:title>Code Signing Certificates</image:title>
+    </image:image>
+</url>
+<url>
+  <loc>https://digitrust.vn/digital-signatures</loc>
+  <priority>1</priority>
+  <lastmod>2026-04-01T15:04:24+07:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <image:image>
+      <image:loc>https://digitrust.vn/upload/images/LOGO.webp</image:loc>
+      <image:caption>Digital Signatures</image:caption>
+      <image:title>Digital Signatures</image:title>
+    </image:image>
+</url>
+</urlset>

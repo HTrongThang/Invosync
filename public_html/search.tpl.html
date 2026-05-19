@@ -1,0 +1,154 @@
+{include file='head.tpl.html' title='head'}
+
+
+<body>
+        {include file='header.tpl.html' title='header'}
+
+    <main class="container-f flex flex-col center-hor">
+        {include file='breadcrumb.tpl.html' title='breadcrumb'}
+
+        <section class="container-f container-padding">
+            <div class="container-l flex flex-col gap-20 solution-section">
+
+            <h1>Kết quả tìm kiếm: "{$keyword}"</h1>
+
+            {if $productResults}
+            <section class="container-f bg-gray container-padding">
+                <h3 class="container-padding">Kết quả tìm kiếm sản phẩm</h3>
+                <div class="all-product__content flex flex-wrap" id="productList">
+                    {if $productResults}
+                    {foreach from=$productResults item=product}
+                    <div class="product-item">
+                        <div class="product-item__content flex flex-col">
+                            <div class="product-item__desc flex flex-col">
+                                {assign var=avatar value=$product->getAvatarImage($uploads)}
+                                {if $avatar}
+                                <img src="{$avatar->getPath()}/{$avatar->getUrlL()}" alt="{$product->getName()}" />
+                                {else}
+                                <img src="/{$templatePath}/{$userTemplate}/img/banner/banner-no-image.webp" alt="{$product->getName()}" />
+                                {/if}
+                                <h5>{$product->getName()}</h5>
+                                <p>{$product->getDescription()}</p>
+                            </div>
+                            <div>
+                                <p class="product-item__price flex flex-col"><em>Chỉ từ :</em>
+                                    <span>
+                                        <strong>{$product->getPrice()|number_format:0:",":"."}</strong> VNĐ/{$product->getPeriod()}
+                                    </span>
+                                </p>
+                                <a href="/{$product->getSlug()}" class="btn-custom flex center-ver center-hor">
+                                    XEM CHI TIẾT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                    {/if}
+                </div>
+            </section>
+
+            {/if}
+            {* Pagination cho Products *} 
+            {if $totalPagesProduct > 1}
+                <div class="container-m pagination flex center-hor gap-10">
+                    {* Previous page *}
+                    {if $pageProduct > 1}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$pageProduct-1}&pageArticle={$pageArticle}" class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white">←</a>
+                    {/if}
+
+                    {* Page numbers *}
+                    {section name=i start=1 loop=$totalPagesProduct+1}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$smarty.section.i.index}&pageArticle={$pageArticle}" class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white {if $smarty.section.i.index == $pageProduct}active{/if}">
+                            {$smarty.section.i.index}
+                        </a>
+                    {/section}
+
+                    {* Next page *}
+                    {if $pageProduct < $totalPagesProduct}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$pageProduct+1}&pageArticle={$pageArticle}" class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white">→</a>
+                    {/if}
+                </div>
+            {/if}
+
+            {if $articleResults}
+            <section class="container-f bg-gray container-padding">
+                <div class="container-l flex flex-col gap-20">
+                    <h3 class="container-padding">Kết quả tìm kiếm bài viết</h3>
+
+                    <div class="all-product__content flex flex-wrap" id="articleList">
+                        {foreach from=$articleResults item=article}
+                        <div class="product-item">
+                            <div class="product-item__content flex flex-col">
+
+                                <div class="product-item__desc flex flex-col">
+                                    {assign var=avatar value=$article->getAvatarImage($uploads)}
+                                    {if $avatar}
+                                    <img src="{$avatar->getPath()}/{$avatar->getUrlL()}" alt="{$article->getTitle()}" />
+                                    {else}
+                                    <img src="/{$templatePath}/{$userTemplate}/img/banner/banner-no-image.webp" alt="{$article->getTitle()}" />
+                                    {/if}
+
+                                    <h5>{$article->getTitle()}</h5>
+                                    <p>{$article->getDescription()}</p>
+                                </div>
+
+                                <div>
+                                    <a href="/{$article->getSlug()}" 
+                                    class="btn-custom flex center-ver center-hor">
+                                    XEM CHI TIẾT
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+
+                </div>
+            </section>
+            {/if}
+            {* Pagination cho Articles *}
+            {if $totalPagesArticle > 1}
+                <div class="container-m pagination flex center-hor gap-10">
+                    {* Previous page *}
+                    {if $pageArticle > 1}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$pageProduct}&pageArticle={$pageArticle-1}"
+                        class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white">←</a>
+                    {/if}
+
+                    {* Page numbers *}
+                    {section name=i start=1 loop=$totalPagesArticle+1}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$pageProduct}&pageArticle={$smarty.section.i.index}"
+                        class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white
+                                {if $smarty.section.i.index == $pageArticle}active{/if}">
+                            {$smarty.section.i.index}
+                        </a>
+                    {/section}
+
+                    {* Next page *}
+                    {if $pageArticle < $totalPagesArticle}
+                        <a href="/tim-kiem?keyword={$keyword}&page={$pageProduct}&pageArticle={$pageArticle+1}"
+                        class="text-center btn-custom-fit custom-item pagination-btn__custom bg-white">→</a>
+                    {/if}
+                </div>
+            {/if}
+
+            {if !$productResults && !$articleResults}
+            <div class="text-center">
+                <p>Không tìm thấy kết quả cho "<strong>{$keyword}</strong>"</p>
+            </div>
+            {/if}
+
+            </div>
+        </section>
+
+    </main>
+    {include file='footer.tpl.html' title='footer-component'}
+
+    {include file='cta-floating.tpl.html' title='cta-floating'}
+
+    {include file='rolltotop.tpl.html' title='rolltotop'}
+
+    {include file='script.tpl.html' title='script'}
+
+</body>

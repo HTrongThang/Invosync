@@ -1,0 +1,341 @@
+{include file="$userTemplate/component/header.html"}
+<!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH CỦA BẠN TẠI ĐÂY -->
+<main class="container-f flex flex-col pos-rel flex-1">
+    <section class="container-f flex flex-col bg-white">
+        <div class="container-l flex flex-col gap-10">
+            <div>
+                <div class="invoice-header border-bottom-dark">
+                    <h1 class="invoice-title uppercase bold text-primary">XUẤT HÓA ĐƠN</h1>
+                </div>
+                <div class="invoice-breadcrumb-row flex jus-sb center-ver">
+                    <div class="breadcrumb-text flex gap-5 center-ver">
+                        <a href="/admin.php?op=dashboard">Bảng điều khiển</a>
+                        <p>|</p>
+                        <a href="#">Hóa đơn</a>
+                        <p>|</p>
+                        <a href="#">Hóa đơn điện tử</a>
+                        <p>|</p>
+                        <a href="javascript:void(0)">Xuất hóa đơn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-wrap jus-sb form-invoice__container">
+                <div class="form-invoice invoice-info-section flex flex-col gap-1">
+                    {include file="$userTemplate/component/thongtinhoadon.html"}
+                </div>
+                <div class="form-invoice buyer-info-section flex flex-col gap-1">
+                    {include file="$userTemplate/component/thongtinnguoimua.html"}
+                </div>
+            </div>
+            <div class="pos-rel">
+                <div class="bg-white service-info__section flex-col gap-10 mb-20">
+                    <div class="flex flex-col gap-10 service-info__checkout">
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-oto">
+                            Hàng hóa là xe ô tô, xe mô tô
+                        </label>
+
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-vanchuyen">
+                            Cấu hình dịch vụ vận chuyển
+                        </label>
+
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-tmdt">
+                            Cấu hình dịch vụ vận chuyển TMĐT
+                        </label>
+                    </div>
+                    <div class="flex gap-10 border-top-gray padding-top-20">
+                        <button
+                            class="btn-submit-ok__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
+                        <button
+                            class="btn-submit-reset__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">Reset</button>
+                        <button
+                            class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
+                    </div>
+                </div>
+                <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+                    <table class="fill-view dynamic-table__content w-full">
+                        <thead class="bg-third text-color-black">
+                            <tr>
+                                <th class="col-fit">STT</th>
+                                <th class="table-icon__container col-fit">Hành động</th>
+                                <th class="col-fit">Chiết <br> khấu</th>
+                                <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
+                                <th class="col-fit">Ghi <br> chú</th>
+                                <th class="insert-anchor col-fit__value110">Mã SKU</th>
+                                <th class="col-fit__value190">Mã hàng</th>
+                                <th class="col-product-name">Tên hàng hóa, <br> dịch vụ</th>
+
+                                <th class="col-oto col-fit ">Số khung</th>
+                                <th class="col-oto col-fit ">Số Máy</th>
+
+                                <th class="col-vanchuyen col-fit ">Biển kiểm soát <br> phương tiện vận chuyển</th>
+
+                                <th class="col-tmdt col-fit ">Tên người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit ">Địa chỉ người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit ">MST người <br> gửi hàng</th>
+                                <th class="col-tmdt col-fit ">Số định danh <br> người gửi hàng</th>
+
+                                <th class="col-fit__value73">Đơn vị</th>
+                                <th class="col-fit__value73">Số <br> lượng</th>
+                                <th class="col-fit__value110">Đơn giá</th>
+                                <th class="col-fit__value110">Thành tiền</th>
+
+                                <th>Đơn giá <br> có GTGT</th>
+                                <th>GTGT (%)</th>
+                                <th>Thuế <br> GTGT</th>
+                                <th>Thành tiền <br> sau thuế</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
+                                            title="Thêm dòng"></i>
+                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
+                                            <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
+                                        </span>
+                                        <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
+                                            title="Xóa dòng"></i>
+                                        <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
+                                            title="Sao chép"></i>
+                                    </div>
+                                </td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+
+                                <td class="insert-anchor">AAA-00001</td>
+                                <td>CB 100A-220V-001</td>
+                                <td class="text-left">
+                                    <p class="hover-volt" data-volt="điện 220V-001">CB công suất 100A</p>
+                                </td>
+
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
+                                        placeholder="..."></td>
+
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="text-center">Cái</td>
+                                <td class="text-right">10,00</td>
+                                <td class="text-right">1.000.000.000</td>
+                                <td class="text-right">10.000.000.000</td>
+
+                                <td>1.080.000.000</td>
+                                <td>
+                                    <select>
+                                        <option>8%</option>
+                                    </select>
+                                </td>
+                                <td>800.000.000</td>
+                                <td>10.800.000.000</td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
+                                            title="Thêm dòng"></i>
+                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
+                                            <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
+                                        </span>
+                                        <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
+                                            title="Xóa dòng"></i>
+                                        <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
+                                            title="Sao chép"></i>
+                                    </div>
+                                </td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+
+                                <td class="insert-anchor">AAA-00002</td>
+                                <td>CB 100A-220V-002</td>
+                                <td class="text-left">
+                                    <p class="hover-volt" data-volt="điện 220V-002">CB công suất 100A</p>
+                                </td>
+
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
+                                        placeholder="..."></td>
+
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="text-center">Cái</td>
+                                <td class="text-right">2,00</td>
+                                <td class="text-right">250.000</td>
+                                <td class="text-right">500.000</td>
+
+                                <td>270.000</td>
+                                <td>
+                                    <select>
+                                        <option>8%</option>
+                                    </select>
+                                </td>
+                                <td>40.000</td>
+                                <td>540.000</td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="table-icon__container">
+                                    <div class="table-icon flex gap-2 center-hor">
+                                        <i class="ri-add-line table-icon__btn btn-add cursor-pointer"
+                                            title="Thêm dòng"></i>
+                                        <span class="table-icon__btn-group cursor-pointer" title="Thêm đôi dòng">
+                                            <i class="ri-add-line btn-add"></i><i class="ri-add-line btn-red"></i>
+                                        </span>
+                                        <i class="ri-delete-bin-line table-icon__btn btn-red cursor-pointer"
+                                            title="Xóa dòng"></i>
+                                        <i class="ri-file-copy-line table-icon__btn btn-blue cursor-pointer"
+                                            title="Sao chép"></i>
+                                    </div>
+                                </td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+
+                                <td class="insert-anchor">AAA-00003</td>
+                                <td>CB 100A-220V-003</td>
+                                <td class="text-left ">
+                                    <p class="hover-volt" data-volt="điện 220V-003">CB công suất 100A</p>
+                                </td>
+
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-oto "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="col-vanchuyen "><input type="text" class="w-full border-none"
+                                        placeholder="..."></td>
+
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+                                <td class="col-tmdt "><input type="text" class="w-full border-none" placeholder="...">
+                                </td>
+
+                                <td class="text-center">Cái</td>
+                                <td class="text-error text-right">2,00</td>
+                                <td class="text-error text-right">250.000</td>
+                                <td class="text-error text-right">500.000</td>
+
+                                <td>270.000</td>
+                                <td>
+                                    <select>
+                                        <option>8%</option>
+                                    </select>
+                                </td>
+                                <td>40.000</td>
+                                <td>500.000</td>
+                            </tr>
+                        </tbody>
+
+                        <tfoot>
+                            <tr class="spacer-row">
+                                <td class="spacer-col" colspan="16"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- Total bar outside scroll area -->
+                <div class="total-bar">
+                    <div class="total-bar__spacer"></div>
+                    <div class="total-bar__label border-orange bold">Tổng tiền thanh toán</div>
+                    <div class="total-bar__amount border-orange bold text-error">10.002.000.000</div>
+                </div>
+                <div class="section-icon__wrapper-second section-icon__position cursor-pointer pos-abs">
+                    <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png"
+                        alt="">
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<div class="flex function-container gap-20 flex-wrap jus-sb sticky-bottom">
+    <button id="btn-danh-sach" class="btn-action__custom bg-secondary bold color-text-black">Danh sách</button>
+    <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+        <button class="btn-action__custom bg-secondary bold color-text-black">Hủy</button>
+        <button class="btn-action__custom bg-secondary bold color-text-black">Hoàn tất</button>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function applyFrozenColumns() {
+            var table = document.querySelector('.dynamic-table__content');
+            if (!table) return;
+            var frozenCount = 8;
+            var headerRow = table.querySelector('thead tr');
+            if (!headerRow) return;
+
+            // Remove old frozen styles first
+            table.querySelectorAll('.col-frozen').forEach(function (el) {
+                el.classList.remove('col-frozen');
+                el.style.left = '';
+            });
+
+            var ths = headerRow.children;
+            var positions = [];
+            var left = 0;
+            for (var i = 0; i < frozenCount && i < ths.length; i++) {
+                positions.push(left);
+                left += ths[i].getBoundingClientRect().width;
+            }
+
+            // Apply to thead
+            for (var i = 0; i < frozenCount && i < ths.length; i++) {
+                ths[i].classList.add('col-frozen');
+                ths[i].style.left = positions[i] + 'px';
+            }
+
+            // Apply to tbody only (skip tfoot which has colspan)
+            table.querySelectorAll('tbody tr').forEach(function (row) {
+                var cells = row.children;
+                for (var i = 0; i < frozenCount && i < cells.length; i++) {
+                    cells[i].classList.add('col-frozen');
+                    cells[i].style.left = positions[i] + 'px';
+                }
+            });
+        }
+
+        // Wait for layout to finish rendering
+        setTimeout(applyFrozenColumns, 150);
+        window.addEventListener('resize', function () {
+            setTimeout(applyFrozenColumns, 100);
+        });
+    });
+</script>
+{include file="$userTemplate/component/footer.html"}
