@@ -93,7 +93,6 @@ if (isset($mst) && $mst[0] == '0000000000') header("Location: " . PROTOCOL . $ms
 $sCode = $boots->checkBootstrapLoaded();
 if (!$sCode) header("Location: " . PROTOCOL . $mst[0] . '.tt32.' . DOMAIN);
 
-
 # Action check
 if (!$op || !in_array($op, $aops)) $op = 'login';
 if ($op == 'admin' && !$userInfo->isAdmin()) $op = DEFAULT_ADMIN_OP;

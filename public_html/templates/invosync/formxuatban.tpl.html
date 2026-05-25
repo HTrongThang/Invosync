@@ -44,6 +44,22 @@
                             <input type="checkbox" class="setting-cb" data-target="col-tmdt">
                             Cấu hình dịch vụ vận chuyển TMĐT
                         </label>
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-chietkhau">
+                            Chiết khấu
+                        </label>
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-khuyenmai">
+                            Khuyến mãi biếu tặng
+                        </label>
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-ghichu">
+                            Ghi chú
+                        </label>
+                        <label class="flex center-ver gap-5 cursor-pointer">
+                            <input type="checkbox" class="setting-cb" data-target="col-hanghoadactrung">
+                            Hàng hóa đặc trưng
+                        </label>
                     </div>
                     <div class="flex gap-10 border-top-gray padding-top-20">
                         <button
@@ -60,13 +76,13 @@
                             <tr>
                                 <th class="col-fit">STT</th>
                                 <th class="table-icon__container col-fit">Hành động</th>
-                                <th class="col-fit">Chiết <br> khấu</th>
-                                <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
-                                <th class="col-fit">Ghi <br> chú</th>
-                                <th class="col-fit">Hàng hóa <br> đặc trưng</th>
+                                <th class="col-chietkhau col-fit">Chiết khấu</th>
+                                <th class="col-khuyenmai col-fit__value73">Khuyến mãi <br> biếu tặng</th>
+                                <th class="col-ghichu col-fit">Ghi chú</th>
+                                <th class="col-hanghoadactrung col-fit">Hàng hóa đặc trưng</th>
                                 <th class="insert-anchor col-fit__value110">Mã SKU</th>
-                                <th class="col-fit__value190">Mã hàng</th>
-                                <th class="col-product-name">Tên hàng hóa, <br> dịch vụ</th>
+                                <th class="col-fit__value110">Mã hàng</th>
+                                <th class="col-product-name">Tên hàng hóa, dịch vụ</th>
 
                                 <th class="col-oto col-fit">Số khung</th>
                                 <th class="col-oto col-fit">Số Máy</th>
@@ -79,15 +95,14 @@
                                 <th class="col-tmdt col-fit">Số định danh <br> người gửi hàng</th>
 
                                 <th class="col-fit__value73">Đơn vị</th>
-                                <th class="col-fit__value73">Số <br> lượng</th>
+                                <th class="col-fit__value110">Số lượng</th>
                                 <th class="col-fit__value110">Đơn giá</th>
                                 <th class="col-fit__value110">Thành tiền</th>
 
-                                <th>Đơn giá <br> có GTGT</th>
-                                <th>GTGT (%)</th>
-                                <th>Thuế <br> GTGT</th>
-                                <th>Thành tiền <br> sau thuế</th>
-                                <th class="col-scroll-spacer"></th>
+                                <th class="col-fit__value110">Đơn giá có GTGT</th>
+                                <th class="col-fit__value73">GTGT (%)</th>
+                                <th class="col-fit__value110">Thuế GTGT</th>
+                                <th class="col-fit__value110">Thành tiền sau thuế</th>
                             </tr>
                         </thead>
 
@@ -108,22 +123,22 @@
                                             title="Sao chép" onclick="duplicaterowOutput(this)"></i>
                                     </div>
                                 </td>
-                                <td class="text-center addInvoice">
+                                <td class="col-chietkhau text-center addInvoice">
                                     <input type="checkbox" class="chietkhau col35px input0" name="chietkhau[]" value="1"
                                         onclick="checkchietkhau(this,0)">
                                     <input type="hidden" class="chietkhau2" name="chietkhau2[]" value="1">
                                 </td>
-                                <td class="text-center addInvoice">
+                                <td class="col-khuyenmai text-center addInvoice">
                                     <input type="checkbox" class="khuyenmai col70px input0" name="khuyenmai[]"
                                         onclick="checkkhuyenmai(this,0)">
                                     <input type="hidden" class="khuyenmai2" name="khuyenmai2[]" value="1">
                                 </td>
-                                <td class="text-center addInvoice">
+                                <td class="col-ghichu text-center addInvoice">
                                     <input type="checkbox" class="ghichupro col35px input0" name="ghichupro[]"
                                         onclick="checkghichupro(this,0)">
                                     <input type="hidden" class="ghichupro2" name="ghichupro2[]" value="1">
                                 </td>
-                                <td class="text-center addInvoice">
+                                <td class="col-hanghoadactrung text-center addInvoice">
                                     <input type="checkbox" class="featuredProduct col35px input0"
                                         style="width:13px; margin-top:5px;" name="featuredProduct[]"
                                         onclick="handleProductSelection(this,0)">
@@ -225,9 +240,29 @@
                                 {/if}
                                 <td class="error_input" style="position:inherit !important">
                                     <input type="text" name="donvt[]" class="donvt1 fulltd donvi"
-                                        value="{if isset($ma_currency)}{$ma_currency}{/if}" onclick="clickdvt(this)"
+                                        value="{if isset($ma_currency)}{$ma_currency}{/if}"
+                                        onclick="$(this).siblings('.load-dvt').show(); event.stopPropagation();"
                                         autocomplete="off">
-                                    <div class="load-dvt"></div>
+
+                                    <div class="load-dvt"
+                                        style="display:none; position:absolute; margin-top:4px; z-index:999; background:#fff; border:1px solid #e2e8f0; border-radius:6px; min-width: 150px; width:max-content; max-height:220px; overflow-y:auto; box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1), 0px 4px 6px -2px rgba(0,0,0,0.05);">
+                                        {if isset($listUnit) && !empty($listUnit)}
+                                        <ul style="list-style:none; padding:4px 0; margin:0;">
+                                            {foreach from=$listUnit item=unit}
+                                            <li style="padding:8px 12px; font-size:13px; color:#334155; cursor:pointer; transition:all 0.2s ease;"
+                                                onmouseover="this.style.backgroundColor='#f1f5f9'; this.style.color='#0f172a'"
+                                                onmouseout="this.style.backgroundColor='transparent'; this.style.color='#334155'"
+                                                onclick="$(this).closest('.load-dvt').hide(); $(this).closest('td').find('.donvi').val('{$unit->getName()}'); event.stopPropagation();">
+                                                {$unit->getName()}
+                                            </li>
+                                            {/foreach}
+                                        </ul>
+                                        {else}
+                                        <div
+                                            style="padding:10px; color:#94a3b8; text-align:center; font-style:italic; font-size:13px;">
+                                            Không có dữ liệu</div>
+                                        {/if}
+                                    </div>
                                 </td>
                                 <td class="error_input">
                                     <input type="text" class="text-right soluong error" name="show_soluong[]" value=""
@@ -264,9 +299,7 @@
                                 {include file="$userTemplate/component/select-thue.html"}
                                 <td class="error_input">
                                     <input type="text" class="text-right dgtt thueGTGT fulltd" name="show_thueGTGT[]"
-                                        autocomplete="off" {if isset($storeId) && ($storeId==187 ||
-                                        $storeId==220)}onchange="clickChangeGTGTOutPutEditPriceGTGT(this);"
-                                        {else}onchange="clickChangeGTGTOutPut(this);" {/if}>
+                                        autocomplete="off" onchange="clickChangeGTGTOutPut(this);">
                                     <input type="hidden" class="hidden_thueGTGT" name="hidden_thueGTGT[]">
                                     <div class="error_message d-none">
                                         <div class="error_icon"></div>
@@ -283,23 +316,26 @@
                                         <div class="error_text"></div>
                                     </div>
                                 </td>
-                                <td class="col-scroll-spacer"></td>
                             </tr>
                         </tbody>
 
                         <tfoot>
                             <tr class="spacer-row">
-                                <td class="spacer-col" colspan="21"></td>
+                                <td class="spacer-col" colspan="20"></td>
                             </tr>
                         </tfoot>
                     </table>
+                    <input type="hidden" id="addmorenumber" value="2" name="">
                 </div>
                 <!-- Total bar outside scroll area -->
                 <div class="total-bar">
                     <div class="total-bar__spacer"></div>
                     <div class="total-bar__label border-orange bold">Tổng tiền thanh toán</div>
-                    <div class="total-bar__amount border-orange bold text-error">{if
-                        isset($tongTienThanhToan)}{$tongTienThanhToan}{else}0{/if}</div>
+                    <input type="text" style="font-size: 10px;" class="text-right font-weight-bold total-bar__amount"
+                        disabled id="show_tongcongpriceGTGT" name="show_tongcongpriceGTGT" autocomplete="off">
+                    <input type="hidden" id="hidden_tongcongpriceGTGT" name="hidden_tongcongpriceGTGT">
+
+                    <!-- <input type="text" readonly id="show_tongcongpriceGTGT" class="total-bar__amount border-orange bold text-error" value="{if isset($tongTienThanhToan)}{$tongTienThanhToan}{else}0{/if}" style="background:transparent; outline:none;" /> -->
                 </div>
                 <div class="section-icon__wrapper-second section-icon__position cursor-pointer pos-abs">
                     <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png"

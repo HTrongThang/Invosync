@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Frozen Columns</title>
+    <style>
+        :root {
+            --primary-color: #70AD47;
+            --secondary-color: #F4FBF4;
+            --third-color: #D6EFC7;
+            --white-color: #ffffff;
+            --orange-color: #ED7D31;
+            --font-size-base: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .dynamic-table {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 90%;
+            margin: 0 auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #ddd;
+        }
+
+        .dynamic-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .dynamic-table th {
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .dynamic-table th,
+        .dynamic-table td {
+            font-size: 14px;
+        }
+
+        .dynamic-table td {
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: var(--white-color);
+        }
+
+        .dynamic-table thead tr {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dynamic-table thead tr th {
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 6px 8px;
+            background-color: var(--third-color);
+        }
+
+        .dynamic-table tbody tr:nth-child(even) td {
+            background-color: var(--secondary-color);
+        }
+
+        /* ===== FROZEN COLUMNS CSS ===== */
+        .dynamic-table td.col-frozen,
+        .dynamic-table th.col-frozen {
+            position: sticky;
+            z-index: 2;
+        }
+
+        .dynamic-table thead th.col-frozen {
+            z-index: 4;
+        }
+
+        .col-fit {
+            width: 1%;
+            white-space: nowrap;
+        }
+
+        .col-fit__value73 {
+            width: 73px;
+            min-width: 73px;
+        }
+
+        .col-fit__value110 {
+            width: 110px;
+            min-width: 110px;
+        }
+
+        .col-fit__value190 {
+            width: 190px;
+            min-width: 190px;
+        }
+
+        .table-icon__container {
+            width: 120px;
+            padding: 6px 10px !important;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-error {
+            color: red;
+        }
+
+        .border-orange {
+            border: 1px solid var(--orange-color);
+        }
+
+        .spacer-row {
+            height: 1px;
+        }
+
+        .spacer-row td {
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+
+        .row-total td {
+            border: 1px solid var(--orange-color);
+            background: #fff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>🧪 Test Frozen Columns — Cuộn ngang để kiểm tra</h2>
+    <p style="margin-bottom:15px; color:#666;">8 cột đầu (STT → Tên hàng hóa) sẽ đứng yên khi cuộn thanh trượt ngang →
+    </p>
+
+    <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+        <table class="dynamic-table__content" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="col-fit">STT</th>
+                    <th class="table-icon__container col-fit">Hành <br> động</th>
+                    <th class="col-fit">Chiết <br> khấu</th>
+                    <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
+                    <th class="col-fit">Ghi <br> chú</th>
+                    <th class="col-fit__value110">Mã SKU</th>
+                    <th class="col-fit__value190">Mã hàng</th>
+                    <th>Tên hàng hóa, <br> dịch vụ</th>
+                    <th class="col-fit__value73">Đơn vị</th>
+                    <th class="col-fit__value73">Số <br> lượng</th>
+                    <th class="col-fit__value110">Đơn giá</th>
+                    <th class="col-fit__value110">Thành tiền</th>
+                    <th>Đơn giá <br> có GTGT</th>
+                    <th>GTGT (%)</th>
+                    <th>Thuế <br> GTGT</th>
+                    <th>Thành tiền <br> sau thuế</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">1</td>
+                    <td class="table-icon__container">➕ ➖ 📋 🗑️</td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td>AAA-00001</td>
+                    <td>CB 100A-220V-001</td>
+                    <td>CB công suất 100A</td>
+                    <td class="text-center">Cái</td>
+                    <td class="text-right">10,00</td>
+                    <td class="text-right">1.000.000.000</td>
+                    <td class="text-right">10.000.000.000</td>
+                    <td>1.080.000.000</td>
+                    <td>8%</td>
+                    <td>800.000.000</td>
+                    <td>10.800.000.000</td>
+                </tr>
+                <tr>
+                    <td class="text-center">2</td>
+                    <td class="table-icon__container">➕ ➖ 📋 🗑️</td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td>AAA-00002</td>
+                    <td>CB 100A-220V-002</td>
+                    <td>CB công suất 100A</td>
+                    <td class="text-center">Cái</td>
+                    <td class="text-right">2,00</td>
+                    <td class="text-right">250.000</td>
+                    <td class="text-right">500.000</td>
+                    <td>270.000</td>
+                    <td>8%</td>
+                    <td>40.000</td>
+                    <td>540.000</td>
+                </tr>
+                <tr>
+                    <td class="text-center">3</td>
+                    <td class="table-icon__container">➕ ➖ 📋 🗑️</td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center"><input type="checkbox" checked></td>
+                    <td class="text-center"><input type="checkbox"></td>
+                    <td>AAA-00003</td>
+                    <td>CB 100A-220V-003</td>
+                    <td>CB công suất 100A</td>
+                    <td class="text-center">Cái</td>
+                    <td class="text-right text-error">2,00</td>
+                    <td class="text-right text-error">250.000</td>
+                    <td class="text-right text-error">500.000</td>
+                    <td>270.000</td>
+                    <td>8%</td>
+                    <td>40.000</td>
+                    <td>500.000</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="spacer-row">
+                    <td colspan="16"></td>
+                </tr>
+                <tr class="row-total">
+                    <td colspan="13" class="border-orange"></td>
+                    <td colspan="2" class="text-center border-orange" style="font-weight:bold">Tổng tiền thanh toán</td>
+                    <td class="text-error text-right border-orange" style="font-weight:bold">10.002.000.000</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var table = document.querySelector('.dynamic-table__content');
+            if (!table) return;
+            var frozenCount = 8;
+            var headerRow = table.querySelector('thead tr');
+            if (!headerRow) return;
+            var ths = headerRow.children;
+            var positions = [];
+            var left = 0;
+            for (var i = 0; i < frozenCount && i < ths.length; i++) {
+                positions.push(left);
+                left += ths[i].getBoundingClientRect().width;
+            }
+            // Apply to thead
+            for (var i = 0; i < frozenCount && i < ths.length; i++) {
+                ths[i].classList.add('col-frozen');
+                ths[i].style.left = positions[i] + 'px';
+            }
+            // Apply to tbody only (skip tfoot which has colspan)
+            table.querySelectorAll('tbody tr').forEach(function (row) {
+                var cells = row.children;
+                for (var i = 0; i < frozenCount && i < cells.length; i++) {
+                    cells[i].classList.add('col-frozen');
+                    cells[i].style.left = positions[i] + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

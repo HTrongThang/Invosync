@@ -67,19 +67,28 @@
 
 .dynamic-table th,
 .dynamic-table td {
-    font-size: 16px;
+    font-size: 11px;
 }
 
 .dynamic-table td {
-    padding: 8px 12px;
+    padding: 2px 4px;
+    line-height: 1.2;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     background-color: var(--white-color);
 }
 
 .dynamic-table td input {
-    border: transparent;
+    border: 1px solid transparent;
+    /* Changed from transparent to prevent layout shift on focus */
     background-color: transparent;
+    width: 100%;
+    min-width: 30px;
+    box-sizing: border-box;
+    font-size: inherit;
+    height: 26px !important;
+    padding: 0 4px !important;
+    margin: 0 !important;
 }
 
 .dynamic-table__content p {
@@ -227,14 +236,14 @@ select {
 
 .invoice-info,
 .user-info {
-    font-size: 15px !important;
+    font-size: 13px !important;
 }
 
 .invoice-info .input-field,
 .user-info .input-field,
 .invoice-info select,
 .user-info select {
-    font-size: 15px !important;
+    font-size: 13px !important;
 }
 
 .input-title,
@@ -244,9 +253,10 @@ select {
 
 .invoice-info .input-title,
 .user-info .input-title {
-    width: 170px;
-    min-width: 170px;
+    width: 140px;
+    min-width: 140px;
     flex-shrink: 0;
+    font-size: 13px;
 }
 
 .form-invoice {
@@ -258,7 +268,7 @@ select {
 }
 
 .form-row {
-    min-height: 26px;
+    min-height: 24px;
 }
 
 .form-group {
@@ -323,11 +333,11 @@ select {
 }
 
 .table-icon__btn {
-    font-size: 18px;
+    font-size: 15px;
     transition: transform 0.2s ease, opacity 0.2s ease;
     border: 1px solid #ccc;
-    padding: 2px 4px;
-    border-radius: 3px;
+    padding: 1px 3px;
+    border-radius: 4px;
 }
 
 .table-icon__btn:hover {
@@ -338,12 +348,12 @@ select {
 .table-icon__btn-group {
     display: flex;
     align-items: center;
-    font-size: 18px;
+    font-size: 15px;
     gap: 0;
     transition: transform 0.2s ease, opacity 0.2s ease;
     border: 1px solid #ccc;
-    padding: 2px 4px;
-    border-radius: 3px;
+    padding: 1px 3px;
+    border-radius: 4px;
 }
 
 .table-icon__btn-group:hover {
@@ -376,8 +386,8 @@ select {
 }
 
 .table-icon__container {
-    width: 180px;
-    padding: 6px 10px !important;
+    width: 135px;
+    padding: 2px 4px !important;
     text-align: center;
 }
 
@@ -452,8 +462,8 @@ select {
 }
 
 .total-bar__label {
-    padding: 10px 25px;
-    font-size: 15px;
+    padding: 6px 15px;
+    font-size: 14px;
     text-align: center;
     white-space: nowrap;
     background-color: var(--secondary-color);
@@ -463,11 +473,12 @@ select {
 }
 
 .total-bar__amount {
-    padding: 10px 25px;
-    font-size: 17px;
+    padding: 6px 15px;
+    font-size: 16px;
     text-align: right;
     white-space: nowrap;
-    min-width: 150px;
+    width: 140px;
+    min-width: 120px;
     border: 1px solid var(--primary-color);
     border-left: none;
     display: flex;
@@ -484,7 +495,7 @@ select {
     cursor: pointer;
     background-color: var(--secondary-color);
     color: var(--text-color);
-    min-width: 100px;
+    min-width: 160px;
     max-height: none;
     text-align: center;
     display: inline-flex;
@@ -520,7 +531,11 @@ select {
 
 .col-oto,
 .col-vanchuyen,
-.col-tmdt {
+.col-tmdt,
+.col-chietkhau,
+.col-khuyenmai,
+.col-ghichu,
+.col-hanghoadactrung {
     display: none;
 }
 
@@ -530,7 +545,11 @@ select {
 
 .col-oto.active,
 .col-vanchuyen.active,
-.col-tmdt.active {
+.col-tmdt.active,
+.col-chietkhau.active,
+.col-khuyenmai.active,
+.col-ghichu.active,
+.col-hanghoadactrung.active {
     display: table-cell !important;
 }
 
@@ -573,13 +592,13 @@ select {
 }
 
 .col-fit__value110 {
-    width: 110px;
-    min-width: 110px;
+    width: 130px;
+    min-width: 130px;
 }
 
 .col-fit__value190 {
-    width: 190px;
-    min-width: 190px;
+    width: 100px;
+    min-width: 100px;
 }
 
 .col-product-name {
@@ -1182,4 +1201,17 @@ textarea,
     font-size: 16px;
     line-height: 1;
     opacity: 0.85;
+}
+
+/* Utilities */
+.d-none {
+    display: none !important;
+}
+
+.error_text,
+.error_message {
+    color: #dc3545 !important;
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 2px;
 }

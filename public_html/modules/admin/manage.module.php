@@ -7,11 +7,6 @@ Company: Derasoft Co., Ltd
 Email: info@derasoft.com                                    
 Last updated: 16/07/2008
 **************************************************************************/
-// if ($_SERVER['REMOTE_ADDR'] == DEBUG_IP) {
-//         ini_set('display_errors', 1);
-//         ini_set('display_startup_errors', 1);
-//         error_reporting(E_ALL);
-//     }
 
 checkPermission(array(1,2,3));
 if(!$act) $act = 'index';

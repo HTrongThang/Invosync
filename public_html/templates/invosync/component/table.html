@@ -14,6 +14,21 @@
             <input type="checkbox" class="setting-cb" data-target="col-tmdt">
             Cấu hình dịch vụ vận chuyển TMĐT
         </label>
+
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-chietkhau">
+            Chiết khấu
+        </label>
+
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-khuyenmai">
+            Khuyến mãi, biếu tặng
+        </label>
+
+        <label class="flex center-ver gap-5 cursor-pointer">
+            <input type="checkbox" class="setting-cb" data-target="col-ghichu">
+            Ghi chú
+        </label>
     </div>
     <div class="flex gap-10 border-top-gray padding-top-20">
         <button
@@ -30,9 +45,9 @@
             <tr>
                 <th class="col-fit">STT</th>
                 <th class="table-icon__container col-fit">Hành động</th>
-                <th class="col-fit">Chiết <br> khấu</th>
-                <th class="col-fit__value73">Khuyến mãi <br> biếu tặng</th>
-                <th class="col-fit">Ghi <br> chú</th>
+                <th class="col-fit col-chietkhau">Chiết <br> khấu</th>
+                <th class="col-fit__value73 col-khuyenmai">Khuyến mãi <br> biếu tặng</th>
+                <th class="col-fit col-ghichu">Ghi <br> chú</th>
                 <th class="insert-anchor col-fit__value110">Mã SKU</th>
                 <th class="col-fit__value190">Mã hàng</th>
                 <th>Tên hàng hóa, dịch vụ</th>
@@ -76,9 +91,9 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center"><input type="checkbox" name="items[0][discount]"></td>
-                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[0][promo]"></td>
-                <td class="text-center"><input type="checkbox" name="items[0][note]"></td>
+                <td class="text-center col-chietkhau"><input type="checkbox" name="items[0][discount]"></td>
+                <td class="text-center col-khuyenmai"><input type="checkbox" class="cb-khuyenmai" name="items[0][promo]"></td>
+                <td class="text-center col-ghichu"><input type="checkbox" name="items[0][note]"></td>
 
                 <td class="insert-anchor">
                     <input type="text" name="items[0][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00001">
@@ -135,9 +150,9 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center"><input type="checkbox" name="items[1][discount]"></td>
-                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[1][promo]"></td>
-                <td class="text-center"><input type="checkbox" name="items[1][note]"></td>
+                <td class="text-center col-chietkhau"><input type="checkbox" name="items[1][discount]"></td>
+                <td class="text-center col-khuyenmai"><input type="checkbox" class="cb-khuyenmai" name="items[1][promo]"></td>
+                <td class="text-center col-ghichu"><input type="checkbox" name="items[1][note]"></td>
 
                 <td class="insert-anchor">
                     <input type="text" name="items[1][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00002">
@@ -194,9 +209,9 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center"><input type="checkbox" name="items[2][discount]"></td>
-                <td class="text-center"><input type="checkbox" class="cb-khuyenmai" name="items[2][promo]" checked></td>
-                <td class="text-center"><input type="checkbox" name="items[2][note]"></td>
+                <td class="text-center col-chietkhau"><input type="checkbox" name="items[2][discount]"></td>
+                <td class="text-center col-khuyenmai"><input type="checkbox" class="cb-khuyenmai" name="items[2][promo]" checked></td>
+                <td class="text-center col-ghichu"><input type="checkbox" name="items[2][note]"></td>
 
                 <td class="insert-anchor">
                     <input type="text" name="items[2][sku]" class="border-none w-full bg-transparent text-center" value="AAA-00003">

@@ -12,7 +12,7 @@
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: var(--font-roboto);
     background-color: #f8fafc;
     color: #1e293b;
     margin: 0;

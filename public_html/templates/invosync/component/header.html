@@ -9,12 +9,108 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/base.css">
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/custom.css">
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/font.css">
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/responsive.css">
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/utility.css">
-    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/dashboard.css">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/base.css?v={$smarty.now}">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/custom.css?v={$smarty.now}">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/font.css?v={$smarty.now}">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/responsive.css?v={$smarty.now}">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/utility.css?v={$smarty.now}">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/dashboard.css?v={$smarty.now}">
+
+    <style>
+        html,
+        body,
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        acronym,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        b,
+        u,
+        i,
+        center,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        embed,
+        figure,
+        figcaption,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        output,
+        ruby,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video,
+        input,
+        textarea,
+        select,
+        button {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+
+        /* Ngoại trừ các class dùng cho icon (RemixIcon) */
+        [class^="ri-"],
+        [class*=" ri-"] {
+            font-family: 'remixicon' !important;
+        }
+    </style>
 </head>
 
 <body class="flex flex-col gap-10">
@@ -85,7 +181,7 @@
                 <span>Khách hàng</span>
             </a>
 
-            <a href="/{$aScript}?op=manage&act=customfield" class="nav-item">
+            <a href="/{$aScript}?op=manage&act=system&mod=config" class="nav-item">
                 <i class="ri-settings-4-line"></i>
                 <span>Cấu hình</span>
             </a>
@@ -113,7 +209,7 @@
                     <span>Tài khoản</span>
                 </a>
                 {/if}
-                <a href="/{$aScript}?op=manage&act=customfield" class="user-dropdown-link">
+                <a href="/{$aScript}?op=manage&act=system&mod=config" class="user-dropdown-link">
                     <i class="ri-settings-line"></i>
                     <span>Cài đặt</span>
                 </a>

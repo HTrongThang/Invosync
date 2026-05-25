@@ -37,7 +37,7 @@ html {
 }
 
 button {
-  font-family: var(--font-roboto);
+  font-family: var(--font-roboto) !important;
   cursor: pointer;
   border: transparent;
   background-color: transparent;
@@ -51,7 +51,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--white-color);
-  font-family: var(--font-roboto);
+  font-family: var(--font-roboto) !important;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
@@ -98,8 +98,10 @@ p {
 }
 
 input,
-textarea {
+textarea,
+select {
   caret-color: var(--black-color);
+  font-family: var(--font-roboto) !important;
 }
 
 li {

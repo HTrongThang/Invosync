@@ -12,7 +12,7 @@ async function includeHTML(callback) {
     const file = el.getAttribute("data-include");
     if (!file) return;
 
-    const version = "1.0.0";
+    const version = "1.0.4";
     const cacheKey = `comp-${file}-${version}`;
     let html = sessionStorage.getItem(cacheKey);
 
@@ -592,11 +592,41 @@ function setupDynamicTable() {
 
     const btnSpacerTd = table.querySelector('.btn-spacer-col');
     if (btnSpacerTd) btnSpacerTd.colSpan = 9 + visibleNewCols;
+
+    // Tính toán lại tọa độ của các cột đóng băng (sticky frozen columns) nếu có
+    if (typeof window.applyFrozenColumns === 'function') {
+      setTimeout(window.applyFrozenColumns, 50);
+    }
   }
+
+  // Đồng bộ trạng thái checkbox dựa trên class active hiện tại của các cột
+  const allCheckboxes = document.querySelectorAll('.service-info__checkout .setting-cb');
+  allCheckboxes.forEach(checkbox => {
+    const targetClass = checkbox.getAttribute('data-target');
+    if (targetClass) {
+      const targetColumn = table.querySelector('.' + targetClass);
+      if (targetColumn) {
+        checkbox.checked = targetColumn.classList.contains('active');
+      }
+    }
+  });
+
+  // Chạy cập nhật lần đầu để tính toán colspan và vị trí đóng băng chính xác
+  updateColumns();
 
   // Bắt sự kiện nút OK
   if (btnOk) {
-    btnOk.addEventListener('click', updateColumns);
+    btnOk.addEventListener('click', function () {
+      updateColumns();
+      const popup = document.querySelector('.service-info__section');
+      if (popup) {
+        popup.classList.remove('active');
+      }
+      const trigger = document.querySelector('.section-icon__wrapper-second');
+      if (trigger) {
+        trigger.classList.remove('active');
+      }
+    });
   }
 
   // Bắt sự kiện nút Reset

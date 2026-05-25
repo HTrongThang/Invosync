@@ -17,6 +17,7 @@ $template->assign('pageTitle', $pageTitle);
 $template->assign('currentYear', date('Y'));
 $crpg = getCurrentPage();
 $currentUrlx = getCurrentURlLg($crpg, '/');
+
 if (isset($currentUrlx) && $currentUrlx != '') {
     $_SESSION['redirectLink'] =  $currentUrlx;
 } else {
