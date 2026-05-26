@@ -1,0 +1,517 @@
+{include file="$userTemplate/component/header.html"}
+<!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH CỦA BẠN TẠI ĐÂY -->
+<style>
+    /* Tổng quan Layout */
+    .page-background {
+        background-color: #ffffff;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    .modern-form-wrapper {
+        max-width: 90%;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        padding: 15px 0;
+    }
+
+    /* Header Form */
+    .form-header {
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .form-header h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 4px 0;
+        letter-spacing: -0.5px;
+    }
+
+    .form-header p {
+        font-size: 14px;
+        color: #64748b;
+        margin: 0;
+    }
+
+    /* Từng Section ngang */
+    .modern-section {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 20px;
+        padding: 15px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .modern-section:last-child {
+        border-bottom: none;
+    }
+
+    /* Cột Meta (Trái) */
+    .section-meta h3 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #0f172a;
+        margin: 0 0 6px 0;
+    }
+
+    .section-meta p {
+        font-size: 13.5px;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* Card Input (Phải) */
+    .section-content {
+        background: #ffffff;
+        padding: 0;
+        border-radius: 8px;
+        box-shadow: none;
+        border: none;
+    }
+
+    /* Grid Input (SỬA LẠI THÀNH 3 CỘT ĐỂ NGẮN INPUT) */
+    .modern-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .col-span-1 {
+        grid-column: span 1;
+    }
+
+    .col-span-2 {
+        grid-column: span 2;
+    }
+
+    .col-span-3 {
+        grid-column: span 3;
+    }
+
+    /* Input Group */
+    .modern-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .modern-input-group label {
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #334155;
+    }
+
+    .modern-input-group label span.required {
+        color: #ef4444;
+        margin-left: 2px;
+    }
+
+    /* Các loại Input */
+    .modern-input,
+    .modern-select {
+        width: 100%;
+        padding: 6px 10px;
+        font-size: 13.5px;
+        color: #0f172a;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        box-shadow: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .modern-input:focus,
+    .modern-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .modern-input::placeholder {
+        color: #94a3b8;
+    }
+
+    /* Input kèm nút (Cho mã số thuế) */
+    .input-with-button {
+        display: flex;
+    }
+
+    .input-with-button .modern-input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: 0;
+    }
+
+    .input-with-button .btn-addon {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        padding: 0 12px;
+        color: #3b82f6;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 13px;
+    }
+
+    .input-with-button .btn-addon:hover {
+        background: #f1f5f9;
+        color: #2563eb;
+    }
+
+    /* Lỗi */
+    .errormsg .modern-input,
+    .errormsg .modern-select {
+        border-color: #ef4444;
+        background-color: #fef2f2;
+    }
+
+    /* Nút Submit Cuối trang (Ghim cố định) */
+    .sticky-footer {
+        position: sticky;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 16px 0;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        margin-top: 20px;
+        box-shadow: 0 -10px 15px -3px rgba(255, 255, 255, 0.8);
+    }
+
+    .sticky-footer .right-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-cancel {
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 13.5px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-cancel:hover {
+        background: #f8fafc;
+        color: #0f172a;
+    }
+
+    .btn-save {
+        padding: 8px 20px;
+        background: var(--primary-color, #0f172a);
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: 600;
+        font-size: 13.5px;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: none;
+    }
+
+    .btn-save:hover {
+        opacity: 0.9;
+    }
+
+    @media (max-width: 1200px) {
+        .modern-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .col-span-2 {
+            grid-column: span 2;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .modern-section {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+    }
+</style>
+
+<form action="/{$aScript}" method="post" name="formAdd" id="formAdd" class="flex flex-col flex-1">
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+        <div class="form-header">
+            <div>
+                <h1>Thêm Khách Hàng Mới</h1>
+                <p>Khởi tạo hồ sơ khách hàng mới để quản lý thông tin, tài chính và công nợ.</p>
+            </div>
+        </div>
+
+        {if isset($result_code)}<div class="alert alert-success"
+            style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+            <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}
+        </div>{/if}
+        {if isset($error_code)}<div class="alert alert-danger"
+            style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+            <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}
+        </div>{/if}
+
+        {if isset($error)}
+        {if $error.invalid || $error.message}
+        <div class="alert alert-danger"
+            style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca;">
+            <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;"><i
+                    class="ri-error-warning-fill"></i> Có lỗi xảy ra, vui lòng kiểm tra:</div>
+            <ul style="margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.5;">
+                {assign var=input value=$error.INPUT}
+                {foreach from=$input item=field key=key}
+                {if $field.error}<li>{$field.message}</li>{/if}
+                {/foreach}
+                {if isset($error.message)}<li>{$error.message}</li>{/if}
+            </ul>
+        </div>
+        {/if}
+        {/if}
+
+            <!-- SECTION: THÔNG TIN CƠ BẢN -->
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin cơ bản</h3>
+                    <p>Các thông tin định danh chính của doanh nghiệp hoặc cá nhân. Mã số thuế dùng để tra cứu nhanh.
+                    </p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.tax_code.error}errormsg{/if}">
+                            <label for="tax_code">Mã số thuế</label>
+                            <div class="input-with-button">
+                                <input type="text" class="modern-input"
+                                    value="{if isset($error.INPUT)}{$error.INPUT.tax_code.value}{/if}" name="tax_code"
+                                    id="tax_code" placeholder="Nhập mã số thuế...">
+                                <button type="button" class="btn-addon">Check</button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.username.error}errormsg{/if}">
+                            <label for="username">Mã đơn vị / Mã KH</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.username.value}{/if}" name="username"
+                                id="username" placeholder="Ví dụ: KH001">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="short_name">Tên viết tắt</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.short_name.value}{/if}" name="short_name"
+                                id="short_name" placeholder="Tên gọi ngắn">
+                        </div>
+
+                        <div
+                            class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.company.error}errormsg{/if}">
+                            <label for="company">Tên pháp nhân (Đơn vị) <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.company.value}{/if}" name="company"
+                                id="company" placeholder="Công ty TNHH ABC...">
+                        </div>
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.fullname.error}errormsg{/if}">
+                            <label for="fullname">Người đại diện <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.fullname.value}{/if}" name="fullname"
+                                id="fullname" placeholder="Họ và tên...">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: TÀI CHÍNH & PHÂN LOẠI -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Tài chính & Phân loại</h3>
+                    <p>Thiết lập nhóm khách hàng, số dư công nợ ban đầu và các hạn mức tín dụng.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.group_id.error}errormsg{/if}">
+                            <label for="group_id">Nhóm khách hàng</label>
+                            <div class="input-with-button">
+                                <select class="modern-select" name="group_id" id="group_id">
+                                    <option value="">-- Chọn nhóm khách hàng --</option>
+                                    {if isset($customerGroupsCombo)}{$customerGroupsCombo}{/if}
+                                </select>
+                                <button type="button" class="btn-addon" onclick="window.open('/{$aScript}?op=manage&act=customergroup&mod=add', '_blank')" title="Thêm nhóm mới">+</button>
+                            </div>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="customer_type">Loại khách hàng</label>
+                            <select class="modern-select" name="customer_type" id="customer_type">
+                                <option value="">-- Chọn loại hình --</option>
+                                <option value="1">Khách hàng Cá nhân</option>
+                                <option value="2">Khách hàng Doanh nghiệp</option>
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bad_debt_limit">Hạn mức (Nợ xấu)</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bad_debt_limit.value}{/if}"
+                                name="bad_debt_limit" id="bad_debt_limit" placeholder="Nhập hạn mức...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_debit">Dư nợ đầu kỳ</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.opening_debit.value}{/if}"
+                                name="opening_debit" id="opening_debit" placeholder="0 ₫">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_credit">Dư có đầu kỳ</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.opening_credit.value}{/if}"
+                                name="opening_credit" id="opening_credit" placeholder="0 ₫">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: LIÊN HỆ -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Thông tin liên hệ</h3>
+                    <p>Các phương thức để liên hệ trực tiếp với cá nhân hoặc tổ chức.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.tel.error}errormsg{/if}">
+                            <label for="tel">Số điện thoại <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.tel.value}{/if}" name="tel" id="tel"
+                                placeholder="09xx xxx xxx">
+                        </div>
+
+                        <div
+                            class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.email.error}errormsg{/if}">
+                            <label for="email">Địa chỉ Email</label>
+                            <input type="email" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.email.value}{/if}" name="email" id="email"
+                                placeholder="mail@domain.com">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="website">Website / Fanpage</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.website.value}{/if}" name="website"
+                                id="website" placeholder="www.domain.com">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="fax">Số Fax</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.fax.value}{/if}" name="fax" id="fax"
+                                placeholder="Nhập số Fax">
+                        </div>
+
+                        <div
+                            class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.address.error}errormsg{/if}">
+                            <label for="address">Địa chỉ chi tiết</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.address.value}{/if}" name="address"
+                                id="address" placeholder="Số nhà, tên đường, khu phố...">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: NGÂN HÀNG -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Ngân hàng & Khác</h3>
+                    <p>Thông tin thanh toán, số tài khoản thụ hưởng để phục vụ cho xuất hóa đơn.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bank_account">Số tài khoản</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bank_account.value}{/if}"
+                                name="bank_account" id="bank_account" placeholder="Ví dụ: 0123456789">
+                        </div>
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="bank_name">Tên ngân hàng (Chi nhánh)</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bank_name.value}{/if}" name="bank_name"
+                                id="bank_name" placeholder="Ngân hàng TMCP ABC - CN Hà Nội">
+                        </div>
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="account_holder">Chủ tài khoản</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.account_holder.value}{/if}"
+                                name="account_holder" id="account_holder" placeholder="Tên người thụ hưởng">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="established_date">Ngày thành lập</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.established_date.value}{/if}"
+                                name="established_date" id="established_date" placeholder="dd/mm/yyyy">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            </div> <!-- end modern-form-wrapper -->
+    </main>
+
+    <!-- ACTION FOOTER Gắn Cố Định (Chuẩn formxuatban) -->
+    <div class="sticky-bottom" style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb" style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" id="btn-danh-sach" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                Danh sách
+            </button>
+            <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="customer" />
+                <input type="hidden" name="mod" value="add" />
+                <input type="hidden" name="doo" value="submit" />
+                <input type="hidden" name="sCode" value="{$sCode}_" />
+                <input type="hidden" name="lang" value="{$lang}" />
+                <input type="hidden" name="status" value="1" />
+
+                <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">
+                    Hoàn tất
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{include file="$userTemplate/component/footer.html"}

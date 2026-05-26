@@ -8,7 +8,7 @@ Coder: Mai Minh
 Reviewed by: Mai Minh (09/06/2025)
 **************************************************************************/
 include_once(ROOT_PATH."classes/database/model.class.php");
-include_once(ROOT_PATH."classes/dao/customerinfo.class.php");
+include_once(ROOT_PATH."classes/dao/customergroupinfo.class.php");
 
 class CustomerGroups extends Model {
 	var $table;
@@ -34,13 +34,13 @@ class CustomerGroups extends Model {
 		if(!$key || !$value) return '';
 		$result = $this->select('*', "`store_id` = '".$this->store_id."' AND `$key` = '$value' AND ($condition)");
 		if($result) {
-			$object = new CustomerInfo
+			$object = new CustomerGroupInfo
 						(	
 							$result[0]['name'],
 							$result[0]['properties'],
 							$result[0]['date_created'],
 							$result[0]['status'],
-							$result[0]['parent_id'],
+							isset($result[0]['parent_id']) ? $result[0]['parent_id'] : 0,
 							$result[0]['store_id'],
 							$result[0]['id']
 						);
@@ -60,13 +60,13 @@ class CustomerGroups extends Model {
 		if($results) {
 			$objects = array();
 			foreach($results as $key => $result) {
-				$objects[] = new CustomerInfo
+				$objects[] = new CustomerGroupInfo
 								(	
 									$result['name'],
 									$result['properties'],
 									$result['date_created'],
 									$result['status'],
-									$result['parent_id'],
+									isset($result['parent_id']) ? $result['parent_id'] : 0,
 									$result['store_id'],
 									$result['id']
 								);

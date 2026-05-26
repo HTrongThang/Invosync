@@ -17,103 +17,29 @@
     <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/dashboard.css?v={$smarty.now}">
 
     <style>
-        html,
-        body,
-        div,
-        span,
-        applet,
-        object,
-        iframe,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        blockquote,
-        pre,
-        a,
-        abbr,
-        acronym,
-        address,
-        big,
-        cite,
-        code,
-        del,
-        dfn,
-        em,
-        img,
-        ins,
-        kbd,
-        q,
-        s,
-        samp,
-        small,
-        strike,
-        strong,
-        sub,
-        sup,
-        tt,
-        var,
-        b,
-        u,
-        i,
-        center,
-        dl,
-        dt,
-        dd,
-        ol,
-        ul,
-        li,
-        fieldset,
-        form,
-        label,
-        legend,
-        table,
-        caption,
-        tbody,
-        tfoot,
-        thead,
-        tr,
-        th,
-        td,
-        article,
-        aside,
-        canvas,
-        details,
-        embed,
-        figure,
-        figcaption,
-        footer,
-        header,
-        hgroup,
-        menu,
-        nav,
-        output,
-        ruby,
-        section,
-        summary,
-        time,
-        mark,
-        audio,
-        video,
-        input,
-        textarea,
-        select,
-        button {
+        *,
+        *::before,
+        *::after {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         }
 
-        /* Ngoại trừ các class dùng cho icon (RemixIcon) */
         [class^="ri-"],
-        [class*=" ri-"] {
+        [class*=" ri-"],
+        [class^="ri-"]::before,
+        [class*=" ri-"]::before {
             font-family: 'remixicon' !important;
         }
     </style>
+
 </head>
 
 <body class="flex flex-col gap-10">
+
+    <input type="hidden" id="hidden_currency" value="{$systemConfig.currency|default:'VND'}">
+    <input type="hidden" id="lethanhtien" value="{$systemConfig.lethanhtien|default:0}">
+    <input type="hidden" id="ledongia" value="{$systemConfig.ledongia|default:0}">
+    <input type="hidden" id="lesoluong" value="{$systemConfig.lesoluong|default:0}">
+    <input type="hidden" id="storeId" value="{$storeId|default:0}">
 
     <!-- ── Premium Redesigned Navigation Header ── -->
     <header class="premium-header">
@@ -176,10 +102,40 @@
                 <span>Tổng hợp công nợ</span>
             </a>
 
-            <a href="/{$aScript}?op=manage&act=customer" class="nav-item">
-                <i class="ri-group-line"></i>
+            <div class="nav-item nav-item-dropdown">
+                <i class="ri-bank-card-line"></i>
                 <span>Khách hàng</span>
-            </a>
+                <i class="ri-arrow-down-s-line" style="font-size: 12px; margin-left: 2px;"></i>
+                <div class="nav-dropdown-menu">
+                    <a href="/{$aScript}?op=manage&act=customer&mod=add" class="nav-dropdown-link">
+                        <i class="ri-receipt-line"></i>
+                        <span>Thêm mới</span>
+                    </a>
+                    <a href="/{$aScript}?op=manage&act=customer&mod=list" class="nav-dropdown-link">
+                        <i class="ri-team-line"></i>
+                        <span>Danh sách khách hàng</span>
+                    </a>
+                    <div class="nav-item-sub-dropdown">
+                        <div class="nav-dropdown-link" style="justify-content: space-between; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="ri-group-line"></i>
+                                <span>Nhóm khách hàng</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line" style="margin: 0; font-size: 16px;"></i>
+                        </div>
+                        <div class="nav-sub-dropdown-menu">
+                            <a href="/{$aScript}?op=manage&act=customergroup&mod=add" class="nav-dropdown-link">
+                                <i class="ri-folder-add-line"></i>
+                                <span>Thêm nhóm mới</span>
+                            </a>
+                            <a href="/{$aScript}?op=manage&act=customergroup&mod=list" class="nav-dropdown-link">
+                                <i class="ri-list-check-2"></i>
+                                <span>Danh sách nhóm</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <a href="/{$aScript}?op=manage&act=system&mod=config" class="nav-item">
                 <i class="ri-settings-4-line"></i>

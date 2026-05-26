@@ -22,9 +22,8 @@ class CustomerGroupInfo {
 	{
 		$this->id = $id;
 		$this->store_id = $store_id;
-		$this->parent_id = $area_id;
+		$this->parent_id = $parent_id;
 		$this->name = $name;
-		$this->address = $address;
 		$this->properties = unserialize($properties);
 		$this->date_created = $date_created;
 		$this->status = $status;

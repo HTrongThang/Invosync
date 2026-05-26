@@ -4,9 +4,9 @@
     style="min-height: calc(100vh - 150px); background-color: #fff; font-family: 'Inter', system-ui, -apple-system, sans-serif;">
     <section class="container-f flex flex-col padding-bottom-20" style="flex: 1;">
         <form action="/admin.php" method="post" name="formEdit" id="formEdit" enctype="multipart/form-data">
-            <div class="container-l flex flex-col gap-20">
+            <div class="container-l flex flex-col gap-10">
                 <!-- Header -->
-                <div class="settings-header" style="margin-top: 30px; margin-bottom: 10px;">
+                <div class="settings-header" style="margin-top: 16px; margin-bottom: 6px;">
                     <h1 class="invoice-title uppercase bold"
                         style="font-size: 24px; color: #0f172a; letter-spacing: -0.5px; margin-bottom: 8px;">Cấu hình hệ
                         thống xuất hóa đơn</h1>
@@ -16,7 +16,7 @@
                 </div>
 
                 <!-- Settings Content -->
-                <div class="flex gap-30" style="align-items: flex-start;">
+                <div class="flex gap-16" style="align-items: flex-start;">
 
                     <!-- Sidebar Menu -->
                     <div class="settings-sidebar bg-white"
@@ -44,11 +44,11 @@
                     </div>
 
                     <!-- Main Settings Form -->
-                    <div class="settings-main flex-1 flex flex-col gap-20">
+                    <div class="settings-main flex-1 flex flex-col gap-10">
                         <!-- CARD 1: Cài đặt chung -->
                         <div class="settings-card"
-                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 24px;">
-                            <div style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 10px;">
+                            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                                 <div
                                     style="width: 32px; height: 32px; border-radius: 8px; background: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center;">
                                     <i class="ri-global-line" style="font-size: 18px;"></i>
@@ -58,34 +58,36 @@
                             </div>
 
                             <div class="settings-grid"
-                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                                 <!-- Tiền tệ mặc định -->
                                 <div class="setting-item"
-                                    style="display: flex; flex-direction: column; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
+                                    style="display: flex; flex-direction: column; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
                                     onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';"
                                     onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 6px;">
                                         <h3 style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0;">Tiền
                                             tệ mặc định</h3>
                                     </div>
                                     <p
-                                        style="font-size: 13px; color: #64748b; margin: 0 0 16px 0; line-height: 1.4; flex: 1;">
+                                        style="font-size: 13px; color: #64748b; margin: 0 0 8px 0; line-height: 1.4; flex: 1;">
                                         Cấu hình đơn vị tiền tệ chính sử dụng khi lập hóa đơn mới.</p>
                                     <select name="config[currency]"
                                         style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: #f8fafc; color: #0f172a; font-size: 14px; cursor: pointer; transition: all 0.2s; appearance: auto;"
                                         onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)';"
                                         onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';">
-                                        <option value="VND" {if $systemConfig.currency == 'VND'}selected{/if}>VND (Đồng Việt Nam)</option>
-                                        <option value="USD" {if $systemConfig.currency == 'USD'}selected{/if}>USD (Đô la Mỹ)</option>
+                                        <option value="VND" {if $systemConfig.currency=='VND' }selected{/if}>VND (Đồng
+                                            Việt Nam)</option>
+                                        <option value="USD" {if $systemConfig.currency=='USD' }selected{/if}>USD (Đô la
+                                            Mỹ)</option>
                                     </select>
                                 </div>
 
                                 <!-- Làm tròn Thành tiền -->
                                 <div class="setting-item"
-                                    style="display: flex; flex-direction: column; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
+                                    style="display: flex; flex-direction: column; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
                                     onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';"
                                     onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 6px;">
                                         <h3 style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0;">Thập
                                             phân (Thành tiền)</h3>
                                         <div
@@ -93,11 +95,12 @@
                                             0-6</div>
                                     </div>
                                     <p
-                                        style="font-size: 13px; color: #64748b; margin: 0 0 16px 0; line-height: 1.4; flex: 1;">
+                                        style="font-size: 13px; color: #64748b; margin: 0 0 8px 0; line-height: 1.4; flex: 1;">
                                         Số
                                         chữ số sau dấu phẩy cho cột Tổng tiền/Thành tiền.</p>
                                     <div style="position: relative;">
-                                        <input type="number" name="config[lethanhtien]" value="{$systemConfig.lethanhtien}" min="0" max="6"
+                                        <input type="number" name="config[lethanhtien]"
+                                            value="{$systemConfig.lethanhtien}" min="0" max="6"
                                             style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: #f8fafc; color: #0f172a; font-size: 14px; transition: all 0.2s;"
                                             onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)';"
                                             onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';">
@@ -106,10 +109,10 @@
 
                                 <!-- Làm tròn Đơn giá -->
                                 <div class="setting-item"
-                                    style="display: flex; flex-direction: column; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
+                                    style="display: flex; flex-direction: column; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
                                     onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';"
                                     onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 6px;">
                                         <h3 style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0;">Thập
                                             phân (Đơn giá)</h3>
                                         <div
@@ -117,11 +120,12 @@
                                             0-6</div>
                                     </div>
                                     <p
-                                        style="font-size: 13px; color: #64748b; margin: 0 0 16px 0; line-height: 1.4; flex: 1;">
+                                        style="font-size: 13px; color: #64748b; margin: 0 0 8px 0; line-height: 1.4; flex: 1;">
                                         Số
                                         chữ số sau dấu phẩy cho cột Đơn giá hàng hóa.</p>
                                     <div style="position: relative;">
-                                        <input type="number" name="config[ledongia]" value="{$systemConfig.ledongia}" min="0" max="6"
+                                        <input type="number" name="config[ledongia]" value="{$systemConfig.ledongia}"
+                                            min="0" max="6"
                                             style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: #f8fafc; color: #0f172a; font-size: 14px; transition: all 0.2s;"
                                             onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)';"
                                             onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';">
@@ -130,10 +134,10 @@
 
                                 <!-- Làm tròn Số lượng -->
                                 <div class="setting-item"
-                                    style="display: flex; flex-direction: column; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
+                                    style="display: flex; flex-direction: column; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #fff; transition: border-color 0.2s, box-shadow 0.2s;"
                                     onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)';"
                                     onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 6px;">
                                         <h3 style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0;">Thập
                                             phân (Số lượng)</h3>
                                         <div
@@ -141,11 +145,12 @@
                                             0-6</div>
                                     </div>
                                     <p
-                                        style="font-size: 13px; color: #64748b; margin: 0 0 16px 0; line-height: 1.4; flex: 1;">
+                                        style="font-size: 13px; color: #64748b; margin: 0 0 8px 0; line-height: 1.4; flex: 1;">
                                         Số
                                         chữ số sau dấu phẩy cho cột Số lượng hàng hóa.</p>
                                     <div style="position: relative;">
-                                        <input type="number" name="config[lesoluong]" value="{$systemConfig.lesoluong}" min="0" max="6"
+                                        <input type="number" name="config[lesoluong]" value="{$systemConfig.lesoluong}"
+                                            min="0" max="6"
                                             style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: #f8fafc; color: #0f172a; font-size: 14px; transition: all 0.2s;"
                                             onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)';"
                                             onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none';">
@@ -156,8 +161,8 @@
 
                         <!-- CARD 2: Cột hiển thị lưới hàng hóa -->
                         <div class="settings-card"
-                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 24px;">
-                            <div style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 10px;">
+                            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                                 <div
                                     style="width: 32px; height: 32px; border-radius: 8px; background: #ecfdf5; color: #10b981; display: flex; align-items: center; justify-content: center;">
                                     <i class="ri-table-line" style="font-size: 18px;"></i>
@@ -169,8 +174,8 @@
                             <div class="settings-list" style="display: flex; flex-direction: column; gap: 0;">
                                 <!-- Cột Chiết khấu -->
                                 <div class="setting-list-item flex jus-sb center-ver"
-                                    style="padding: 16px 0; border-bottom: 1px solid #f1f5f9;">
-                                    <div class="setting-info" style="flex: 1; padding-right: 20px;">
+                                    style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div class="setting-info" style="flex: 1; padding-right: 12px;">
                                         <h3
                                             style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0 0 4px 0;">
                                             Cột Chiết khấu (%)</h3>
@@ -179,7 +184,8 @@
                                     </div>
                                     <label class="switch-toggle modern"
                                         style="position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0;">
-                                        <input type="checkbox" name="config[col_chietkhau]" value="1" {if $systemConfig.col_chietkhau == 1}checked{/if}
+                                        <input type="checkbox" name="config[col_chietkhau]" value="1" {if
+                                            $systemConfig.col_chietkhau==1}checked{/if}
                                             style="opacity: 0; width: 0; height: 0;"
                                             onchange="toggleModernSwitch(this)">
                                         <span class="slider"
@@ -191,8 +197,8 @@
 
                                 <!-- Cột Khuyến mãi -->
                                 <div class="setting-list-item flex jus-sb center-ver"
-                                    style="padding: 16px 0; border-bottom: 1px solid #f1f5f9;">
-                                    <div class="setting-info" style="flex: 1; padding-right: 20px;">
+                                    style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div class="setting-info" style="flex: 1; padding-right: 12px;">
                                         <h3
                                             style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0 0 4px 0;">
                                             Cột Khuyến mãi / Biếu tặng</h3>
@@ -201,7 +207,8 @@
                                     </div>
                                     <label class="switch-toggle modern"
                                         style="position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0;">
-                                        <input type="checkbox" name="config[col_khuyenmai]" value="1" {if $systemConfig.col_khuyenmai == 1}checked{/if}
+                                        <input type="checkbox" name="config[col_khuyenmai]" value="1" {if
+                                            $systemConfig.col_khuyenmai==1}checked{/if}
                                             style="opacity: 0; width: 0; height: 0;"
                                             onchange="toggleModernSwitch(this)">
                                         <span class="slider"
@@ -213,8 +220,8 @@
 
                                 <!-- Cột Ghi chú -->
                                 <div class="setting-list-item flex jus-sb center-ver"
-                                    style="padding: 16px 0; border-bottom: 1px solid #f1f5f9;">
-                                    <div class="setting-info" style="flex: 1; padding-right: 20px;">
+                                    style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                    <div class="setting-info" style="flex: 1; padding-right: 12px;">
                                         <h3
                                             style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0 0 4px 0;">
                                             Cột Ghi chú dòng hàng</h3>
@@ -223,7 +230,8 @@
                                     </div>
                                     <label class="switch-toggle modern"
                                         style="position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0;">
-                                        <input type="checkbox" name="config[col_ghichu]" value="1" {if $systemConfig.col_ghichu == 1}checked{/if}
+                                        <input type="checkbox" name="config[col_ghichu]" value="1" {if
+                                            $systemConfig.col_ghichu==1}checked{/if}
                                             style="opacity: 0; width: 0; height: 0;"
                                             onchange="toggleModernSwitch(this)">
                                         <span class="slider"
@@ -234,8 +242,8 @@
                                 </div>
 
                                 <!-- Hàng hóa đặc trưng -->
-                                <div class="setting-list-item flex jus-sb center-ver" style="padding: 16px 0;">
-                                    <div class="setting-info" style="flex: 1; padding-right: 20px;">
+                                <div class="setting-list-item flex jus-sb center-ver" style="padding: 10px 0;">
+                                    <div class="setting-info" style="flex: 1; padding-right: 12px;">
                                         <h3
                                             style="font-size: 14px; font-weight: 600; color: #1e293b; margin: 0 0 4px 0;">
                                             Đánh dấu Hàng đặc trưng</h3>
@@ -244,7 +252,8 @@
                                     </div>
                                     <label class="switch-toggle modern"
                                         style="position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0;">
-                                        <input type="checkbox" name="config[col_hanghoadactrung]" value="1" {if $systemConfig.col_hanghoadactrung == 1}checked{/if}
+                                        <input type="checkbox" name="config[col_hanghoadactrung]" value="1" {if
+                                            $systemConfig.col_hanghoadactrung==1}checked{/if}
                                             style="opacity: 0; width: 0; height: 0;"
                                             onchange="toggleModernSwitch(this)">
                                         <span class="slider"
@@ -258,8 +267,8 @@
 
                         <!-- CARD 3: Trường nghiệp vụ đặc thù -->
                         <div class="settings-card"
-                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 24px;">
-                            <div style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 10px;">
+                            <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                                 <div
                                     style="width: 32px; height: 32px; border-radius: 8px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center;">
                                     <i class="ri-briefcase-4-line" style="font-size: 18px;"></i>
@@ -269,11 +278,11 @@
                             </div>
 
                             <div class="settings-grid"
-                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
                                 <!-- Ô tô, xe máy -->
                                 <div class="setting-item"
-                                    style="padding: 20px; border: 1px solid #cbd5e1; border-radius: 10px; background-color: #ffffff; display: flex; flex-direction: column;">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background-color: #ffffff; display: flex; flex-direction: column;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 8px;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <i class="ri-car-line" style="color: #64748b; font-size: 18px;"></i>
                                             <h3 style="font-size: 15px; font-weight: 600; color: #1e293b; margin: 0;">Ô
@@ -281,7 +290,8 @@
                                         </div>
                                         <label class="switch-toggle modern"
                                             style="position: relative; display: inline-block; width: 42px; height: 22px;">
-                                            <input type="checkbox" name="config[col_oto]" value="1" {if $systemConfig.col_oto == 1}checked{/if}
+                                            <input type="checkbox" name="config[col_oto]" value="1" {if
+                                                $systemConfig.col_oto==1}checked{/if}
                                                 style="opacity: 0; width: 0; height: 0;"
                                                 onchange="toggleModernSwitch(this, true)">
                                             <span class="slider"
@@ -297,8 +307,8 @@
 
                                 <!-- Vận chuyển -->
                                 <div class="setting-item"
-                                    style="padding: 20px; border: 1px solid #cbd5e1; border-radius: 10px; background-color: #ffffff; display: flex; flex-direction: column;">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background-color: #ffffff; display: flex; flex-direction: column;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 8px;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <i class="ri-truck-line" style="color: #64748b; font-size: 18px;"></i>
                                             <h3 style="font-size: 15px; font-weight: 600; color: #1e293b; margin: 0;">
@@ -306,7 +316,8 @@
                                         </div>
                                         <label class="switch-toggle modern"
                                             style="position: relative; display: inline-block; width: 42px; height: 22px;">
-                                            <input type="checkbox" name="config[col_vanchuyen]" value="1" {if $systemConfig.col_vanchuyen == 1}checked{/if}
+                                            <input type="checkbox" name="config[col_vanchuyen]" value="1" {if
+                                                $systemConfig.col_vanchuyen==1}checked{/if}
                                                 style="opacity: 0; width: 0; height: 0;"
                                                 onchange="toggleModernSwitch(this, true)">
                                             <span class="slider"
@@ -322,8 +333,8 @@
 
                                 <!-- Thương mại điện tử -->
                                 <div class="setting-item"
-                                    style="padding: 20px; border: 1px solid #cbd5e1; border-radius: 10px; background-color: #ffffff; display: flex; flex-direction: column;">
-                                    <div class="flex jus-sb center-ver" style="margin-bottom: 12px;">
+                                    style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background-color: #ffffff; display: flex; flex-direction: column;">
+                                    <div class="flex jus-sb center-ver" style="margin-bottom: 8px;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <i class="ri-shopping-cart-2-line"
                                                 style="color: #64748b; font-size: 18px;"></i>
@@ -332,7 +343,8 @@
                                         </div>
                                         <label class="switch-toggle modern"
                                             style="position: relative; display: inline-block; width: 42px; height: 22px;">
-                                            <input type="checkbox" name="config[col_tmdt]" value="1" {if $systemConfig.col_tmdt == 1}checked{/if}
+                                            <input type="checkbox" name="config[col_tmdt]" value="1" {if
+                                                $systemConfig.col_tmdt==1}checked{/if}
                                                 style="opacity: 0; width: 0; height: 0;"
                                                 onchange="toggleModernSwitch(this, true)">
                                             <span class="slider"
@@ -357,8 +369,8 @@
             <input type="hidden" name="mod" value="config">
             <input type="hidden" name="doo" value="submit">
             <input type="hidden" name="save" value="true">
-            <div class="flex function-container gap-20 flex-wrap jus-sb sticky-bottom"
-                style="position: sticky; bottom: 0; background: #fff; padding: 15px 20px; box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05); z-index: 10;">
+            <div class="flex function-container gap-10 flex-wrap jus-sb sticky-bottom"
+                style="position: sticky; bottom: 0; background: #fff; padding: 8px 16px; box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05); z-index: 10;">
                 <button type="button" class="btn-action__custom bg-secondary bold color-text-black"
                     style="border: 1px solid #e2e8f0;">Hủy bỏ</button>
                 <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
@@ -387,9 +399,9 @@
     }
 
     // Auto initialize slider visual styles on page load
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var toggles = document.querySelectorAll('.switch-toggle input[type="checkbox"]');
-        toggles.forEach(function(toggle) {
+        toggles.forEach(function (toggle) {
             // Determine if it is a small slider based on its parent container
             var isSmall = toggle.closest('.setting-item') !== null;
             toggleModernSwitch(toggle, isSmall);

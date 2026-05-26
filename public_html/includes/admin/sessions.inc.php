@@ -18,7 +18,6 @@ session_start([
 	'cookie_secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'),
 	'cookie_httponly' => true
 ]);
-
 # File manager
 $_SESSION['KCFINDER'] = array();
 $_SESSION['KCFINDER']['disabled'] = true;
@@ -33,9 +32,28 @@ if($op != 'invalidurl') {
 		$stores = new EStores();
 		$storeId = $stores->getStoreId("`subdomain`='$sCode' OR `domain`='$sCode'");
 		if(!$storeId) die('Invalid store ID.');
+		
 		$estore = $stores->getObject($storeId);
 		$template->assign('sCode',$sCode);
 		if($estore) $template->assign('estore',$estore);
+
+		# System Config (đọc từ estore properties, dùng được toàn cục trong admin)
+		$_props = $estore ? $estore->getProperties() : array();
+		$systemConfig = array(
+			'currency'            => isset($_props['currency'])             ? $_props['currency']                  : 'VND',
+			'lethanhtien'         => isset($_props['lethanhtien'])          ? (int)$_props['lethanhtien']          : 0,
+			'ledongia'            => isset($_props['ledongia'])             ? (int)$_props['ledongia']             : 0,
+			'lesoluong'           => isset($_props['lesoluong'])            ? (int)$_props['lesoluong']            : 0,
+			'col_chietkhau'       => isset($_props['col_chietkhau'])        ? (int)$_props['col_chietkhau']        : 0,
+			'col_khuyenmai'       => isset($_props['col_khuyenmai'])        ? (int)$_props['col_khuyenmai']        : 0,
+			'col_ghichu'          => isset($_props['col_ghichu'])           ? (int)$_props['col_ghichu']           : 0,
+			'col_hanghoadactrung' => isset($_props['col_hanghoadactrung'])  ? (int)$_props['col_hanghoadactrung']  : 0,
+			'col_oto'             => isset($_props['col_oto'])              ? (int)$_props['col_oto']              : 0,
+			'col_vanchuyen'       => isset($_props['col_vanchuyen'])        ? (int)$_props['col_vanchuyen']        : 0,
+			'col_tmdt'            => isset($_props['col_tmdt'])             ? (int)$_props['col_tmdt']             : 0,
+		);
+		
+		$template->assign('systemConfig', $systemConfig);
 	}
 	
 	if(isset($_SESSION['userId']) && $_SESSION['userId']) {

@@ -553,90 +553,6 @@ function initSmartFormSettings() {
   ]);
 }
 
-// js thêm cột
-
-function setupDynamicTable() {
-  const btnOk = document.querySelector('.btn-submit-ok__table');
-  const btnReset = document.querySelector('.btn-submit-reset__table');
-  const table = document.querySelector('.dynamic-table__content');
-
-  // Nếu không có bảng thì dừng luôn, không báo lỗi
-  if (!table) return;
-
-  // Hàm xử lý logic chính: Ẩn/Hiện cột & Tính toán Colspan
-  function updateColumns() {
-    const allCheckboxes = document.querySelectorAll('.service-info__checkout .setting-cb');
-
-    // 1. Quét checkbox và Bật/Tắt class active
-    allCheckboxes.forEach(checkbox => {
-      const targetClass = checkbox.getAttribute('data-target');
-      if (targetClass) {
-        const targetColumns = document.querySelectorAll('.' + targetClass);
-        if (checkbox.checked) {
-          targetColumns.forEach(el => el.classList.add('active'));
-        } else {
-          targetColumns.forEach(el => el.classList.remove('active'));
-        }
-      }
-    });
-
-    // 2. Tính toán lại colspan cho tfoot
-    const visibleNewCols = table.querySelectorAll('thead th.active').length;
-
-    table.querySelectorAll('.spacer-col').forEach(td => {
-      td.colSpan = 12 + visibleNewCols;
-    });
-
-    const totalTd = table.querySelector('.total-span-col');
-    if (totalTd) totalTd.colSpan = 9 + visibleNewCols;
-
-    const btnSpacerTd = table.querySelector('.btn-spacer-col');
-    if (btnSpacerTd) btnSpacerTd.colSpan = 9 + visibleNewCols;
-
-    // Tính toán lại tọa độ của các cột đóng băng (sticky frozen columns) nếu có
-    if (typeof window.applyFrozenColumns === 'function') {
-      setTimeout(window.applyFrozenColumns, 50);
-    }
-  }
-
-  // Đồng bộ trạng thái checkbox dựa trên class active hiện tại của các cột
-  const allCheckboxes = document.querySelectorAll('.service-info__checkout .setting-cb');
-  allCheckboxes.forEach(checkbox => {
-    const targetClass = checkbox.getAttribute('data-target');
-    if (targetClass) {
-      const targetColumn = table.querySelector('.' + targetClass);
-      if (targetColumn) {
-        checkbox.checked = targetColumn.classList.contains('active');
-      }
-    }
-  });
-
-  // Chạy cập nhật lần đầu để tính toán colspan và vị trí đóng băng chính xác
-  updateColumns();
-
-  // Bắt sự kiện nút OK
-  if (btnOk) {
-    btnOk.addEventListener('click', function () {
-      updateColumns();
-      const popup = document.querySelector('.service-info__section');
-      if (popup) {
-        popup.classList.remove('active');
-      }
-      const trigger = document.querySelector('.section-icon__wrapper-second');
-      if (trigger) {
-        trigger.classList.remove('active');
-      }
-    });
-  }
-
-  // Bắt sự kiện nút Reset
-  if (btnReset) {
-    btnReset.addEventListener('click', function () {
-      document.querySelectorAll('.service-info__checkout .setting-cb').forEach(cb => cb.checked = false);
-      updateColumns();
-    });
-  }
-}
 
 // js đổi màu khi check
 function toggleColor() {
@@ -786,7 +702,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderFormSettingsData();
   initSmartFormSettings();
-  setupDynamicTable();
 
   syncWidthWithTableCols('.toolbar-left', '.dynamic-table__content', 0, 4);
 

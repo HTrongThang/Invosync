@@ -578,6 +578,53 @@ body {
     color: #4f46e5;
 }
 
+/* Multi-level Dropdown */
+.nav-item-sub-dropdown {
+    position: relative;
+}
+
+.nav-sub-dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    min-width: 180px;
+    z-index: 1002;
+    animation: slideInLeft 0.2s ease;
+}
+
+/* Bridge the gap for submenu hover */
+.nav-sub-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -15px;
+    bottom: 0;
+    width: 15px;
+    background: transparent;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.nav-item-sub-dropdown:hover > .nav-sub-dropdown-menu {
+    display: flex;
+}
+
 /* User Widget */
 .user-widget {
     position: relative;

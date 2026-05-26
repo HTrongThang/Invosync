@@ -85,7 +85,7 @@ function deleterowsOutput(el, type = "") {
     sum += 1;
   });
   if (sum <= 1 && type != "auto") {
-    alert("KhĂ´ng thá»ƒ xĂ³a");
+    showGlobalDialog("Không thể xóa", "error");
   }
   if (sum > 1) {
     $(el).parents("tr").remove();
@@ -327,7 +327,7 @@ function callTaxCodeAPI() {
   const taxCodeInput = document.getElementById("masothue");
   const isCheckTax = taxCodeInput ? taxCodeInput.value.trim() : '';
   if (!isCheckTax) {
-    alert("Vui lòng nhập MST để tra cứu");
+    showGlobalDialog("Vui lòng nhập MST để tra cứu", "info");
     if (taxCodeInput) {
       taxCodeInput.focus();
     }
@@ -353,12 +353,12 @@ function callTaxCodeAPI() {
         $('input#masothue1').attr('value', dataCompany['mst']);
       } else {
         let errorMessage = response.message || "\u0110\u00e3 x\u1ea3y ra l\u1ed7i khi tra c\u1ee9u";
-        alert(errorMessage);
+        showGlobalDialog(errorMessage, "error");
       }
     },
     error: function (jQxhr, textStatus, errorThrown) {
       console.error("L\u1ed7i khi g\u1ecdi API tra c\u1ee9u MST: ", textStatus, errorThrown);
-      alert("\u0110\u00e3 x\u1ea3y ra l\u1ed7i khi tra c\u1ee9u m\u00e3 s\u1ed1 thu\u1ebf. Vui l\u00f2ng th\u1eed l\u1ea1i sau.");
+      showGlobalDialog("Đã xảy ra lỗi khi tra cứu mã số thuế. Vui lòng thử lại sau.", "error");
     }
 
   });
@@ -1263,7 +1263,6 @@ function addonerowsOutput() {
 }
 
 function adddbrowsOutput() {
-  debugger;
   var addmorerow = parseInt($("#addmorenumber").val());
   var i;
   if (addmorerow > 0) {
@@ -1279,7 +1278,7 @@ function deleterowsOutput(el, type = "") {
   var tenform = $("#tenform").val();
   var sum = $("#dshanghoa tr").length;
   if (sum <= 1 && type != "auto") {
-    alert("Không thể xóa");
+    showGlobalDialog("Không thể xóa", "error");
     return;
   }
   if (sum > 1) {
@@ -1358,7 +1357,7 @@ function callTaxCodeAPI() {
   const taxCodeInput = document.getElementById("masothue");
   const isCheckTax = taxCodeInput ? taxCodeInput.value.trim() : '';
   if (!isCheckTax) {
-    alert("Vui lòng nhập MST để tra cứu");
+    showGlobalDialog("Vui lòng nhập MST để tra cứu", "info");
     if (taxCodeInput) taxCodeInput.focus();
     return;
   }
@@ -1376,11 +1375,11 @@ function callTaxCodeAPI() {
       } else {
         // Đã sửa lỗi gọi nhầm data.message -> response.message chuẩn xác
         let errorMessage = response.message || "Đã xảy ra lỗi khi tra cứu";
-        alert(errorMessage);
+        showGlobalDialog(errorMessage, "error");
       }
     },
     error: function (jQxhr, textStatus, errorThrown) {
-      alert("Đã xảy ra lỗi khi tra cứu mã số thuế. Vui lòng thử lại sau.");
+      showGlobalDialog("Đã xảy ra lỗi khi tra cứu mã số thuế. Vui lòng thử lại sau.", "error");
     }
   });
 }
@@ -1903,8 +1902,7 @@ function calcuPrice(ob) {
 }
 
 function calcuTotalAmountVatOutPut() {
-  debugger;
-  var currency = $("#hidden_currency").val() ?? "VND";
+  var currency = $("#hidden_currency").val();
   var lethanhtien = $("#lethanhtien").val();
   var storeId = $("#storeId").val();
 
@@ -2365,4 +2363,53 @@ function limitInvoiceDate() {
 
   // 6. XÓA FLAG CUỐI CÙNG
   sessionStorage.removeItem('manual_change');
+}
+
+// ── Lưu cấu hình cột/setting qua AJAX ──
+function clickConfigOptionProduct(ob) {
+  debugger;
+  var array_col = [];
+  var array_notcol = [];
+
+  // Tìm tất cả các checkbox có class setting-cb
+  $(".service-info__checkout").find(".setting-cb").each(function () {
+    // Chuyển đổi data-target (vd: "col-oto") thành "col_oto" để khớp DB
+    var value = $(this).data("target").replace(/-/g, "_");
+
+    if (this.checked) {
+      array_col.push(value);
+    } else {
+      array_notcol.push(value);
+    }
+  });
+
+  var op = "optionproduct";
+
+  var action = $(ob).attr('data-action');
+
+  $.ajax({
+    type: "POST",
+    url: "/ajax.php",
+    dataType: "text",
+    data: {
+      op: op,
+      inputAction: action,
+      array_col: array_col,
+      array_notcol: array_notcol
+    },
+    success: function (data) {
+      if (data.trim() === "success") {
+        showGlobalDialog("Cập nhật cấu hình thành công!", "success");
+        setTimeout(function () {
+          location.reload();
+        }, 1200);
+      } else {
+        showGlobalDialog("Không thể lưu cấu hình. Dữ liệu trả về: " + data, "error");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("AJAX Error: ", status, error);
+      showGlobalDialog("Đã có lỗi xảy ra khi cập nhật cấu hình. Vui lòng thử lại.", "error");
+    }
+  });
 }

@@ -31,40 +31,48 @@
                 <div class="bg-white service-info__section flex-col gap-10 mb-20">
                     <div class="flex flex-col gap-10 service-info__checkout">
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-oto">
+                            <input type="checkbox" class="setting-cb" data-target="col-oto" {if
+                                $systemConfig.col_oto==1}checked{/if}>
                             Hàng hóa là xe ô tô, xe mô tô
                         </label>
 
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-vanchuyen">
+                            <input type="checkbox" class="setting-cb" data-target="col-vanchuyen" {if
+                                $systemConfig.col_vanchuyen==1}checked{/if}>
                             Cấu hình dịch vụ vận chuyển
                         </label>
 
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-tmdt">
+                            <input type="checkbox" class="setting-cb" data-target="col-tmdt" {if
+                                $systemConfig.col_tmdt==1}checked{/if}>
                             Cấu hình dịch vụ vận chuyển TMĐT
                         </label>
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-chietkhau">
+                            <input type="checkbox" class="setting-cb" data-target="col-chietkhau" {if
+                                $systemConfig.col_chietkhau==1}checked{/if}>
                             Chiết khấu
                         </label>
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-khuyenmai">
+                            <input type="checkbox" class="setting-cb" data-target="col-khuyenmai" {if
+                                $systemConfig.col_khuyenmai==1}checked{/if}>
                             Khuyến mãi biếu tặng
                         </label>
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-ghichu">
+                            <input type="checkbox" class="setting-cb" data-target="col-ghichu" {if
+                                $systemConfig.col_ghichu==1}checked{/if}>
                             Ghi chú
                         </label>
                         <label class="flex center-ver gap-5 cursor-pointer">
-                            <input type="checkbox" class="setting-cb" data-target="col-hanghoadactrung">
+                            <input type="checkbox" class="setting-cb" data-target="col-hanghoadactrung" {if
+                                $systemConfig.col_hanghoadactrung==1}checked{/if}>
                             Hàng hóa đặc trưng
                         </label>
                     </div>
                     <div class="flex gap-10 border-top-gray padding-top-20">
                         <button
-                            class="btn-submit-ok__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">OK</button>
-                        <button
+                            class="btn-submit-ok__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20"
+                            onclick="clickConfigOptionProduct(this)">OK</button>
+                        <button id="btn-reset-setting"
                             class="btn-submit-reset__table flex-1 btn-action__custom bg-secondary uppercase border-gray cursor-pointer padding-5-20">Reset</button>
                         <button
                             class="flex-1 btn-action__custom bg-secondary border-gray uppercase cursor-pointer padding-5-20 btn-close-setting">Cancel</button>
@@ -76,23 +84,37 @@
                             <tr>
                                 <th class="col-fit">STT</th>
                                 <th class="table-icon__container col-fit">Hành động</th>
+                                {if $systemConfig.col_chietkhau == 1}
                                 <th class="col-chietkhau col-fit">Chiết khấu</th>
+                                {/if}
+                                {if $systemConfig.col_khuyenmai == 1}
                                 <th class="col-khuyenmai col-fit__value73">Khuyến mãi <br> biếu tặng</th>
+                                {/if}
+                                {if $systemConfig.col_ghichu == 1}
                                 <th class="col-ghichu col-fit">Ghi chú</th>
+                                {/if}
+                                {if $systemConfig.col_hanghoadactrung == 1}
                                 <th class="col-hanghoadactrung col-fit">Hàng hóa đặc trưng</th>
+                                {/if}
                                 <th class="insert-anchor col-fit__value110">Mã SKU</th>
                                 <th class="col-fit__value110">Mã hàng</th>
                                 <th class="col-product-name">Tên hàng hóa, dịch vụ</th>
 
+                                {if $systemConfig.col_oto == 1}
                                 <th class="col-oto col-fit">Số khung</th>
                                 <th class="col-oto col-fit">Số Máy</th>
+                                {/if}
 
+                                {if $systemConfig.col_vanchuyen == 1}
                                 <th class="col-vanchuyen col-fit">Biển kiểm soát <br> phương tiện vận chuyển</th>
+                                {/if}
 
+                                {if $systemConfig.col_tmdt == 1}
                                 <th class="col-tmdt col-fit">Tên người <br> gửi hàng</th>
                                 <th class="col-tmdt col-fit">Địa chỉ người <br> gửi hàng</th>
                                 <th class="col-tmdt col-fit">MST người <br> gửi hàng</th>
                                 <th class="col-tmdt col-fit">Số định danh <br> người gửi hàng</th>
+                                {/if}
 
                                 <th class="col-fit__value73">Đơn vị</th>
                                 <th class="col-fit__value110">Số lượng</th>
@@ -123,28 +145,35 @@
                                             title="Sao chép" onclick="duplicaterowOutput(this)"></i>
                                     </div>
                                 </td>
+                                {if $systemConfig.col_chietkhau == 1}
                                 <td class="col-chietkhau text-center addInvoice">
                                     <input type="checkbox" class="chietkhau col35px input0" name="chietkhau[]" value="1"
                                         onclick="checkchietkhau(this,0)">
                                     <input type="hidden" class="chietkhau2" name="chietkhau2[]" value="1">
                                 </td>
+                                {/if}
+                                {if $systemConfig.col_khuyenmai == 1}
                                 <td class="col-khuyenmai text-center addInvoice">
                                     <input type="checkbox" class="khuyenmai col70px input0" name="khuyenmai[]"
                                         onclick="checkkhuyenmai(this,0)">
                                     <input type="hidden" class="khuyenmai2" name="khuyenmai2[]" value="1">
                                 </td>
+                                {/if}
+                                {if $systemConfig.col_ghichu == 1}
                                 <td class="col-ghichu text-center addInvoice">
                                     <input type="checkbox" class="ghichupro col35px input0" name="ghichupro[]"
                                         onclick="checkghichupro(this,0)">
                                     <input type="hidden" class="ghichupro2" name="ghichupro2[]" value="1">
                                 </td>
+                                {/if}
+                                {if $systemConfig.col_hanghoadactrung == 1}
                                 <td class="col-hanghoadactrung text-center addInvoice">
                                     <input type="checkbox" class="featuredProduct col35px input0"
-                                        style="width:13px; margin-top:5px;" name="featuredProduct[]"
-                                        onclick="handleProductSelection(this,0)">
+                                        name="featuredProduct[]" onclick="handleProductSelection(this,0)">
                                     <input type="hidden" class="featuredProductStatus" name="featuredProductStatus[]"
                                         value="1">
                                 </td>
+                                {/if}
                                 <td>
                                     <input type="text" class="text-uppercase text-center masku fulltd" name="masku[]"
                                         autocomplete="off" value="" onkeyup="searchInfoProductInvoice(this,50)">
@@ -167,7 +196,7 @@
                                         <div class="error_text error_text--right"></div>
                                     </div>
                                 </td>
-                                {if isset($allow_inventory_soKhung) && $allow_inventory_soKhung == 1}
+                                {if $systemConfig.col_oto == 1}
                                 <td class="input-cell-quantity">
                                     <input type="text" class="input-quantity-display text-right validation-error"
                                         disabled style="pointer-events:auto;" name="inventory_soKhung[]" value=""
@@ -187,7 +216,7 @@
                                     </div>
                                 </td>
                                 {/if}
-                                {if isset($allow_van_chuyen_chung) && $allow_van_chuyen_chung == 1}
+                                {if $systemConfig.col_vanchuyen == 1}
                                 <td class="input-cell-quantity" style="position:relative;">
                                     <input type="text" class="input-detail-display text-right validation-error" disabled
                                         style="pointer-events:auto;" name="display_shippingLicensePlate[]" value=""
@@ -200,7 +229,7 @@
                                     </div>
                                 </td>
                                 {/if}
-                                {if isset($allow_van_chuyen_so_tm_dt) && $allow_van_chuyen_so_tm_dt == 1}
+                                {if $systemConfig.col_tmdt == 1}
                                 <td class="input-cell-detail">
                                     <input type="text" class="input-detail-display text-right validation-error" disabled
                                         style="pointer-events:auto;" name="display_senderName[]" value=""
@@ -337,6 +366,24 @@
 
                     <!-- <input type="text" readonly id="show_tongcongpriceGTGT" class="total-bar__amount border-orange bold text-error" value="{if isset($tongTienThanhToan)}{$tongTienThanhToan}{else}0{/if}" style="background:transparent; outline:none;" /> -->
                 </div>
+
+                <div class="amount-words-container flex center-ver jus-fe"
+                    style="margin-top: 12px; padding-right: 2px;">
+                    <div style="display: flex; align-items: flex-end; width: 100%; max-width: 800px;">
+                        <span class="ltitle"
+                            style="font-size: 14px; font-weight: 500; color: #475569; margin-right: 12px; padding-bottom: 2px; white-space: nowrap;">
+                            <i class="ri-pencil-line" style="color: var(--primary-color); margin-right: 4px;"></i>Số
+                            tiền bằng chữ:
+                        </span>
+                        <div style="flex: 1; position: relative;">
+                            <input type="text" readonly
+                                style="width: 100%; text-align: right; border: none; border-bottom: 1px dashed #94a3b8; background: transparent; font-style: italic; font-weight: 600; color: #010204; font-size: 15px; padding: 4px 4px 4px 0; outline: none; cursor: default; transition: border-color 0.2s;"
+                                name="bangchuGTGT" id="bangchuGTGT" value="">
+                            <input type="hidden" name="hidden_bangchuGTGT" id="hidden_bangchuGTGT" value="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="section-icon__wrapper-second section-icon__position cursor-pointer pos-abs">
                     <img class="section-icon img-content" src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png"
                         alt="">
@@ -347,11 +394,14 @@
     </section>
 </main>
 
-<div class="flex function-container gap-20 flex-wrap jus-sb sticky-bottom">
-    <button id="btn-danh-sach" class="btn-action__custom bg-secondary bold color-text-black">Danh sách</button>
-    <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
-        <button class="btn-action__custom bg-secondary bold color-text-black">Hủy</button>
-        <button class="btn-action__custom bg-secondary bold color-text-black">Hoàn tất</button>
+<div class="sticky-bottom" style="width: 100%; background-color: #ffffff;">
+    <div class="flex function-container gap-20 flex-wrap jus-sb"
+        style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+        <button id="btn-danh-sach" class="btn-action__custom bg-secondary bold color-text-black">Danh sách</button>
+        <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+            <button class="btn-action__custom bg-secondary bold color-text-black">Hủy</button>
+            <button class="btn-action__custom bg-secondary bold color-text-black">Hoàn tất</button>
+        </div>
     </div>
 </div>
 <script>
