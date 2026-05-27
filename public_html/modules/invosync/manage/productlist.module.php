@@ -66,7 +66,7 @@ if($page < 1) $page = 1;
 if($page > $rowsPages['pages']) $page = $rowsPages['pages'];
 
 # Since Products::getObjects doesn't support JOIN yet, we'll write a custom query to fetch lists with categories.
-$start = ($page - 1) * $items_per_page;
+$start = max(0, ($page - 1) * $items_per_page);
 $sql = "SELECT p.id, p.keyword, p.slug, p.name, p.price, p.status, p.properties, c.name AS category_name
         FROM " . DB_PREFIX . "products p 
         LEFT JOIN " . DB_PREFIX . "product_categories c ON p.category_id = c.id 
@@ -84,8 +84,10 @@ if($res) {
 if($listPage) $template->assign('listItems',$listPage);
 
 # Pagination html
-$listPageHtml = paginate($rowsPages['pages'], $page, '/'.ADMIN_SCRIPT."?op=manage&act=product&mod=list&kw=$kw&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=");
-$template->assign('listPage', $listPageHtml);
+$url = '/'.ADMIN_SCRIPT."?op=manage&act=product&mod=list&kw=".urlencode($kw)."&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=%d";
+$urls = new Url();
+$pager = $urls->genPager($url,$rowsPages['pages'],$page);
+$template->assign('pager',$pager);
 
 # Result code
 $result_code = $request->element('rcode');

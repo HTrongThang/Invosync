@@ -20,7 +20,7 @@ $productCategories = new ProductCategories($storeId);
 $productTypes = new ProductTypes($storeId);
 $units = new Units($storeId);
 $vats = new Vat($storeId);
-$warehouses = new Warehouses($storeId);
+$warehouses = new WareHouse($storeId);
 
 # Top navigation
 $topNav = array($amessages['dash_board'] => '/'.ADMIN_SCRIPT.'?op=dashboard',
@@ -81,13 +81,12 @@ if($_POST && $request->element('doo') == 'submit') {
 			'product_type_id' => $request->element('product_type_id'),
 			'unit_id' => $request->element('unit_id'),
 			'vat_id' => $request->element('vat_id'),
-			'opening_stock' => str_replace(',', '', $request->element('opening_stock')),
-			'opening_value' => str_replace(',', '', $request->element('opening_value')),
-			'min_stock' => str_replace(',', '', $request->element('min_stock')),
-			'max_stock' => str_replace(',', '', $request->element('max_stock')),
+			'opening_stock' => str_replace(array(',', '.'), '', $request->element('opening_stock')),
+			'opening_value' => str_replace(array(',', '.'), '', $request->element('opening_value')),
+			'min_stock' => str_replace(array(',', '.'), '', $request->element('min_stock')),
+			'max_stock' => str_replace(array(',', '.'), '', $request->element('max_stock')),
 			'warning_date' => $request->element('warning_date'),
-			'warehouse_id' => $request->element('warehouse_id'),
-			'nhap_dau_ky_kho_khac' => $request->element('nhap_dau_ky_kho_khac')
+			'warehouse_id' => $request->element('warehouse_id')
 		);
 
 		$data = array('category_id' => (int)$request->element('category_id'),
@@ -95,7 +94,7 @@ if($_POST && $request->element('doo') == 'submit') {
 					  'name' => Filter($request->element('name')),
 					  'keyword' => Filter($request->element('sku')),
 					  'description' => Filter($request->element('description')),
-					  'price' => str_replace(',', '', $request->element('price')),
+					  'price' => str_replace(array(',', '.'), '', $request->element('price')),
 					  'expiration_date' => $request->element('expiration_date'),
 					  'properties' => serialize($properties),
 					  'date_updated' => date("Y-m-d H:i:s"),

@@ -11,6 +11,7 @@ class ProductCategoryInfo
 {
 	public $id;			# Primary key
 	public $parent_id;		# Parent category
+	public $list_parent_id; # List Parent category
 	public $store_id;		# Estore id
 	public $slug;			# Slug
 	public $name;			# Category name
@@ -25,10 +26,11 @@ class ProductCategoryInfo
 	public $date_updated;
 	
 	# Constructor
-	function __construct($parent_id, $store_id, $slug, $name, $keyword, $description, $position, $viewed, $properties, $status, $home, $date_created, $date_updated, $id = 0)
+	function __construct($parent_id, $list_parent_id, $store_id, $slug, $name, $keyword, $description, $position, $viewed, $properties, $status, $home, $date_created, $date_updated, $id = 0)
 	{
 		$this->id = $id;
 		$this->parent_id = $parent_id;
+		$this->list_parent_id = $list_parent_id;
 		$this->store_id = $store_id;
 		$this->slug = $slug;
 		$this->name = $name;
@@ -61,6 +63,14 @@ class ProductCategoryInfo
 	function setParentId($nValue)
 	{
 		$this->parent_id = $nValue;
+	}
+	function getListParentId()
+	{
+		return $this->list_parent_id;
+	}
+	function setListParentId($nValue)
+	{
+		$this->list_parent_id = $nValue;
 	}
 	function getStoreId()
 	{

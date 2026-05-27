@@ -138,27 +138,35 @@
                     </div>
                 </div>
 
-                <div class="bottom-toolbar flex flex-wrap jus-sb gap-10">
-                    <div class="action-buttons flex gap-5 flex-wrap">
-                        <select name="doo" id="doo" class="filter-input item-padding-5" style="font-size:12px;">
-                            <option value="">Hành động hàng loạt</option>
-                            <option value="enable">Đang bán</option>
-                            <option value="disable">Ngừng kinh doanh</option>
-                            <option value="delete">Xóa</option>
-                        </select>
-                        <button type="button" onclick="submitFormType();"
-                            class="btn-apply bg-primary color-text-white bold cursor-pointer"
-                            style="font-size:12px;">Thực hiện</button>
+                <div class="bottom-toolbar flex flex-wrap jus-sb gap-10" style="margin-top: 15px;">
+                    <div class="action-buttons flex gap-10 flex-wrap">
+                        <button type="button"
+                            onClick="submitFormType('enable');"
+                            style="height:24px; padding:0 10px; border:1px solid var(--primary-color); border-radius:3px; background:#fff; color:var(--primary-color); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='var(--primary-color)';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='var(--primary-color)';">Đang bán</button>
+                        <button type="button"
+                            onClick="submitFormType('disable');"
+                            style="height:24px; padding:0 10px; border:1px solid #6c757d; border-radius:3px; background:#fff; color:#6c757d; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#6c757d';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#6c757d';">Ngừng kinh doanh</button>
+                        <button type="button"
+                            onClick="submitFormType('delete');"
+                            style="height:24px; padding:0 10px; border:1px solid #dc3545; border-radius:3px; background:#fff; color:#dc3545; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#dc3545';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#dc3545';">Xoá</button>
                         
                         <input type="hidden" name="op" value="manage" />
                         <input type="hidden" name="act" value="product" />
                         <input type="hidden" name="mod" value="list" />
                         <input type="hidden" name="sCode" value="{$sCode}_" />
                         <input type="hidden" name="lang" value="{$lang}" />
+                        <input type="hidden" name="doo" id="doo" value="" />
+                        <input type="hidden" name="id" value="" />
                     </div>
 
-                    <div class="pagination flex gap-5 center-ver">
-                        {$listPage}
+                    <div class="paging">
+                        {include file="$userTemplate/corepager.tpl.html" title="pager"}
                     </div>
                 </div>
             </form>
@@ -176,13 +184,11 @@
         }
     }
     
-    function submitFormType() {
+    function submitFormType(action) {
         var form = document.getElementById('formType');
-        var doo = document.getElementById('doo').value;
-        if (!doo) {
-            alert('Vui lòng chọn hành động.');
-            return;
-        }
+        var doo = document.getElementById('doo');
+        doo.value = action;
+        
         var hasChecked = false;
         for (var i = 0; i < form.elements.length; i++) {
             if (form.elements[i].type == 'checkbox' && form.elements[i].name != 'all' && form.elements[i].checked) {
@@ -194,12 +200,19 @@
             alert('Vui lòng chọn ít nhất một mục.');
             return;
         }
-        if (doo === 'delete') {
-            if (!confirm('Bạn có chắc chắn muốn xóa (các) mục đã chọn?')) {
-                return;
+
+        var message = '';
+        if (action === 'enable') message = 'Bạn có chắc muốn kích hoạt các mục đã chọn?';
+        else if (action === 'disable') message = 'Bạn có chắc muốn vô hiệu các mục đã chọn?';
+        else if (action === 'delete') message = 'Bạn có chắc chắn muốn xóa các mục đã chọn?';
+
+        if (typeof showGlobalConfirmDialog === 'function') {
+            showGlobalConfirmDialog(message, () => form.submit(), action === 'delete' ? 'danger' : 'info');
+        } else {
+            if (confirm(message)) {
+                form.submit();
             }
         }
-        form.submit();
     }
     
     function confirmDelete(el, type) {

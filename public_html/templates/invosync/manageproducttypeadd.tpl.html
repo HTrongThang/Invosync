@@ -1,13 +1,25 @@
 {include file="$userTemplate/component/header.html"}
 
-<form action="/{$aScript}" method="post" name="formAdd" id="formAdd" class="flex flex-col flex-1">
+<form action="/{$aScript}" method="post" name="formAdd" id="formAdd" class="flex flex-col flex-1" style="background-color: #ffffff;">
     <main class="container-f flex flex-col pos-rel flex-1 page-background">
         <div class="modern-form-wrapper">
 
-            <div class="form-header">
-                <div>
-                    <h1>{if $mod eq 'edit'}Sửa Loại Hàng Hóa{else}Thêm Loại Hàng Hóa{/if}</h1>
-                    <p>Khởi tạo và quản lý các phân loại hàng hóa (ví dụ: Điện thoại, Laptop, Phụ kiện...).</p>
+            <div class="invoice-header border-bottom-dark" style="margin-bottom: 5px;">
+                <h1 class="invoice-title uppercase bold text-primary"
+                    style="font-size: 24px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0; border-bottom: 2px solid #70ad47; padding-bottom: 5px;">
+                    {if $mod eq 'edit'}SỬA LOẠI HÀNG HÓA{else}THÊM LOẠI HÀNG HÓA MỚI{/if}</h1>
+            </div>
+
+            <div class="invoice-breadcrumb-row flex jus-sb center-ver" style="margin-bottom: 20px;">
+                <div class="breadcrumb-text flex gap-5 center-ver">
+                    <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
+                    <p>|</p>
+                    <a href="/{$aScript}?op=manage&act=product&mod=list">Hàng hóa</a>
+                    <p>|</p>
+                    <a href="/{$aScript}?op=manage&act=producttype&mod=list">Loại hàng hóa</a>
+                    <p>|</p>
+                    <a href="javascript:void(0)" class="breadcrumb-current">{if $mod eq 'edit'}Sửa{else}Thêm
+                        mới{/if}</a>
                 </div>
             </div>
 
@@ -47,17 +59,17 @@
 
                         <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.name.error}errormsg{/if}">
                             <label for="name">Tên loại hàng <span class="required">*</span></label>
-                            <input type="text" class="modern-input" value="{if isset($item)}{$item->getName()}{elseif isset($error.INPUT)}{$error.INPUT.name.value}{/if}" name="name" id="name" placeholder="Ví dụ: Điện thoại, Laptop...">
+                            <input type="text" class="modern-input" value="{if isset($item)}{$item->getName()}{elseif isset($error.INPUT)}{$error.INPUT.name.value}{/if}" name="name" id="name" placeholder="Ví dụ: Điện thoại, Laptop..." style="height: 35px;">
                         </div>
 
                         <div class="modern-input-group col-span-1">
                             <label for="position">Vị trí hiển thị</label>
-                            <input type="number" class="modern-input" value="{if isset($item)}{$item->getPosition()}{elseif isset($error.INPUT)}{$error.INPUT.position.value}{else}0{/if}" name="position" id="position">
+                            <input type="number" class="modern-input" value="{if isset($item)}{$item->getPosition()}{elseif isset($error.INPUT)}{$error.INPUT.position.value}{else}0{/if}" name="position" id="position" style="height: 35px;">
                         </div>
 
                         <div class="modern-input-group col-span-1">
                             <label for="status">Trạng thái</label>
-                            <select class="modern-select" name="status" id="status">
+                            <select class="modern-select" name="status" id="status" style="height: 35px;">
                                 <option value="1" {if isset($item) && $item->getStatus() eq 1}selected{/if}>Kích hoạt</option>
                                 <option value="0" {if isset($item) && $item->getStatus() eq 0}selected{/if}>Vô hiệu hóa</option>
                             </select>
@@ -65,7 +77,7 @@
                         
                         <div class="modern-input-group col-span-3">
                             <label for="description">Ghi chú / Mô tả</label>
-                            <textarea class="modern-input" name="description" id="description" rows="3" placeholder="Ghi chú về loại hàng hóa này...">{if isset($item)}{$item->getProperty('description')}{elseif isset($error.INPUT)}{$error.INPUT.description.value}{/if}</textarea>
+                            <textarea class="modern-input" name="description" id="description" rows="3" style="height: auto !important; padding: 10px;" placeholder="Ghi chú về loại hàng hóa này...">{if isset($item)}{$item->getProperty('description')}{elseif isset($error.INPUT)}{$error.INPUT.description.value}{/if}</textarea>
                         </div>
 
                     </div>

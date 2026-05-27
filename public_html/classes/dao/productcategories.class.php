@@ -38,6 +38,7 @@ class ProductCategories extends Model
 		if ($result) {
 			$object = new ProductCategoryInfo(
 				$result[0]['parent_id'],
+				$result[0]['list_parent_id'],
 				$result[0]['store_id'],
 				$result[0]['slug'],
 				$result[0]['name'],
@@ -72,6 +73,7 @@ class ProductCategories extends Model
 			foreach ($results as $key => $result) {
 				$objects[] = new ProductCategoryInfo(
 					$result['parent_id'],
+					$result['list_parent_id'],
 					$result['store_id'],
 					$result['slug'],
 					$result['name'],

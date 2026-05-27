@@ -10,6 +10,8 @@ $templateFile = 'manageproducttypelist.tpl.html';
 
 include_once(ROOT_PATH.'classes/dao/producttypes.class.php');
 $productTypes = new ProductTypes($storeId);
+include_once(ROOT_PATH.'classes/dao/products.class.php');
+$products = new Products($storeId);
 
 # Top navigation
 $topNav = array($amessages['dash_board'] => '/'.ADMIN_SCRIPT.'?op=dashboard',
@@ -40,7 +42,7 @@ $kw = $request->element('kw') ? $request->element('kw') : '';
 if($kw) $template->assign('kw',$kw);
 
 # Build WHERE condition
-$condition = "1>0";
+$condition = "`status` != '".S_DELETED."'";
 if($kw) $condition .= " AND (`id`='$kw' OR `name` LIKE '%$kw%' OR `slug` LIKE '%$kw%')";
 $pages_condition = "`store_id` = '$storeId' AND ($condition)";
 $sort = array($sort_key => $sort_direction);
@@ -53,9 +55,18 @@ if($page > $rowsPages['pages']) $page = $rowsPages['pages'];
 $listPage = $productTypes->getObjects($page,$condition,$sort,$items_per_page);
 if($listPage) $template->assign('listItems',$listPage);
 
+$start_num = ($page-1)*$items_per_page+1;
+$template->assign('startNum',$start_num);
+$url = '/'.ADMIN_SCRIPT."?op=manage&act=producttype&mod=list&doo=$do&kw=".urlencode($kw)."&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=%d";
+$urls = new Url();
+$pager = $urls->genPager($url,$rowsPages['pages'],$page);
+$template->assign('pager',$pager);
+
 # Result code
 $result_code = $request->element('rcode');
 if($result_code) $template->assign('result_code',$result_code);
+$error_code = $request->element('ecode');
+if($error_code) $template->assign('error_code',$error_code);
 
 # Link
 $link = '/'.ADMIN_SCRIPT."?op=manage&act=producttype&mod=list&kw=$kw&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=$page";
@@ -111,25 +122,39 @@ if($_POST) {
 			//$userInfo->checkPermission('producttype','delete');
 			$id = $request->element('id');
 			if($id) {
-				$productTypes->changeStatus($id,S_DELETED);
-				$result_code = 3;
-				# Operation tracking
-				$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa loại hàng hóa ID '.$id,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+				if($products->countItems('id', "properties LIKE '%\"product_type_id\";s:".strlen($id).":\"$id\"%' AND status != ".S_DELETED) > 0) {
+					$error_code = 11;
+				} else {
+					$productTypes->changeStatus($id,S_DELETED);
+					$result_code = 3;
+					# Operation tracking
+					$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa loại hàng hóa ID '.$id,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+				}
 			} else {
 				$ids = $request->element('ids');
 				if($ids) {
 					$listId = '';
+					$hasError = false;
 					foreach ($ids as $id) {
-						$productTypes->changeStatus($id,S_DELETED);
-						$listId .= ($listId?',&nbsp;':'').$id;
+						if($products->countItems('id', "properties LIKE '%\"product_type_id\";s:".strlen($id).":\"$id\"%' AND status != ".S_DELETED) > 0) {
+							$hasError = true;
+						} else {
+							$productTypes->changeStatus($id,S_DELETED);
+							$listId .= ($listId?',&nbsp;':'').$id;
+						}
 					}
-					$result_code = 3;
-					# Operation tracking
-					$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa loại hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+					if($hasError) {
+						$error_code = 11;
+					}
+					if($listId) {
+						$result_code = 3;
+						# Operation tracking
+						$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa loại hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+					}
 				} else $result_code = 5;
 			}
 			break;
 	}
-	header('location:'.$link.'&rcode='.$result_code);
+	header('location:'.$link.'&rcode='.$result_code.'&ecode='.$error_code);
 }
 ?>
