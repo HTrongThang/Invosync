@@ -1,4 +1,4 @@
-﻿/* ── Page Title & Breadcrumb ── */
+/* ── Page Title & Breadcrumb ── */
 .page-title-bar {
     padding: 15px 2% 10px;
 }
@@ -700,17 +700,25 @@ a.ui-button:active,
     height: 30px;
     width: 30px;
     padding: 5px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid #70ad47;
     border-radius: 4px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .btn-add-red:hover {
-    background-color: var(--primary-color);
+    background-color: #e74c3c;
 }
 
 .btn-add-red:hover img {
     filter: brightness(0) invert(1);
+}
+
+.btn-add-red i {
+    color: #e74c3c;
+}
+
+.btn-add-red:hover i {
+    color: #fff !important;
 }
 
 .btn-add-red img {
@@ -1206,152 +1214,7 @@ td.addInvoice input[type="checkbox"] {
     margin-top: 6px;
     cursor: pointer;
 }
- / *   = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-       M O D E R N   F O R M   L A Y O U T 
-       = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =   * / 
- . p a g e - b a c k g r o u n d   { 
-         b a c k g r o u n d - c o l o r :   # f f f f f f ; 
-         f o n t - f a m i l y :   ' I n t e r ' ,   s y s t e m - u i ,   - a p p l e - s y s t e m ,   s a n s - s e r i f ; 
- } 
- 
- . m o d e r n - f o r m - w r a p p e r   { 
-         m a x - w i d t h :   9 0 % ; 
-         w i d t h :   c a l c ( 1 0 0 %   -   2 0 p x ) ; 
-         m a r g i n :   0   a u t o ; 
-         p a d d i n g :   1 5 p x   0 ; 
- } 
- 
- / *   H e a d e r   F o r m   * / 
- . f o r m - h e a d e r   { 
-         m a r g i n - b o t t o m :   1 5 p x ; 
-         d i s p l a y :   f l e x ; 
-         j u s t i f y - c o n t e n t :   s p a c e - b e t w e e n ; 
-         a l i g n - i t e m s :   f l e x - e n d ; 
- } 
- 
- . f o r m - h e a d e r   h 1   { 
-         f o n t - s i z e :   2 4 p x ; 
-         f o n t - w e i g h t :   7 0 0 ; 
-         c o l o r :   # 0 f 1 7 2 a ; 
-         m a r g i n :   0   0   4 p x   0 ; 
-         l e t t e r - s p a c i n g :   - 0 . 5 p x ; 
- } 
- 
- . f o r m - h e a d e r   p   { 
-         f o n t - s i z e :   1 4 p x ; 
-         c o l o r :   # 6 4 7 4 8 b ; 
-         m a r g i n :   0 ; 
- } 
- 
- / *   T �n g   S e c t i o n   n g a n g   * / 
- . m o d e r n - s e c t i o n   { 
-         d i s p l a y :   g r i d ; 
-         g r i d - t e m p l a t e - c o l u m n s :   2 2 0 p x   1 f r ; 
-         g a p :   2 0 p x ; 
-         p a d d i n g :   1 5 p x   0 ; 
-         b o r d e r - b o t t o m :   1 p x   s o l i d   # e 2 e 8 f 0 ; 
- } 
- 
- . m o d e r n - s e c t i o n : l a s t - c h i l d   { 
-         b o r d e r - b o t t o m :   n o n e ; 
- } 
- 
- / *   C �t   M e t a   ( T r � i )   * / 
- . s e c t i o n - m e t a   h 3   { 
-         f o n t - s i z e :   1 5 p x ; 
-         f o n t - w e i g h t :   6 0 0 ; 
-         c o l o r :   # 0 f 1 7 2 a ; 
-         m a r g i n :   0   0   6 p x   0 ; 
- } 
- 
- . s e c t i o n - m e t a   p   { 
-         f o n t - s i z e :   1 3 . 5 p x ; 
-         c o l o r :   # 6 4 7 4 8 b ; 
-         m a r g i n :   0 ; 
-         l i n e - h e i g h t :   1 . 5 ; 
- } 
- 
- / *   C a r d   I n p u t   ( P h �i )   * / 
- . s e c t i o n - c o n t e n t   { 
-         b a c k g r o u n d :   # f f f f f f ; 
-         p a d d i n g :   0 ; 
-         b o r d e r - r a d i u s :   8 p x ; 
-         b o x - s h a d o w :   n o n e ; 
-         b o r d e r :   n o n e ; 
- } 
- 
- / *   G r i d   I n p u t   * / 
- . m o d e r n - g r i d   { 
-         d i s p l a y :   g r i d ; 
-         g r i d - t e m p l a t e - c o l u m n s :   r e p e a t ( 3 ,   1 f r ) ; 
-         g a p :   1 6 p x ; 
- } 
- 
- . c o l - s p a n - 1   {   g r i d - c o l u m n :   s p a n   1 ;   } 
- . c o l - s p a n - 2   {   g r i d - c o l u m n :   s p a n   2 ;   } 
- . c o l - s p a n - 3   {   g r i d - c o l u m n :   s p a n   3 ;   } 
- 
- / *   I n p u t   G r o u p   * / 
- . m o d e r n - i n p u t - g r o u p   { 
-         d i s p l a y :   f l e x ; 
-         f l e x - d i r e c t i o n :   c o l u m n ; 
-         g a p :   4 p x ; 
- } 
- 
- . m o d e r n - i n p u t - g r o u p   l a b e l   { 
-         f o n t - s i z e :   1 3 . 5 p x ; 
-         f o n t - w e i g h t :   5 0 0 ; 
-         c o l o r :   # 3 3 4 1 5 5 ; 
- } 
- 
- . m o d e r n - i n p u t - g r o u p   l a b e l   s p a n . r e q u i r e d   { 
-         c o l o r :   # e f 4 4 4 4 ; 
-         m a r g i n - l e f t :   2 p x ; 
- } 
- 
- / *   C � c   l o �i   I n p u t   * / 
- . m o d e r n - i n p u t , 
- . m o d e r n - s e l e c t   { 
-         w i d t h :   1 0 0 % ; 
-         p a d d i n g :   6 p x   1 0 p x ; 
-         f o n t - s i z e :   1 3 . 5 p x ; 
-         c o l o r :   # 0 f 1 7 2 a ; 
-         b a c k g r o u n d :   # f f f f f f ; 
-         b o r d e r :   1 p x   s o l i d   # c b d 5 e 1 ; 
-         b o r d e r - r a d i u s :   6 p x ; 
-         b o x - s h a d o w :   n o n e ; 
-         t r a n s i t i o n :   a l l   0 . 2 s   e a s e ; 
-         b o x - s i z i n g :   b o r d e r - b o x ; 
-         h e i g h t :   3 5 p x   ! i m p o r t a n t ; 
- } 
- 
- . m o d e r n - i n p u t : f o c u s , 
- . m o d e r n - s e l e c t : f o c u s   { 
-         o u t l i n e :   n o n e ; 
-         b o r d e r - c o l o r :   # 3 b 8 2 f 6 ; 
-         b o x - s h a d o w :   0   0   0   3 p x   r g b a ( 5 9 ,   1 3 0 ,   2 4 6 ,   0 . 1 5 ) ; 
- } 
- 
- . m o d e r n - i n p u t : : p l a c e h o l d e r   { 
-         c o l o r :   # 9 4 a 3 b 8 ; 
- } 
- 
- / *   L �i   * / 
- . e r r o r m s g   . m o d e r n - i n p u t , 
- . e r r o r m s g   . m o d e r n - s e l e c t   { 
-         b o r d e r - c o l o r :   # e f 4 4 4 4 ; 
-         b a c k g r o u n d - c o l o r :   # f e f 2 f 2 ; 
- } 
- 
- @ m e d i a   ( m a x - w i d t h :   1 2 0 0 p x )   { 
-         . m o d e r n - g r i d   {   g r i d - t e m p l a t e - c o l u m n s :   1 f r   1 f r ;   } 
-         . c o l - s p a n - 2   {   g r i d - c o l u m n :   s p a n   2 ;   } 
- } 
- 
- @ m e d i a   ( m a x - w i d t h :   9 0 0 p x )   { 
-         . m o d e r n - s e c t i o n   {   g r i d - t e m p l a t e - c o l u m n s :   1 f r ;   g a p :   1 5 p x ;   } 
- }  
- 
+
 /* =========================================================
    MODERN FORM LAYOUT
    ========================================================= */
@@ -1433,9 +1296,17 @@ td.addInvoice input[type="checkbox"] {
     gap: 16px;
 }
 
-.col-span-1 { grid-column: span 1; }
-.col-span-2 { grid-column: span 2; }
-.col-span-3 { grid-column: span 3; }
+.col-span-1 {
+    grid-column: span 1;
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.col-span-3 {
+    grid-column: span 3;
+}
 
 /* Input Group */
 .modern-input-group {
@@ -1490,10 +1361,111 @@ td.addInvoice input[type="checkbox"] {
 }
 
 @media (max-width: 1200px) {
-    .modern-grid { grid-template-columns: 1fr 1fr; }
-    .col-span-2 { grid-column: span 2; }
+    .modern-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .col-span-2 {
+        grid-column: span 2;
+    }
 }
 
 @media (max-width: 900px) {
-    .modern-section { grid-template-columns: 1fr; gap: 15px; }
+    .modern-section {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+/* Chỉnh chiều rộng cho các cột của bảng Nhóm Khách Hàng */
+#tableCustomerGroup td,
+#tableCustomerGroup th {
+    padding: 6px 8px;
+    font-size: 13px;
+}
+
+#tableCustomerGroup th:nth-child(1) {
+    width: 40px;
+}
+
+/* Ô Checkbox */
+#tableCustomerGroup th:nth-child(2) {
+    width: 50px;
+}
+
+/* Ô STT */
+#tableCustomerGroup th:nth-child(3) {
+    width: 120px;
+}
+
+/* Ô Chức năng */
+#tableCustomerGroup th:nth-child(4) {
+    width: 250px;
+}
+
+/* Ô Tên nhóm khách hàng */
+#tableCustomerGroup th:nth-child(5) {
+    width: auto;
+}
+
+/* Ô Mô tả */
+#tableCustomerGroup th:nth-child(6) {
+    width: 150px;
+}
+
+/* Ô Ngày tạo */
+#tableCustomerGroup th:nth-child(7) {
+    width: 200px;
+}
+
+/* Ô Trạng thái */
+
+/* Styling cho Input có kèm nút bên cạnh (ví dụ: Chọn Nhóm Khách Hàng + Nút Thêm Mới) */
+.input-with-button {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-with-button .modern-select,
+.input-with-button .modern-input {
+    flex: 1;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+}
+
+.btn-addon {
+    background: #c8dff7;
+    /* Soft Slate 50 */
+    color: red;
+    /* Slate 600 */
+    border: 1px solid #cbd5e1;
+    /* Slate 300 - matches standard input border */
+    border-left: none;
+    /* Khớp với ô input bên cạnh */
+    padding: 0 16px;
+    font-size: 15px;
+    font-weight: 500;
+    /* Font mỏng dịu hơn */
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.btn-addon:hover {
+    background: #f1f5f9;
+    /* Slate 100 */
+    color: #0f172a;
+    /* Slate 900 */
+}
+
+.btn-addon:active {
+    background: #e2e8f0;
+    /* Slate 200 */
 }

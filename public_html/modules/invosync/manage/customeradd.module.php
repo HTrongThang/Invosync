@@ -1,4 +1,5 @@
 <?php
+
 /*************************************************************************
 Adding customer module
 ----------------------------------------------------------------
@@ -8,10 +9,6 @@ Last updated: 09/09/2011
 Coder: Tran Thi My Xuyen
 Reviewed by: Mai Minh (03/06/2025)
 **************************************************************************/
-// error_reporting(E_ALL);
-//     ini_set('display_errors', 1);
-# Check permission
-$userInfo->checkPermission('customer','add');
 
 $templateFile = 'managecustomeradd.tpl.html';
 
@@ -46,30 +43,13 @@ $listTabs = array($amessages['list_item'] => $tabLink.'&mod=list',
 $template->assign('listTabs',$listTabs);
 $template->assign('currentTab',2);
 
-
 # Result code
 $result_code = $request->element('rcode');
 if($result_code) $template->assign('result_code',$result_code);
 
 # Customer group combo box
-$customerGroupsCombo = $customerGroups->generateCombo($request->element('group_id'));
+$customerGroupsCombo = $customerGroups->generateCombo($request->element('group_id'), "`status`=1");
 $template->assign('customerGroupsCombo',$customerGroupsCombo);
-
-# Countries combo box
-$countriesCombo = $countries->generateCombo($request->element('country_id'));
-$template->assign('countriesCombo',$countriesCombo);
-
-# Areas combo box
-if($request->element('area_id')) {
-	$areasCombo = $areas->generateCombo($request->element('area_id'),"`country_id` = '".$request->element('country_id')."'");
-	$template->assign('areasCombo',$areasCombo);
-}
-
-# Wards combo box
-if($request->element('ward_id')) {
-	$wardsCombo = $wards->generateCombo($request->element('ward_id'),"`area_id` = '".$request->element('area_id')."'");
-	$template->assign('wardsCombo',$wardsCombo);
-}
 
 # Submitted form
 if($_POST && $request->element('doo') == 'submit') { # if form is submitted
@@ -122,11 +102,21 @@ if($_POST && $request->element('doo') == 'submit') { # if form is submitted
 						  'address' => $request->element('address'),
 						  'email' => Filter($request->element('email')),
 						  'tel' => Filter($request->element('tel')),
-						  'company' => Filter($request->element('company')),
+						  'company_name' => Filter($request->element('company')),
 						  'tax_code' => Filter($request->element('tax_code')),
 						  'group_id' => (int)Filter($request->element('group_id')),
+						  'abbreviations' => $request->element('short_name'),
+						  'debit_balance' => $request->element('opening_debit'),
+						  'credit_balance' => $request->element('opening_credit'),
+						  'bad_dept_limit' => $request->element('bad_debt_limit'),
+						  'fax' => $request->element('fax'),
+						  'website' => $request->element('website'),
+						  'customer_Type' => $request->element('customer_type'),
+						  'sotaikhoan' => $request->element('bank_account'),
+						  'TKNganhang' => $request->element('bank_name'),
+						  'chutaikhoan' => $request->element('account_holder'),
+						  'foundings' => $request->element('established_date') ? $request->element('established_date') : null,
 						  'properties' => serialize($properties),
-						  'creator_id' => (int)$userInfo->getId(),
 						  'date_created' => date("Y-m-d H:i:s"),
 						  'status' => (int)$request->element('status') ? (int)$request->element('status') : 1);
 			$newId = $customers->addData($data);
@@ -179,10 +169,21 @@ function validateData($request) {
 	$error['INPUT']['company'] = $validate->validString($request->element('company'),$amessages['name_company']);
 	$error['INPUT']['address'] = $validate->pasteString($request->element('address'));
 	$error['INPUT']['email'] = $validate->pasteString($request->element('email'));
-	$error['INPUT']['tel'] = $validate->pasteString($request->element('tel'));
+	$error['INPUT']['tel'] = $validate->validString($request->element('tel'), $amessages['tel'] ?? 'Vui lòng nhập số điện thoại');
 	$error['INPUT']['tax_code'] = $validate->pasteString($request->element('tax_code'));
 	$error['INPUT']['status'] = $validate->pasteString($request->element('status'));
 	$error['INPUT']['group_id'] = $validate->pasteString($request->element('group_id'));
+	$error['INPUT']['short_name'] = $validate->pasteString($request->element('short_name'));
+	$error['INPUT']['customer_type'] = $validate->pasteString($request->element('customer_type'));
+	$error['INPUT']['bad_debt_limit'] = $validate->pasteString($request->element('bad_debt_limit'));
+	$error['INPUT']['opening_debit'] = $validate->pasteString($request->element('opening_debit'));
+	$error['INPUT']['opening_credit'] = $validate->pasteString($request->element('opening_credit'));
+	$error['INPUT']['website'] = $validate->pasteString($request->element('website'));
+	$error['INPUT']['fax'] = $validate->pasteString($request->element('fax'));
+	$error['INPUT']['bank_account'] = $validate->pasteString($request->element('bank_account'));
+	$error['INPUT']['bank_name'] = $validate->pasteString($request->element('bank_name'));
+	$error['INPUT']['account_holder'] = $validate->pasteString($request->element('account_holder'));
+	$error['INPUT']['established_date'] = $validate->pasteString($request->element('established_date'));
 	
 	# Custom Options
 	// global $fieldOptionList;
@@ -207,7 +208,7 @@ function validateData($request) {
 	// 	}
 	// }
 
-	if($error['INPUT']['username']['error'] || $error['INPUT']['company']['error'] || $error['INPUT']['fullname']['error']){
+	if($error['INPUT']['username']['error'] || $error['INPUT']['company']['error'] || $error['INPUT']['fullname']['error'] || $error['INPUT']['tel']['error']){
 		$error['invalid'] = 1;
 		return $error;
 	}

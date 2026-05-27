@@ -1,0 +1,238 @@
+{include file="$userTemplate/component/header.html"}
+
+<form action="/{$aScript}" method="post" name="formAdd" id="formAdd" class="flex flex-col flex-1">
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+            <div class="form-header">
+                <div>
+                    <h1>{if $mod eq 'edit'}Sửa Hàng Hóa{else}Thêm Mới Hàng Hóa{/if}</h1>
+                    <p>Cập nhật thông tin chi tiết về hàng hóa trong kho của bạn.</p>
+                </div>
+            </div>
+
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}
+            </div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}
+            </div>{/if}
+
+            {if isset($error)}
+            {if $error.invalid || $error.message}
+            <div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca;">
+                <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;"><i
+                        class="ri-error-warning-fill"></i> Có lỗi xảy ra, vui lòng kiểm tra:</div>
+                <ul style="margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.5;">
+                    {assign var=input value=$error.INPUT}
+                    {foreach from=$input item=field key=key}
+                    {if $field.error}<li>{$field.message}</li>{/if}
+                    {/foreach}
+                    {if isset($error.message)}<li>{$error.message}</li>{/if}
+                </ul>
+            </div>
+            {/if}
+            {/if}
+
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin cơ bản</h3>
+                    <p>Các thông tin định danh và phân loại hàng hóa.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.name.error}errormsg{/if}">
+                            <label for="name">Tên sản phẩm <span class="required">*</span></label>
+                            <input type="text" class="modern-input" value="{if isset($item)}{$item->name}{elseif isset($error.INPUT)}{$error.INPUT.name.value}{/if}" name="name" id="name" placeholder="Ví dụ: Điện thoại iPhone 15 Pro Max">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.slug.error}errormsg{/if}">
+                            <label for="slug">Mã sản phẩm <span class="required">*</span></label>
+                            <input type="text" class="modern-input" value="{if isset($item)}{$item->slug}{elseif isset($error.INPUT)}{$error.INPUT.slug.value}{/if}" name="slug" id="slug" placeholder="Ví dụ: SP001">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.sku.error}errormsg{/if}">
+                            <label for="sku">Mã SKU</label>
+                            <input type="text" class="modern-input" value="{if isset($item)}{$item->keyword}{elseif isset($error.INPUT)}{$error.INPUT.sku.value}{/if}" name="sku" id="sku" placeholder="Mã SKU vạch/nội bộ">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="category_id">Nhóm sản phẩm</label>
+                            <select class="modern-select" name="category_id" id="category_id">
+                                <option value="0">--- Chọn nhóm sản phẩm ---</option>
+                                {$categoryCombo}
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="product_type_id">Loại sản phẩm</label>
+                            <select class="modern-select" name="product_type_id" id="product_type_id">
+                                <option value="0">--- Chọn loại sản phẩm ---</option>
+                                {$productTypeCombo}
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.unit_id.error}errormsg{/if}">
+                            <label for="unit_id">Đơn vị tính <span class="required">*</span></label>
+                            <select class="modern-select" name="unit_id" id="unit_id">
+                                <option value="">--- Chọn đơn vị tính ---</option>
+                                {if isset($listUnits)}
+                                {foreach from=$listUnits item=unit}
+                                <option value="{$unit->getId()}" {if isset($item) && $item->properties.unit_id eq $unit->getId()}selected{elseif isset($error.INPUT) && $error.INPUT.unit_id.value eq $unit->getId()}selected{/if}>{$unit->getName()}</option>
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.vat_id.error}errormsg{/if}">
+                            <label for="vat_id">Thuế VAT <span class="required">*</span></label>
+                            <select class="modern-select" name="vat_id" id="vat_id">
+                                <option value="">--- Chọn mức thuế ---</option>
+                                {if isset($listVats)}
+                                {foreach from=$listVats item=vat}
+                                <option value="{$vat->getId()}" {if isset($item) && $item->properties.vat_id eq $vat->getId()}selected{elseif isset($error.INPUT) && $error.INPUT.vat_id.value eq $vat->getId()}selected{/if}>{$vat->getVatValue()} %</option>
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modern-section border-top mt-20">
+                <div class="section-meta">
+                    <h3>Giá & Tồn kho</h3>
+                    <p>Thiết lập giá bán và số lượng tồn kho đầu kỳ, cảnh báo.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+                        
+                        <div class="modern-input-group col-span-1">
+                            <label for="price">Đơn giá</label>
+                            <input type="text" class="modern-input text-right" value="{if isset($item)}{$item->price|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.price.value}{/if}" name="price" id="price" placeholder="Vd: 55.888.000" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="warehouse_id">Kho hàng</label>
+                            <select class="modern-select" name="warehouse_id" id="warehouse_id">
+                                <option value="0">--- Chọn kho lưu trữ ---</option>
+                                {if isset($listWarehouses)}
+                                {foreach from=$listWarehouses item=wh}
+                                <option value="{$wh->getId()}" {if isset($item) && $item->properties.warehouse_id eq $wh->getId()}selected{elseif isset($error.INPUT) && $error.INPUT.warehouse_id.value eq $wh->getId()}selected{/if}>{$wh->getName()}</option>
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_stock">Số lượng đầu kỳ</label>
+                            <input type="text" class="modern-input text-right" value="{if isset($item)}{$item->properties.opening_stock|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.opening_stock.value}{/if}" name="opening_stock" id="opening_stock" placeholder="Vd: 800" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); calculateOpeningValue();">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_value">Thành tiền đầu kỳ</label>
+                            <input type="text" class="modern-input text-right" value="{if isset($item)}{$item->properties.opening_value|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.opening_value.value}{/if}" name="opening_value" id="opening_value" placeholder="Vd: 55.962.000" readonly style="background-color: #f1f5f9;">
+                        </div>
+
+                        <div class="modern-input-group col-span-4 flex center-ver mt-5 mb-5">
+                            <input type="checkbox" name="nhap_dau_ky_kho_khac" id="nhap_dau_ky_kho_khac" value="1" {if isset($item) && $item->properties.nhap_dau_ky_kho_khac eq 1}checked{/if}>
+                            <label for="nhap_dau_ky_kho_khac" style="margin-bottom: 0; margin-left: 8px; cursor: pointer;">Nhập thông tin đầu kỳ tại kho khác</label>
+                        </div>
+
+                        <div class="modern-input-group col-span-1 mt-10">
+                            <label for="min_stock">Số lượng tồn tối thiểu</label>
+                            <input type="text" class="modern-input text-right" value="{if isset($item)}{$item->properties.min_stock|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.min_stock.value}{/if}" name="min_stock" id="min_stock" placeholder="Vd: 10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 mt-10">
+                            <label for="max_stock">Số lượng tồn tối đa</label>
+                            <input type="text" class="modern-input text-right" value="{if isset($item)}{$item->properties.max_stock|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.max_stock.value}{/if}" name="max_stock" id="max_stock" placeholder="Vd: 2000" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 mt-10">
+                            <label for="expiration_date">Thời hạn sử dụng</label>
+                            <input type="date" class="modern-input" value="{if isset($item)}{$item->expiration_date|date_format:'%Y-%m-%d'}{elseif isset($error.INPUT)}{$error.INPUT.expiration_date.value}{/if}" name="expiration_date" id="expiration_date">
+                        </div>
+                        
+                        <div class="modern-input-group col-span-1 mt-10">
+                            <label for="warning_date">Thời hạn cảnh báo</label>
+                            <input type="date" class="modern-input" value="{if isset($item)}{$item->properties.warning_date}{elseif isset($error.INPUT)}{$error.INPUT.warning_date.value}{/if}" name="warning_date" id="warning_date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modern-section border-top mt-20">
+                <div class="section-meta">
+                    <h3>Thông tin khác</h3>
+                    <p>Ghi chú và trạng thái hiển thị.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+                        <div class="modern-input-group col-span-4">
+                            <label for="description">Ghi chú</label>
+                            <textarea class="modern-input" name="description" id="description" rows="3" placeholder="Ghi chú nội bộ về sản phẩm...">{if isset($item)}{$item->description}{elseif isset($error.INPUT)}{$error.INPUT.description.value}{/if}</textarea>
+                        </div>
+                        <div class="modern-input-group col-span-1">
+                            <label for="status">Trạng thái</label>
+                            <select class="modern-select" name="status" id="status">
+                                <option value="1" {if isset($item) && $item->status eq 1}selected{/if}>Đang bán</option>
+                                <option value="0" {if isset($item) && $item->status eq 0}selected{/if}>Ngừng kinh doanh</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="sticky-bottom" style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb" style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=product&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                Danh sách
+            </button>
+            <div class="function-right__container flex gap-10 end-hor">
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="product" />
+                <input type="hidden" name="mod" value="{$mod}" />
+                {if $mod eq 'edit'}<input type="hidden" name="id" value="{$item->id}" />{/if}
+                <input type="hidden" name="doo" value="submit" />
+
+                <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=product&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">
+                    Hoàn tất
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+function calculateOpeningValue() {
+    let stockInput = document.getElementById('opening_stock').value.replace(/\./g, '');
+    let priceInput = document.getElementById('price').value.replace(/\./g, '');
+    
+    let stock = parseInt(stockInput) || 0;
+    let price = parseInt(priceInput) || 0;
+    
+    let total = stock * price;
+    
+    if(total > 0) {
+        document.getElementById('opening_value').value = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    } else {
+        document.getElementById('opening_value').value = '';
+    }
+}
+
+document.getElementById('price').addEventListener('input', calculateOpeningValue);
+</script>
+
+{include file="$userTemplate/component/footer.html"}

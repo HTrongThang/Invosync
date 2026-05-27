@@ -141,7 +141,13 @@ class CustomerInfo {
 	}	
 	public function setGroupId($nValue) {
 		$this->group_id=$nValue;
-	} 
+	}
+	public function getGroupName() {
+		if(!$this->group_id) return '--';
+		include_once(ROOT_PATH."classes/dao/customergroups.class.php");
+		$customerGroups = new CustomerGroups($this->store_id);
+		return $customerGroups->getNameFromId($this->group_id);
+	}
 	public function getUserName()
 	{
 		return $this->username;

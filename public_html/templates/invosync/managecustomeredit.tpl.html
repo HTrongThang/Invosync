@@ -1,249 +1,283 @@
 {include file="$userTemplate/component/header.html"}
 <!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH CỦA BẠN TẠI ĐÂY -->
-<main class="container-f flex flex-col pos-rel flex-1" style="background: #f1f5f9; min-height: 100vh;">
-    <section class="container-f flex flex-col bg-white" style="margin-top: 20px;">
-        <div class="container-l flex flex-col gap-10">
-            
-            <!-- HEADER -->
-            <div>
-                <div class="invoice-header border-bottom-dark" style="padding-bottom: 10px;">
-                    <h1 class="invoice-title uppercase bold text-primary" style="font-size: 20px;">CHỈNH SỬA KHÁCH HÀNG</h1>
+<form action="/{$aScript}" method="post" name="formEdit" id="formEdit" class="flex flex-col flex-1">
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+            <div class="form-header">
+                <div>
+                    <h1>Cập Nhật Khách Hàng</h1>
+                    <p>Chỉnh sửa hồ sơ khách hàng hiện tại để cập nhật thông tin, tài chính và công nợ.</p>
                 </div>
-                <div class="invoice-breadcrumb-row flex jus-sb center-ver" style="margin-top: 10px;">
-                    <div class="breadcrumb-text flex gap-5 center-ver">
-                        <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
-                        <p>|</p>
-                        <a href="/{$aScript}?op=manage&act=customer&mod=list">Khách hàng</a>
-                        <p>|</p>
-                        <a href="javascript:void(0)" style="color: var(--primary-color);">Chỉnh sửa khách hàng</a>
+            </div>
+
+            {if $validItem}
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}
+            </div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}
+            </div>{/if}
+
+            {if isset($error)}
+            {if $error.invalid || $error.message}
+            <div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca;">
+                <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;"><i
+                        class="ri-error-warning-fill"></i> Có lỗi xảy ra, vui lòng kiểm tra:</div>
+                <ul style="margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.5;">
+                    {assign var=input value=$error.INPUT}
+                    {foreach from=$input item=field key=key}
+                    {if $field.error}<li>{$field.message}</li>{/if}
+                    {/foreach}
+                    {if isset($error.message)}<li>{$error.message}</li>{/if}
+                </ul>
+            </div>
+            {/if}
+            {/if}
+
+            <!-- SECTION: THÔNG TIN CƠ BẢN -->
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin cơ bản</h3>
+                    <p>Các thông tin định danh chính của doanh nghiệp hoặc cá nhân. Mã số thuế dùng để tra cứu nhanh.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.tax_code.error}errormsg{/if}">
+                            <label for="tax_code">Mã số thuế</label>
+                            <div class="input-with-button">
+                                <input type="text" class="modern-input"
+                                    value="{if isset($error.INPUT)}{$error.INPUT.tax_code.value}{elseif isset($item)}{$item->getTaxCode()}{/if}" name="tax_code"
+                                    id="tax_code" placeholder="Nhập mã số thuế...">
+                                <button type="button" class="btn-addon">Check</button>
+                            </div>
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.username.error}errormsg{/if}">
+                            <label for="username">Mã đơn vị / Mã KH</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.username.value}{elseif isset($item)}{$item->getUserName()}{/if}" name="username"
+                                id="username" placeholder="Ví dụ: KH001" readonly style="background: #f8fafc; color: #64748b; cursor: not-allowed;">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="short_name">Tên viết tắt</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.short_name.value}{elseif isset($item)}{$item->getProperty('short_name')|default:$item->getAbbreviations()}{/if}" name="short_name"
+                                id="short_name" placeholder="Tên gọi ngắn">
+                        </div>
+
+                        <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.company.error}errormsg{/if}">
+                            <label for="company">Tên pháp nhân (Đơn vị) <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.company.value}{elseif isset($item)}{$item->getCompanyName()}{/if}" name="company"
+                                id="company" placeholder="Công ty TNHH ABC...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.fullname.error}errormsg{/if}">
+                            <label for="fullname">Người đại diện <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.fullname.value}{elseif isset($item)}{$item->getFullName()}{/if}" name="fullname"
+                                id="fullname" placeholder="Họ và tên...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="status">Trạng thái</label>
+                            <select name="status" id="status" class="modern-select">
+                                <option value="1" {if (isset($error.INPUT) && $error.INPUT.status.value eq 1) || (isset($item) && $item->getStatus() eq 1)}selected="selected"{/if}>Đang hoạt động</option>
+                                <option value="0" {if (isset($error.INPUT) && $error.INPUT.status.value eq 0) || (isset($item) && $item->getStatus() eq 0)}selected="selected"{/if}>Tạm khóa</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- THÔNG BÁO LỖI / THÀNH CÔNG -->
-            {if isset($result_code)}<div class="alert alert-success" style="padding:10px; background-color:#dcfce7; color:#166534; border-radius:4px;">{$amessages.result_code.$result_code}</div>{/if}
-            {if isset($error_code)}<div class="alert alert-danger" style="padding:10px; background-color:#fee2e2; color:#991b1b; border-radius:4px;">{$amessages.error_code.$error_code}</div>{/if}
-            {if isset($error) && ($error.invalid || $error.message)}
-                <div class="alert alert-danger" style="padding:10px; background-color:#fee2e2; color:#991b1b; border-radius:4px;">
-                    <ul style="margin: 0; padding-left: 20px;">
-                        {assign var=input value=$error.INPUT}
-                        {foreach from=$input item=field key=key}
-                            {if $field.error}<li>{$field.message}</li>{/if}
-                        {/foreach}
-                        {if isset($error.message)}<li>{$error.message}</li>{/if}
-                    </ul>
+            <!-- SECTION: TÀI CHÍNH & PHÂN LOẠI -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Tài chính & Phân loại</h3>
+                    <p>Thiết lập nhóm khách hàng, số dư công nợ ban đầu và các hạn mức tín dụng.</p>
                 </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.group_id.error}errormsg{/if}">
+                            <label for="group_id">Nhóm khách hàng</label>
+                            <div class="input-with-button">
+                                <select class="modern-select" name="group_id" id="group_id">
+                                    <option value="">-- Chọn nhóm khách hàng --</option>
+                                    {if isset($customerGroupsCombo)}{$customerGroupsCombo}{/if}
+                                </select>
+                                <button type="button" class="btn-addon" onclick="window.open('/{$aScript}?op=manage&act=customergroup&mod=add', '_blank')" title="Thêm nhóm mới">+</button>
+                            </div>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="customer_type">Loại khách hàng</label>
+                            <select class="modern-select" name="customer_type" id="customer_type">
+                                {assign var="ctype" value=""}
+                                {if isset($error.INPUT)}{assign var="ctype" value=$error.INPUT.customer_type.value}{elseif isset($item)}{assign var="ctype" value=$item->getProperty('customer_type')|default:$item->getCustomerType()}{/if}
+                                <option value="">-- Chọn loại hình --</option>
+                                <option value="1" {if $ctype == 1}selected{/if}>Khách hàng Cá nhân</option>
+                                <option value="2" {if $ctype == 2}selected{/if}>Khách hàng Doanh nghiệp</option>
+                            </select>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bad_debt_limit">Hạn mức (Nợ xấu)</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bad_debt_limit.value}{elseif isset($item)}{assign var='tmp' value=$item->getProperty('bad_debt_limit')}{if $tmp}{$tmp}{else}{$item->getBadDeptLimit()}{/if}{/if}"
+                                name="bad_debt_limit" id="bad_debt_limit" placeholder="Nhập hạn mức...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_debit">Dư nợ đầu kỳ</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.opening_debit.value}{elseif isset($item)}{assign var='tmp' value=$item->getProperty('opening_debit')}{if $tmp}{$tmp}{else}{$item->getDebitBalance()}{/if}{/if}"
+                                name="opening_debit" id="opening_debit" placeholder="0 ₫">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="opening_credit">Dư có đầu kỳ</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.opening_credit.value}{elseif isset($item)}{assign var='tmp' value=$item->getProperty('opening_credit')}{if $tmp}{$tmp}{else}{$item->getCreditBalance()}{/if}{/if}"
+                                name="opening_credit" id="opening_credit" placeholder="0 ₫">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: LIÊN HỆ -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Thông tin liên hệ</h3>
+                    <p>Các phương thức để liên hệ trực tiếp với cá nhân hoặc tổ chức.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.tel.error}errormsg{/if}">
+                            <label for="tel">Số điện thoại <span class="required">*</span></label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.tel.value}{elseif isset($item)}{$item->getTel()}{/if}" name="tel" id="tel"
+                                placeholder="09xx xxx xxx">
+                        </div>
+
+                        <div class="modern-input-group col-span-1 {if isset($error.INPUT) && $error.INPUT.email.error}errormsg{/if}">
+                            <label for="email">Địa chỉ Email</label>
+                            <input type="email" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.email.value}{elseif isset($item)}{$item->getEmail()}{/if}" name="email" id="email"
+                                placeholder="mail@domain.com">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="website">Website / Fanpage</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.website.value}{elseif isset($item)}{$item->getProperty('website')|default:$item->getWebsite()}{/if}" name="website"
+                                id="website" placeholder="www.domain.com">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="fax">Số Fax</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.fax.value}{elseif isset($item)}{$item->getProperty('fax')|default:$item->getFax()}{/if}" name="fax" id="fax"
+                                placeholder="Nhập số Fax">
+                        </div>
+
+                        <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.address.error}errormsg{/if}">
+                            <label for="address">Địa chỉ chi tiết</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.address.value}{elseif isset($item)}{$item->getAddress()}{/if}" name="address"
+                                id="address" placeholder="Số nhà, tên đường, khu phố...">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: NGÂN HÀNG -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Ngân hàng & Khác</h3>
+                    <p>Thông tin thanh toán, số tài khoản thụ hưởng để phục vụ cho xuất hóa đơn.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bank_account">Số tài khoản</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bank_account.value}{elseif isset($item)}{$item->getProperty('bank_account')|default:$item->getSotaikhoan()}{/if}"
+                                name="bank_account" id="bank_account" placeholder="Ví dụ: 0123456789">
+                        </div>
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="bank_name">Tên ngân hàng (Chi nhánh)</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.bank_name.value}{elseif isset($item)}{$item->getProperty('bank_name')|default:$item->getTKNganhang()}{/if}" name="bank_name"
+                                id="bank_name" placeholder="Ngân hàng TMCP ABC - CN Hà Nội">
+                        </div>
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="account_holder">Chủ tài khoản</label>
+                            <input type="text" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.account_holder.value}{elseif isset($item)}{$item->getProperty('account_holder')|default:$item->getChutaikhoan()}{/if}"
+                                name="account_holder" id="account_holder" placeholder="Tên người thụ hưởng">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="established_date">Ngày thành lập</label>
+                            <input type="date" class="modern-input"
+                                value="{if isset($error.INPUT)}{$error.INPUT.established_date.value}{elseif isset($item)}{$item->getProperty('established_date')|default:$item->getFoundings()}{/if}"
+                                name="established_date" id="established_date" placeholder="dd/mm/yyyy">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            {else}
+            <div class="alert alert-danger" style="margin-top: 20px;">
+                Dữ liệu không tồn tại.
+            </div>
             {/if}
+            
+        </div> <!-- end modern-form-wrapper -->
+    </main>
 
-            <form action="/{$aScript}" method="post" name="formEdit" id="formEdit">
-                
-                <!-- BLOCK THÔNG TIN KHÁCH HÀNG -->
-                <div class="form-invoice invoice-info-section flex flex-col gap-1" style="border: 1px solid #e2e8f0; margin-bottom: 20px;">
-                    
-                    <div class="section-header bg-white-second flex jus-sb center-ver border-bottom-gray" style="padding: 10px 15px;">
-                        <h4 class="bold" style="margin: 0; color: #333;">THÔNG TIN CHI TIẾT KHÁCH HÀNG</h4>
-                    </div>
+    <!-- ACTION FOOTER Gắn Cố Định (Chuẩn formxuatban) -->
+    <div class="sticky-bottom" style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb" style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" id="btn-danh-sach" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                Danh sách
+            </button>
+            {if $validItem}
+            <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="customer" />
+                <input type="hidden" name="mod" value="edit" />
+                <input type="hidden" name="doo" value="submit" />
+                <input type="hidden" name="sCode" value="{$sCode}_" />
+                <input type="hidden" name="lang" value="{$lang}" />
+                <input type="hidden" name="id" value="{if isset($item)}{$item->getId()}{/if}" />
 
-                    <div class="section-body padding-20 flex flex-col gap-1" style="background: #f8fafc; padding: 20px;">
-                        
-                        <!-- Dòng 1: Mã số thuế -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Mã số thuế</p>
-                                <div class="flex flex-1">
-                                    <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.tax_code.value}{elseif isset($item)}{$item->getTaxCode()}{/if}" name="tax_code" id="tax_code" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.tax_code.error}border-red{/if}" placeholder="Tìm với mã số thuế">
-                                    <button type="button" class="btn-action__custom bg-secondary" style="border: 1px solid #cbd5e1; border-left: none; padding: 0 15px; color: red;"><i class="fa fa-check"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Dòng 2: Mã đơn vị | Tên viết tắt -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Mã đơn vị</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.username.value}{elseif isset($item)}{$item->getUserName()}{/if}" name="username" id="username" class="input-field flex-1 {if isset($error.INPUT) && $error.INPUT.username.error}border-red{/if}" readonly style="background: #e2e8f0;">
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Tên viết tắt</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.short_name.value}{elseif isset($item)}{$item->getProperty('short_name')}{/if}" name="short_name" id="short_name" class="input-field flex-1 bg-white">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 3: Tên khách hàng -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Tên khách hàng</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.fullname.value}{elseif isset($item)}{$item->getFullName()}{/if}" name="fullname" id="fullname" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.fullname.error}border-red{/if}">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 4: Tên đơn vị * -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Tên đơn vị <span style="color: red; margin-left: 3px;">*</span></p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.company.value}{elseif isset($item)}{$item->getCompany()}{/if}" name="company" id="company" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.company.error}border-red{/if}">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 5: Trạng thái (đối với edit) -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Trạng thái</p>
-                                <select name="status" id="status" class="input-field flex-1 bg-white" style="padding: 0 10px; height: 32px; border: 1px solid #cbd5e1;">
-                                    <option value="1" {if (isset($error.INPUT) && $error.INPUT.status.value eq 1) || (isset($item) && $item->getStatus() eq 1)}selected="selected"{/if}>Đang hoạt động</option>
-                                    <option value="0" {if (isset($error.INPUT) && $error.INPUT.status.value eq 0) || (isset($item) && $item->getStatus() eq 0)}selected="selected"{/if}>Tạm khóa</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Dòng 6: Dư nợ đầu kỳ | Dư có đầu kỳ -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Dư nợ đầu kỳ</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.opening_debit.value}{elseif isset($item)}{$item->getProperty('opening_debit')}{/if}" name="opening_debit" id="opening_debit" class="input-field flex-1 bg-white" placeholder="Vd: 27.090.000">
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Dư có đầu kỳ</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.opening_credit.value}{elseif isset($item)}{$item->getProperty('opening_credit')}{/if}" name="opening_credit" id="opening_credit" class="input-field flex-1 bg-white" placeholder="Vd: 15.590.000">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 7: Hạn mức nợ xấu | Số điện thoại -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Hạn mức nợ xấu</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.bad_debt_limit.value}{elseif isset($item)}{$item->getProperty('bad_debt_limit')}{/if}" name="bad_debt_limit" id="bad_debt_limit" class="input-field flex-1 bg-white" placeholder="Vd: 55.962.000">
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Số điện thoại</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.tel.value}{elseif isset($item)}{$item->getTel()}{/if}" name="tel" id="tel" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.tel.error}border-red{/if}">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 8: Địa chỉ -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Địa chỉ</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.address.value}{elseif isset($item)}{$item->getAddress()}{/if}" name="address" id="address" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.address.error}border-red{/if}">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 9: Email -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Email</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.email.value}{elseif isset($item)}{$item->getEmail()}{/if}" name="email" id="email" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.email.error}border-red{/if}">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 10: Fax | Website -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Fax</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.fax.value}{elseif isset($item)}{$item->getProperty('fax')}{/if}" name="fax" id="fax" class="input-field flex-1 bg-white">
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Website</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.website.value}{elseif isset($item)}{$item->getProperty('website')}{/if}" name="website" id="website" class="input-field flex-1 bg-white">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 11: Nhóm khách hàng | Loại khách hàng -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Nhóm khách hàng</p>
-                                <div class="flex flex-1">
-                                    <select name="group_id" id="group_id" class="input-field flex-1 bg-white {if isset($error.INPUT) && $error.INPUT.group_id.error}border-red{/if}" style="padding: 0 10px; height: 32px; border: 1px solid #cbd5e1;">
-                                        <option value="">Chọn nhóm khách hàng</option>
-                                        {if isset($customerGroupsCombo)}{$customerGroupsCombo}{/if}
-                                    </select>
-                                    <button type="button" class="btn-action__custom bg-secondary" onclick="window.open('/{$aScript}?op=manage&act=customergroup&mod=add', '_blank')" style="border: 1px solid #cbd5e1; border-left: none; padding: 0 15px; color: var(--primary-color); font-weight: bold; height: 32px; box-sizing: border-box;" title="Thêm nhóm mới">+</button>
-                                </div>
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Loại khách hàng</p>
-                                <select name="customer_type" id="customer_type" class="input-field flex-1 bg-white" style="padding: 0 10px; height: 32px; border: 1px solid #cbd5e1;">
-                                    {assign var="ctype" value=""}
-                                    {if isset($error.INPUT)}{assign var="ctype" value=$error.INPUT.customer_type.value}{elseif isset($item)}{assign var="ctype" value=$item->getProperty('customer_type')}{/if}
-                                    <option value="">Chọn loại khách hàng</option>
-                                    <option value="1" {if $ctype == 1}selected{/if}>Cá nhân</option>
-                                    <option value="2" {if $ctype == 2}selected{/if}>Doanh nghiệp</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Dòng 12: Số tài khoản | Ngày thành lập -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px;">Số tài khoản</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.bank_account.value}{elseif isset($item)}{$item->getProperty('bank_account')}{/if}" name="bank_account" id="bank_account" class="input-field flex-1 bg-white">
-                            </div>
-                            <div class="form-group flex center-ver jus-sb col-2 flex-1 active">
-                                <p class="flex input-title" style="min-width: 155px; padding-left: 20px;">Ngày thành lập</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.established_date.value}{elseif isset($item)}{$item->getProperty('established_date')}{/if}" name="established_date" id="established_date" class="input-field flex-1 bg-white" placeholder="dd/mm/yyyy">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 13: Chủ tài khoản -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Chủ tài khoản</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.account_holder.value}{elseif isset($item)}{$item->getProperty('account_holder')}{/if}" name="account_holder" id="account_holder" class="input-field flex-1 bg-white">
-                            </div>
-                        </div>
-
-                        <!-- Dòng 14: Tên ngân hàng -->
-                        <div class="form-row flex flex-wrap gap-1 flex-1">
-                            <div class="form-group flex center-ver jus-sb flex-1 w-full active">
-                                <p class="flex input-title" style="min-width: 155px;">Tên ngân hàng</p>
-                                <input type="text" value="{if isset($error.INPUT)}{$error.INPUT.bank_name.value}{elseif isset($item)}{$item->getProperty('bank_name')}{/if}" name="bank_name" id="bank_name" class="input-field flex-1 bg-white">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- THANH HÀNH ĐỘNG -->
-                <div class="flex function-container gap-20 flex-wrap jus-sb sticky-bottom" style="background: white; padding: 15px; border-top: 1px solid #e2e8f0;">
-                    <button type="button" id="btn-danh-sach" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">Danh sách</button>
-                    <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
-                        <input type="hidden" name="op" value="manage" />
-                        <input type="hidden" name="act" value="customer" />
-                        <input type="hidden" name="mod" value="edit" />
-                        <input type="hidden" name="doo" value="submit" />
-                        <input type="hidden" name="sCode" value="{$sCode}_" />
-                        <input type="hidden" name="lang" value="{$lang}" />
-                        <input type="hidden" name="id" value="{if isset($item)}{$item->getId()}{/if}" />
-                        
-                        <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">Hủy</button>
-                        <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">Cập nhật</button>
-                    </div>
-                </div>
-
-            </form>
+                <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=customer&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">
+                    Cập nhật
+                </button>
+            </div>
+            {/if}
         </div>
-    </section>
-</main>
+    </div>
 
-<style>
-    .border-red {
-        border-color: #ef4444 !important;
-        background-color: #fef2f2 !important;
-    }
-    .input-field {
-        height: 32px;
-        border: 1px solid #cbd5e1;
-        padding: 0 10px;
-        outline: none;
-    }
-    .input-field:focus {
-        border-color: var(--primary-color);
-    }
-    .input-title {
-        font-weight: 500;
-        color: #334155;
-        font-size: 13px;
-    }
-</style>
+</form>
 
 {include file="$userTemplate/component/footer.html"}

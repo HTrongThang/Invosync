@@ -46,12 +46,12 @@ class UserGroups extends Model {
 							$result[0]['name'],
 							$result[0]['slug'],
 							$result[0]['status'],
-							$result[0]['properties'],
 							$result[0]['date_created'],
 							$result[0]['date_updated'],
 							$result[0]['user_created'],
 							$result[0]['level'],
 							$result[0]['color'],
+							$result[0]['properties'],
 							$result[0]['id']
 						);
 			return $object;
@@ -75,12 +75,12 @@ class UserGroups extends Model {
 							$result['name'],
 							$result['slug'],
 							$result['status'],
-							$result['properties'],
 							$result['date_created'],
 							$result['date_updated'],
 							$result['user_created'],
 							$result['level'],
 							$result['color'],
+							$result['properties'],
  							$result['id']
 								);
 			}
@@ -186,17 +186,12 @@ class UserGroups extends Model {
 		return '';
 	}
 	
-	public function generateCombo($value='',$noroot = 0) {
-		global $amessages;
+	public function generateCombo($value='', $condition = "`status` = 1") {
 		$combo = '';
-		if(!$noroot) $combo = '<option value="0"'.($value=='0'?" selected":"").'>'.$amessages['root'].'</option>';
-		$results = $this->select('`id`,`name`',"1>0");
-		
+		$results = $this->select('`id`,`name`',"`store_id` = '".$this->store_id."' AND $condition", array('id'=>'ASC'));
 		if($results) {
 			foreach($results as $key => $result) {
-				$combo .= "<option value='".$result['id']."'".($value==$result['id']?" selected":"").">&nbsp;&nbsp;&nbsp;l--".$result['name']."</option>";	
-				$s1results = $this->select('`id`,`name`',"`status` = '1'");
-					
+				$combo .= "<option value='".$result['id']."'".($value==$result['id']?" selected":"").">".$result['name']."</option>";	
 			}
 		}
 		return $combo;

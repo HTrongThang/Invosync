@@ -1,0 +1,103 @@
+{include file="$userTemplate/component/header.html"}
+<!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH CỦA BẠN TẠI ĐÂY -->
+
+<form action="/{$aScript}" method="post" name="formEdit" id="formEdit" class="flex flex-col flex-1">
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+            <div class="form-header">
+                <div>
+                    <h1>Sửa Thông Tin Nhóm Nhân Viên</h1>
+                    <p>Cập nhật nhóm quyền để phân loại và quản lý các nhân viên trong hệ thống.</p>
+                </div>
+            </div>
+
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}
+            </div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}
+            </div>{/if}
+
+            {if isset($error)}
+            {if $error.invalid || $error.message}
+            <div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca;">
+                <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;"><i
+                        class="ri-error-warning-fill"></i> Có lỗi xảy ra, vui lòng kiểm tra:</div>
+                <ul style="margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.5;">
+                    {assign var=input value=$error.INPUT}
+                    {foreach from=$input item=field key=key}
+                    {if $field.error}<li>{$field.message}</li>{/if}
+                    {/foreach}
+                    {if isset($error.message)}<li>{$error.message}</li>{/if}
+                </ul>
+            </div>
+            {/if}
+            {/if}
+
+            <!-- SECTION: THÔNG TIN NHÓM -->
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin nhóm</h3>
+                    <p>Các thông tin định danh và trạng thái của nhóm quyền.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.name.error}errormsg{/if}">
+                            <label for="name">Tên nhóm <span class="required">*</span></label>
+                            <input type="text" class="modern-input" value="{if isset($error.INPUT)}{$error.INPUT.name.value}{elseif isset($itemInfo)}{$itemInfo->getName()}{/if}" name="name" id="name" placeholder="Ví dụ: Nhóm Kế toán, Nhóm Kinh doanh...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="status">Trạng thái</label>
+                            {assign var=currentStatus value=1}
+                            {if isset($itemInfo)}{assign var=currentStatus value=$itemInfo->getStatus()}{/if}
+                            <select class="modern-select" name="status" id="status">
+                                <option value="1" {if $currentStatus == 1}selected{/if}>Kích hoạt</option>
+                                <option value="0" {if $currentStatus == 0}selected{/if}>Vô hiệu hóa</option>
+                            </select>
+                        </div>
+                        
+                        <div class="modern-input-group col-span-3">
+                            <label for="description">Mô tả nhóm</label>
+                            <textarea class="modern-input" name="description" id="description" rows="3" placeholder="Mô tả chức năng và phạm vi quyền hạn của nhóm...">{if isset($error.INPUT)}{$error.INPUT.description.value}{elseif isset($itemProperties.description)}{$itemProperties.description}{/if}</textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- end modern-form-wrapper -->
+    </main>
+
+    <!-- ACTION FOOTER -->
+    <div class="sticky-bottom" style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb" style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" id="btn-danh-sach" onclick="window.location.href='/{$aScript}?op=manage&act=staffgroup&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                Danh sách
+            </button>
+            <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="staffgroup" />
+                <input type="hidden" name="mod" value="edit" />
+                <input type="hidden" name="doo" value="submit" />
+                <input type="hidden" name="id" value="{$itemInfo->getId()}" />
+                <input type="hidden" name="sCode" value="{$sCode}_" />
+                <input type="hidden" name="lang" value="{$lang}" />
+
+                <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=staffgroup&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">
+                    Lưu thay đổi
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{include file="$userTemplate/component/footer.html"}

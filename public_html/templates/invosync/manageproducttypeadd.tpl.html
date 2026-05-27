@@ -1,0 +1,101 @@
+{include file="$userTemplate/component/header.html"}
+
+<form action="/{$aScript}" method="post" name="formAdd" id="formAdd" class="flex flex-col flex-1">
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+            <div class="form-header">
+                <div>
+                    <h1>{if $mod eq 'edit'}Sửa Loại Hàng Hóa{else}Thêm Loại Hàng Hóa{/if}</h1>
+                    <p>Khởi tạo và quản lý các phân loại hàng hóa (ví dụ: Điện thoại, Laptop, Phụ kiện...).</p>
+                </div>
+            </div>
+
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}
+            </div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}
+            </div>{/if}
+
+            {if isset($error)}
+            {if $error.invalid || $error.message}
+            <div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca;">
+                <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;"><i
+                        class="ri-error-warning-fill"></i> Có lỗi xảy ra, vui lòng kiểm tra:</div>
+                <ul style="margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.5;">
+                    {assign var=input value=$error.INPUT}
+                    {foreach from=$input item=field key=key}
+                    {if $field.error}<li>{$field.message}</li>{/if}
+                    {/foreach}
+                    {if isset($error.message)}<li>{$error.message}</li>{/if}
+                </ul>
+            </div>
+            {/if}
+            {/if}
+
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin phân loại</h3>
+                    <p>Các thông tin định danh của loại hàng hóa.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid">
+
+                        <div class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.name.error}errormsg{/if}">
+                            <label for="name">Tên loại hàng <span class="required">*</span></label>
+                            <input type="text" class="modern-input" value="{if isset($item)}{$item->getName()}{elseif isset($error.INPUT)}{$error.INPUT.name.value}{/if}" name="name" id="name" placeholder="Ví dụ: Điện thoại, Laptop...">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="position">Vị trí hiển thị</label>
+                            <input type="number" class="modern-input" value="{if isset($item)}{$item->getPosition()}{elseif isset($error.INPUT)}{$error.INPUT.position.value}{else}0{/if}" name="position" id="position">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="status">Trạng thái</label>
+                            <select class="modern-select" name="status" id="status">
+                                <option value="1" {if isset($item) && $item->getStatus() eq 1}selected{/if}>Kích hoạt</option>
+                                <option value="0" {if isset($item) && $item->getStatus() eq 0}selected{/if}>Vô hiệu hóa</option>
+                            </select>
+                        </div>
+                        
+                        <div class="modern-input-group col-span-3">
+                            <label for="description">Ghi chú / Mô tả</label>
+                            <textarea class="modern-input" name="description" id="description" rows="3" placeholder="Ghi chú về loại hàng hóa này...">{if isset($item)}{$item->getProperty('description')}{elseif isset($error.INPUT)}{$error.INPUT.description.value}{/if}</textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="sticky-bottom" style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb" style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=producttype&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                Danh sách
+            </button>
+            <div class="function-right__container flex gap-10 end-hor">
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="producttype" />
+                <input type="hidden" name="mod" value="{$mod}" />
+                {if $mod eq 'edit'}<input type="hidden" name="id" value="{$item->getId()}" />{/if}
+                <input type="hidden" name="doo" value="submit" />
+
+                <button type="button" onclick="window.location.href='/{$aScript}?op=manage&act=producttype&mod=list'" class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black" style="background: var(--primary-color); color: white;">
+                    Hoàn tất
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{include file="$userTemplate/component/footer.html"}

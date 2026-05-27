@@ -23,13 +23,15 @@
 
 <div class="section-body user-info padding-20 flex flex-col gap-1">
 
-    {* Tìm nhanh + Mã số thuế *}
     <div class="form-row search-tax-row flex flex-wrap gap-1 flex-1">
-        <div id="group-buyer-search" class="form-group quick-search-group flex center-ver jus-sb col-2 flex-1 active">
+        <div id="group-buyer-search" class="form-group quick-search-group flex center-ver jus-sb col-2 flex-1 active"
+            style="position: relative;">
             <p class="flex input-title">Tìm nhanh</p>
             <input type="text" name="info_timnhanh" id="info_timnhanh" class="input-field flex-1 bg-white"
                 placeholder="F2 để tìm nhanh" onkeyup="searchInfoCusOutput()" autocomplete="off">
             <input type="hidden" id="id_customer" name="id_customer">
+            <div id="cus-searching-box" style="position: absolute; top: calc(100% + 6px); left: 0; width: 100%; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; max-height: 320px; overflow-y: auto; display: none; z-index: 1000; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;">
+            </div>
         </div>
         <div id="group-buyer-tax" class="form-group tax-code-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Mã số thuế</p>
@@ -40,7 +42,6 @@
         </div>
     </div>
 
-    {* Mã đơn vị + Người mua hàng *}
     <div class="form-row client-id-name-row flex flex-wrap gap-1 flex-1">
         <div id="group-buyer-id" class="form-group client-id-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Mã đơn vị / Mã KH</p>
@@ -85,11 +86,11 @@
     {* Action buttons *}
     <div class="form-row flex flex-wrap flex-1">
         <div class="section-actions flex-1 flex gap-10 end-hor">
-            <button type="button" class="btn-action__custom cursor-pointer  btn-import bg-secondary" >Import
+            <button type="button" class="btn-action__custom cursor-pointer  btn-import bg-secondary">Import
                 Excel</button>
             <button type="button" class="btn-action__custom cursor-pointer btn-download bg-secondary">Tải file
                 đính kèm</button>
-            <button type="button" class="btn-action__custom cursor-pointer  bg-secondary" >Cho phép chỉnh thành
+            <button type="button" class="btn-action__custom cursor-pointer  bg-secondary">Cho phép chỉnh thành
                 tiền</button>
             <input type="checkbox" name="allow_edit_total" class="checkbox-field">
         </div>

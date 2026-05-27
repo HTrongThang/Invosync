@@ -1,0 +1,208 @@
+{include file="$userTemplate/component/header.html"}
+<style>
+    .dynamic-table__content th {
+        font-size: 15px !important;
+        padding: 10px 5px !important;
+    }
+
+    .dynamic-table__content td {
+        font-size: 14px !important;
+    }
+</style>
+<main class="container-f flex flex-col flex-1 pos-rel" style="background-color: #ffffff;">
+    <section class="container-f flex flex-col bg-white">
+        <div class="invoice-main-wrapper flex flex-col gap-10">
+            <div class="invoice-top-section flex flex-col">
+
+                <div class="invoice-header border-bottom-dark">
+                    <h1 class="invoice-title uppercase bold text-primary">DANH SÁCH LOẠI HÀNG HÓA</h1>
+                </div>
+
+                <div class="invoice-breadcrumb-row flex jus-sb center-ver">
+                    <div class="breadcrumb-text flex gap-5 center-ver">
+                        <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
+                        <p>|</p>
+                        <a href="/{$aScript}?op=manage&act=product&mod=list">Hàng hóa</a>
+                        <p>|</p>
+                        <a href="javascript:void(0)">Danh sách loại</a>
+                    </div>
+                </div>
+
+                <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
+                    <form action="/{$aScript}" method="post" name="formSearch" id="formSearch"
+                        class="flex-1 flex gap-20 jus-sb flex-wrap w-full">
+                        <div class="toolbar-left flex center-ver ">
+                            <span
+                                class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green">Số
+                                kết quả mỗi trang</span>
+                            <select name="ipp" class="pagination-select cursor-pointer"
+                                onchange="document.formSearch.submit();">
+                                <option value="20" {if $ipp eq 20}selected{/if}>20</option>
+                                <option value="50" {if $ipp eq 50}selected{/if}>50</option>
+                                <option value="100" {if $ipp eq 100}selected{/if}>100</option>
+                            </select>
+                        </div>
+
+                        <div class="toolbar-right flex center-ver gap-5 flex-wrap">
+                            <input type="text" name="kw" value="{$kw}"
+                                class="filter-input exception item-padding-5 input-large"
+                                placeholder="Từ khóa (Tên loại...)" style="font-size: 13px;">
+
+                            <button type="submit"
+                                class="btn-search bg-secondary bold cursor-pointer flex center-ver gap-5"
+                                style="font-size:12px;">
+                                <i class="ri-search-line" style="font-size:14px;"></i> Tìm kiếm
+                            </button>
+
+                            <a href="/{$aScript}?op=manage&act=producttype&mod=add"
+                                class="btn-add-red cursor-pointer flex center-ver center-hor"
+                                style="text-decoration: none;" title="Thêm loại mới">
+                                <i class="ri-folder-add-line" style="font-size: 20px;"></i>
+                            </a>
+
+                            <input type="hidden" name="op" value="manage" />
+                            <input type="hidden" name="act" value="producttype" />
+                            <input type="hidden" name="mod" value="list" />
+                            <input type="hidden" name="doo" value="search" />
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:12px 16px; background-color:#dcfce7; color:#166534; border-radius:6px; margin-bottom: 20px; border: 1px solid #bbf7d0; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill"></i> {$amessages.result_code.$result_code}</div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:12px 16px; background-color:#fee2e2; color:#991b1b; border-radius:6px; margin-bottom: 20px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-error-warning-fill"></i> {$amessages.error_code.$error_code}</div>{/if}
+
+            <form action="/{$aScript}" method="post" name="formType" id="formType">
+                <div class="pos-rel">
+                    <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+                        <table class="fill-view dynamic-table__content w-full" style="font-size: 15px;">
+                            <thead class="bg-third text-color-black">
+                                <tr>
+                                    <th class="col-fit text-center"><input type="checkbox" name="all" id="all"
+                                            onClick="toggleAllChecks('formType');"></th>
+                                    <th class="col-fit text-right">STT</th>
+                                    <th class="table-icon__container col-fit text-center">Chức năng</th>
+                                    <th class="text-left">Tên loại hàng</th>
+                                    <th class="text-center">Vị trí</th>
+                                    <th class="text-left">Mô tả</th>
+                                    <th class="text-right" style="width: 200px;">Ngày cập nhật</th>
+                                    <th class="text-center col-fit">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                {if isset($listItems)}
+                                {assign var=stt value=$rowsPages.start+1}
+                                {foreach from=$listItems item=item}
+                                <tr>
+                                    <td class="col-fit text-center">
+                                        <input type="checkbox" name="ids[]" value="{$item->getId()}">
+                                    </td>
+                                    <td class="col-fit text-right">{$stt++}</td>
+                                    <td class="table-icon__container col-fit text-center">
+                                        <a href="/{$aScript}?op=manage&act=producttype&mod=edit&id={$item->getId()}" title="{$amessages.edit}">
+                                            <i class="ri-edit-2-line" style="color: #3b82f6;"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" onclick="confirmDelete(this, 'producttype');" data-id="{$item->getId()}" title="{$amessages.delete}">
+                                            <i class="ri-delete-bin-line" style="color: #ef4444;"></i>
+                                        </a>
+                                    </td>
+                                    <td class="text-left bold">{$item->getName()}</td>
+                                    <td class="text-center">{$item->getPosition()}</td>
+                                    <td class="text-left" style="color: #64748b;">{$item->getProperty('description')}</td>
+                                    <td class="text-right">{$item->getDateUpdated()|date_format:"%H:%M %d/%m/%Y"}</td>
+                                    <td class="text-center col-fit">
+                                        {if $item->getStatus() eq 1}
+                                        <span class="status-badge status-badge--active" style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">Hoạt động</span>
+                                        {else}
+                                        <span class="status-badge status-badge--disabled" style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">Vô hiệu hóa</span>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/foreach}
+                                {else}
+                                <tr>
+                                    <td colspan="8" class="text-center">Chưa có loại hàng hóa nào.</td>
+                                </tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bottom-toolbar flex flex-wrap jus-sb gap-10">
+                    <div class="action-buttons flex gap-5 flex-wrap">
+                        <select name="doo" id="doo" class="filter-input item-padding-5" style="font-size:12px;">
+                            <option value="">Hành động hàng loạt</option>
+                            <option value="enable">Kích hoạt</option>
+                            <option value="disable">Vô hiệu hóa</option>
+                            <option value="delete">Xóa</option>
+                        </select>
+                        <button type="button" onclick="submitFormType();"
+                            class="btn-apply bg-primary color-text-white bold cursor-pointer"
+                            style="font-size:12px;">Thực hiện</button>
+                        
+                        <input type="hidden" name="op" value="manage" />
+                        <input type="hidden" name="act" value="producttype" />
+                        <input type="hidden" name="mod" value="list" />
+                        <input type="hidden" name="sCode" value="{$sCode}_" />
+                        <input type="hidden" name="lang" value="{$lang}" />
+                    </div>
+
+                    <div class="pagination flex gap-5 center-ver">
+                        {$listPage}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+<script>
+    function toggleAllChecks(formName) {
+        var form = document.getElementById(formName);
+        var allChecked = document.getElementById('all').checked;
+        for (var i = 0; i < form.elements.length; i++) {
+            if (form.elements[i].type == 'checkbox' && form.elements[i].name != 'all') {
+                form.elements[i].checked = allChecked;
+            }
+        }
+    }
+    
+    function submitFormType() {
+        var form = document.getElementById('formType');
+        var doo = document.getElementById('doo').value;
+        if (!doo) {
+            alert('Vui lòng chọn hành động.');
+            return;
+        }
+        var hasChecked = false;
+        for (var i = 0; i < form.elements.length; i++) {
+            if (form.elements[i].type == 'checkbox' && form.elements[i].name != 'all' && form.elements[i].checked) {
+                hasChecked = true;
+                break;
+            }
+        }
+        if (!hasChecked) {
+            alert('Vui lòng chọn ít nhất một mục.');
+            return;
+        }
+        if (doo === 'delete') {
+            if (!confirm('Bạn có chắc chắn muốn xóa (các) mục đã chọn?')) {
+                return;
+            }
+        }
+        form.submit();
+    }
+    
+    function confirmDelete(el, type) {
+        if (confirm('Bạn có chắc chắn muốn xóa mục này?')) {
+            var id = $(el).data('id');
+            window.location.href = '/{$aScript}?op=manage&act=' + type + '&mod=list&doo=delete&id=' + id;
+        }
+    }
+</script>
+{include file="$userTemplate/component/footer.html"}

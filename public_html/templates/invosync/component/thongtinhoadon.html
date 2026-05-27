@@ -93,11 +93,15 @@
 
     {* Nhân viên bán hàng + Kho hàng xuất *}
     <div class="form-row staff-warehouse-row flex flex-wrap gap-1 flex-1">
-        <div id="group-inv-staff" class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active">
+        <div id="group-inv-staff" class="form-group sale-staff-group flex center-ver jus-sb col-2 flex-1 active"
+            style="position: relative;">
             <p class="flex input-title">Nhân viên bán hàng</p>
             <input type="text" name="sales_person" id="sales_person" class="input-field flex-1 show_nhanvien"
-                autocomplete="off" placeholder="Tìm nhân viên...">
-            <input type="hidden" name="hidden_sales_person" class="hidden_nhanvien">
+                autocomplete="off" placeholder="Tìm nhân viên..." onkeyup="searchStaffOutput()">
+            <input type="hidden" name="hidden_sales_person" id="hidden_sales_person" class="hidden_nhanvien">
+            <div id="staff-searching-box"
+                style="position: absolute; top: calc(100% + 6px); left: 0; width: 100%; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; max-height: 320px; overflow-y: auto; display: none; z-index: 1000; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;">
+            </div>
         </div>
         <div id="group-inv-warehouse"
             class="form-group export-warehouse-group flex center-ver jus-sb col-2 flex-1 active">

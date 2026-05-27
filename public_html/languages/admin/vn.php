@@ -537,6 +537,7 @@ $amessages['error_code'][7] = 'Đã hủy bỏ tác vụ';
 $amessages['error_code'][8] = 'Duplicate bài viết bị lỗi';
 $amessages['error_code'][9] = 'Vui lòng chọn nhóm đến';
 $amessages['error_code'][10] = 'Chỉ có các chuyên mục rỗng mới có thể xóa';
+$amessages['error_code'][11] = 'Không thể xóa nhóm vì đang có khách hàng thuộc nhóm này';
 $amessages['invalid_string'] = 'Chuỗi không hợp lệ';
 $amessages['invalid_email'] = 'Địa chỉ email không hợp lệ';
 $amessages['invalid_url'] = 'URL không hợp lệ';

@@ -301,27 +301,157 @@ function searchInfoProductInvoice(ob, lengthValue = 50) {
   }
   checkLengthInput(ob, lengthValue);
 } var searchTimeout;
-function searchInfoCusOutput() {
-  var op = "inventory_searchcus_output";
-  var value = $("#info_timnhanh").val();
-  console.log(value.length);
-  if (value.length >= 3) {
+
+function searchStaffOutput() {
+  var op = "inventory_searchstaff_output";
+  var value = $("#sales_person").val();
+  var box = $("#staff-searching-box");
+
+  if (value.length >= 2) {
     $.ajax({
       type: "POST",
       url: "/ajax.php",
+      dataType: "json",
       data: {
         op: op,
         value: value,
       },
-      success: function (data) {
-        $("#cus-searching-box").show();
-        $("#cus-searching-box").html(data);
+      success: function (res) {
+        box.empty();
+        if (res && res.success && res.data && res.data.length > 0) {
+          var ul = $('<ul style="list-style:none; padding: 0; margin: 0; background-color: #ffffff;"></ul>');
+          res.data.forEach(function(item) {
+            var initials = item.fullname ? item.fullname.charAt(0).toUpperCase() : 'N';
+            var avatar = '<div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; margin-right: 12px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">' + initials + '</div>';
+            
+            var details = '<div style="flex: 1; min-width: 0;">' +
+                '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">' +
+                    '<strong style="color: #1e293b; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">' + item.fullname + '</strong>' +
+                    (item.tel ? '<span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px;"><i class="ri-phone-fill" style="color: #94a3b8;"></i> ' + item.tel + '</span>' : '') +
+                '</div>' +
+                '<div style="color: #64748b; font-size: 12px; display: flex; align-items: center; gap: 6px;">' +
+                    '<i class="ri-user-star-line" style="font-size: 14px; color: #94a3b8;"></i> ' + (item.username ? item.username : '<span style="color: #cbd5e1; font-style: italic;">Chưa có TĐN</span>') +
+                '</div>' +
+            '</div>';
+
+            var li = $('<li style="padding: 10px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; align-items: center; transition: all 0.2s ease; background-color: #ffffff;"></li>');
+            
+            li.html(avatar + details);
+            
+            li.on('mouseover', function() { $(this).css('background-color', '#f8fafc'); });
+            li.on('mouseout', function() { $(this).css('background-color', '#ffffff'); });
+            
+            li.on('click', function() {
+              $("#hidden_sales_person").val(item.id || '');
+              $("#sales_person").val(item.fullname || '');
+              box.hide();
+            });
+            ul.append(li);
+          });
+          box.append(ul);
+          box.show();
+        } else {
+          box.html('<div style="padding: 15px; text-align: center; color: #64748b;"><i class="ri-file-search-line" style="font-size: 24px; display: block; margin-bottom: 5px; color: #cbd5e1;"></i> Không tìm thấy nhân viên nào</div>');
+          box.show();
+        }
       },
+      error: function () {
+        box.hide();
+      }
     });
   } else {
+    box.hide();
+  }
+}
+
+function searchInfoCusOutput() {
+  var op = "inventory_searchcus_output";
+  var value = $("#info_timnhanh").val();
+  var box = $("#cus-searching-box");
+
+  if (value.length >= 3) {
+    $.ajax({
+      type: "POST",
+      url: "/ajax.php",
+      dataType: "json",
+      data: {
+        op: op,
+        value: value,
+      },
+      success: function (res) {
+        box.empty();
+        if (res && res.success && res.data && res.data.length > 0) {
+          var ul = $('<ul style="list-style:none; padding: 0; margin: 0; background-color: #ffffff;"></ul>');
+          res.data.forEach(function(item) {
+            var displayTitle = item.tendonvi || item.tennguoimua;
+            var mstBadge = item.masothue ? ('<span style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px;"><i class="ri-article-line"></i> MST: ' + item.masothue + '</span>') : '';
+            var buyerIcon = item.tennguoimua ? ('<span style="color: #64748b; font-size: 13px; display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i class="ri-user-line" style="font-size: 14px;"></i> Người mua: ' + item.tennguoimua + '</span>') : '';
+
+            var li = $('<li style="padding: 12px 16px; border-bottom: 1px solid #f8fafc; cursor: pointer; transition: all 0.2s ease; background-color: #ffffff;"></li>');
+            
+            li.html('<div style="display: flex; flex-direction: column;">' + 
+                        '<strong style="color: #0f172a; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap;">' + 
+                            '<i class="ri-building-4-line" style="color: var(--primary-color); margin-right: 6px; font-size: 15px;"></i> ' + displayTitle + mstBadge + 
+                        '</strong>' + 
+                        buyerIcon + 
+                    '</div>');
+            
+            li.on('mouseover', function() { $(this).css('background-color', '#f8fafc'); });
+            li.on('mouseout', function() { $(this).css('background-color', '#ffffff'); });
+            
+            li.on('click', function() {
+              $("#id_customer").val(item.id || '');
+              $("#masothue").val(item.masothue || '').attr("value", item.masothue || '');
+              $("#madonvi").val(item.madonvi || '');
+              $("#tennguoimua").val(item.tennguoimua || '');
+              $("#tendonvi").val(item.tendonvi || '');
+              $("#diachi").val(item.diachi || '');
+              $("#email").val(item.email || '');
+              $("#info_timnhanh").val(item.tendonvi ? item.tendonvi : item.tennguoimua);
+              box.hide();
+            });
+            ul.append(li);
+          });
+          box.append(ul);
+          box.show();
+        } else {
+          box.html('<div style="padding: 16px; color: #64748b; text-align: center; font-size: 13px; background-color: #ffffff;"><i class="ri-file-search-line" style="font-size: 24px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i>' + (res.message || 'Không tìm thấy khách hàng nào.') + '</div>');
+          box.show();
+        }
+      },
+      error: function() {
+        box.html('<div style="padding: 16px; color: #ef4444; text-align: center; font-size: 13px; background-color: #ffffff;"><i class="ri-error-warning-line" style="font-size: 24px; display: block; margin-bottom: 8px;"></i>Lỗi kết nối hoặc lỗi server.</div>');
+        box.show();
+      }
+    });
+  } else {
+    box.hide();
+  }
+}
+
+function selectQuickCustomer(el) {
+  var data = $(el).data('info');
+  if(data) {
+    if(typeof data === 'string') data = JSON.parse(data);
+    $("#id_customer").val(data.id || '');
+    $("#masothue").val(data.masothue || '');
+    $("#masothue").attr("value", data.masothue || '');
+    $("#madonvi").val(data.madonvi || '');
+    $("#tennguoimua").val(data.tennguoimua || '');
+    $("#tendonvi").val(data.tendonvi || '');
+    $("#diachi").val(data.diachi || '');
+    $("#email").val(data.email || '');
+    $("#info_timnhanh").val(data.tendonvi ? data.tendonvi : data.tennguoimua);
     $("#cus-searching-box").hide();
   }
 }
+
+$(document).mouseup(function(e) {
+    var container = $("#group-buyer-search");
+    if (container.length && !container.is(e.target) && container.has(e.target).length === 0) {
+        $("#cus-searching-box").hide();
+    }
+});
 function callTaxCodeAPI() {
   debugger;
   const taxCodeInput = document.getElementById("masothue");

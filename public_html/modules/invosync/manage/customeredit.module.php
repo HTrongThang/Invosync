@@ -8,8 +8,6 @@ Mai Minh
 Last updated: 11/06/2025
 **************************************************************************/
 # Check permission
-$userInfo->checkPermission('customer','edit');
-
 $templateFile = 'managecustomeredit.tpl.html';
 include_once(ROOT_PATH.'classes/dao/customers.class.php');
 include_once(ROOT_PATH."classes/data/textfilter.class.php");
@@ -17,16 +15,13 @@ include_once(ROOT_PATH.'classes/dao/customergroups.class.php');
 include_once(ROOT_PATH.'classes/dao/countries.class.php');
 include_once(ROOT_PATH.'classes/dao/areas.class.php');
 include_once(ROOT_PATH.'classes/dao/wards.class.php');
-include_once(ROOT_PATH . 'classes/dao/optionstructure.class.php');
-include_once(ROOT_PATH . 'classes/dao/optionvalue.class.php');
+
 $customers = new Customers($storeId);
 $customerGroups = new CustomerGroups($storeId);
 $countries = new Countries($storeId);
 $areas = new Areas($storeId);
 $wards = new Wards($storeId);
-$optionStructure = new OptionStructure($storeId);
-$fieldValue = new OptionValue($storeId);
-if ($fieldValue) $template->assign('fieldValue', $fieldValue); 
+
 
 # Top navigation
 $topNav = array($amessages['dash_board'] => '/'.ADMIN_SCRIPT.'?op=dashboard',
@@ -42,9 +37,6 @@ $listTabs = array($amessages['list_item'] => $tabLink.'&mod=list',
 $template->assign('listTabs',$listTabs);
 $template->assign('currentTab',2);
 
-# Get list of custom options
-$fieldOptionList = $optionStructure->getObjects(1, "`status`='1' AND `module`='customer'", array('position' => 'ASC'));
-if ($fieldOptionList) $template->assign('fieldOptionList', $fieldOptionList);
 
 # Result code
 $result_code = $request->element('rcode'); 
@@ -54,9 +46,6 @@ $id = $request->element('id');
 if($id) $template->assign('id',$id);
 $customerInfo = $customers->getObject($id);
 
-# Get all field values
-$allFieldValues = $fieldValue->getAllValuesByKeyId($id);
-$template->assign('allFieldValues', $allFieldValues);
 
 if(!$customerInfo) {
 	$template->assign('validItem',0);
@@ -64,9 +53,6 @@ if(!$customerInfo) {
 	$template->assign('validItem',1);
 	if($_POST && $request->element('doo') == 'submit') { # if form is submitted
 
-		# Get list of custom options
-		$fieldOptionList = $optionStructure->getObjects(1, "`status`='1' AND `module`='customer'", array('position' => 'ASC'));
-		if ($fieldOptionList) $template->assign('fieldOptionList', $fieldOptionList);
 
 		# Validate the data input
 		$validate = validateData($request);
@@ -76,20 +62,10 @@ if(!$customerInfo) {
 			$template->assign('customerInfo',$customerInfo);
 			
 			# Customer group combo box
-			$customerGroupsCombo = $customerGroups->generateCombo($validate['INPUT']['group_id']['value']);
+			$customerGroupsCombo = $customerGroups->generateCombo($validate['INPUT']['group_id']['value'], "`status`=1");
 			$template->assign('customerGroupsCombo',$customerGroupsCombo);
 
-			# Countries combo box
-			$countriesCombo = $countries->generateCombo($validate['INPUT']['country_id']['value']);
-			$template->assign('countriesCombo',$countriesCombo);
 
-			# Areas combo box
-			$areasCombo = $areas->generateCombo($validate['INPUT']['area_id']['value'],"`country_id` = '".$validate['INPUT']['country_id']['value']."'");
-			$template->assign('areasCombo',$areasCombo);
-
-			# Wards combo box
-			$wardsCombo = $wards->generateCombo($validate['INPUT']['ward_id']['value'],"`area_id` = '".$validate['INPUT']['area_id']['value']."'");
-			$template->assign('wardsCombo',$wardsCombo);
 		} else { 
 			if($request->element('password')) {
 					$new_password = md5($request->element('password'));
@@ -133,11 +109,21 @@ if(!$customerInfo) {
 							  'address' => $request->element('address'),
 							  'email' => Filter($request->element('email')),
 							  'tel' => Filter($request->element('tel')),
-							  'company' => Filter($request->element('company')),
+							  'company_name' => Filter($request->element('company')),
 							  'tax_code' => Filter($request->element('tax_code')),
 							  'group_id' => (int)Filter($request->element('group_id')),
+							  'abbreviations' => $request->element('short_name'),
+							  'debit_balance' => $request->element('opening_debit'),
+							  'credit_balance' => $request->element('opening_credit'),
+							  'bad_dept_limit' => $request->element('bad_debt_limit'),
+							  'fax' => $request->element('fax'),
+							  'website' => $request->element('website'),
+							  'customer_Type' => $request->element('customer_type'),
+							  'sotaikhoan' => $request->element('bank_account'),
+							  'TKNganhang' => $request->element('bank_name'),
+							  'chutaikhoan' => $request->element('account_holder'),
+							  'foundings' => $request->element('established_date') ? $request->element('established_date') : null,
 							  'properties' => serialize($properties),
-							  'updater_id' => $userInfo->getId(),
 							  'date_updated' => date("Y-m-d H:i:s"),
 							  'status' => (int)$request->element('status') ? (int)$request->element('status') : 1);
 					if($request->element('password')) $data['password'] = md5($request->element('password'));
@@ -157,20 +143,10 @@ if(!$customerInfo) {
 			$template->assign('item',$customerInfo);
 			
 			# Customer group combo box
-			$customerGroupsCombo = $customerGroups->generateCombo($customerInfo->getGroupId());
+			$customerGroupsCombo = $customerGroups->generateCombo($customerInfo->getGroupId(), "`status`=1");
 			$template->assign('customerGroupsCombo',$customerGroupsCombo);
 
-			# Countries combo box
-			$countriesCombo = $countries->generateCombo($customerInfo->getCountryId());
-			$template->assign('countriesCombo',$countriesCombo);
 
-			# Areas combo box
-			$areasCombo = $areas->generateCombo($customerInfo->getAreaId(),"`country_id` = '".$customerInfo->getCountryId()."'");
-			$template->assign('areasCombo',$areasCombo);
-
-			# Wards combo box
-			$wardsCombo = $wards->generateCombo($customerInfo->getWardId(),"`area_id` = '".$customerInfo->getAreaId()."'");
-			$template->assign('wardsCombo',$wardsCombo);
 		}
 	}
 }

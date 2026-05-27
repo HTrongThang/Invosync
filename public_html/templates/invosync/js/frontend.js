@@ -613,48 +613,48 @@ function initThemeSwitcher(options = {}) {
 
 // js lấy kich thước cột bỏ vào class 
 function syncWidthWithTableCols(targetSelector, tableSelector, startIndex = 0, numberOfCols = 1) {
-    
-    const tableElement = document.querySelector(tableSelector);
-    const targetElement = document.querySelector(targetSelector);
 
-    if (!targetElement || !tableElement) {
-        return;
+  const tableElement = document.querySelector(tableSelector);
+  const targetElement = document.querySelector(targetSelector);
+
+  if (!targetElement || !tableElement) {
+    return;
+  }
+
+  const updateWidth = () => {
+    const currentTable = document.querySelector(tableSelector);
+    const currentTarget = document.querySelector(targetSelector);
+    if (!currentTable || !currentTarget) return;
+    let columns = currentTable.querySelectorAll('thead tr:first-child th');
+    if (columns.length === 0) {
+      columns = currentTable.querySelectorAll('tbody tr:first-child td');
     }
 
-    const updateWidth = () => {
-        const currentTable = document.querySelector(tableSelector);
-        const currentTarget = document.querySelector(targetSelector);
-        if (!currentTable || !currentTarget) return;
-        let columns = currentTable.querySelectorAll('thead tr:first-child th');
-        if (columns.length === 0) {
-            columns = currentTable.querySelectorAll('tbody tr:first-child td');
-        }
+    if (columns.length === 0) return;
 
-        if (columns.length === 0) return;
+    let totalWidth = 0;
+    let endIdx = Math.min(startIndex + numberOfCols, columns.length);
 
-        let totalWidth = 0;
-        let endIdx = Math.min(startIndex + numberOfCols, columns.length);
-        
-        for (let i = startIndex; i < endIdx; i++) {
-            const colWidth = columns[i].offsetWidth;
-            totalWidth += colWidth;
-            
-            let colName = columns[i].textContent.trim().replace(/\s+/g, ' ');
-            if (!colName) colName = "Cột Checkbox/Icon";
-        }
-        // =====================================
-        if (totalWidth > 0) {
-            currentTarget.style.minWidth = `${totalWidth}px`;
-        }
-    };
+    for (let i = startIndex; i < endIdx; i++) {
+      const colWidth = columns[i].offsetWidth;
+      totalWidth += colWidth;
 
-    updateWidth();
+      let colName = columns[i].textContent.trim().replace(/\s+/g, ' ');
+      if (!colName) colName = "Cột Checkbox/Icon";
+    }
+    // =====================================
+    if (totalWidth > 0) {
+      currentTarget.style.minWidth = `${totalWidth}px`;
+    }
+  };
 
-    const resizeObserver = new ResizeObserver(() => {
-        requestAnimationFrame(updateWidth);
-    });
-    
-    resizeObserver.observe(tableElement);
+  updateWidth();
+
+  const resizeObserver = new ResizeObserver(() => {
+    requestAnimationFrame(updateWidth);
+  });
+
+  resizeObserver.observe(tableElement);
 }
 
 // Gọi hàm khởi tạo khi trang web đã load xong HTM
@@ -703,7 +703,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderFormSettingsData();
   initSmartFormSettings();
 
-  syncWidthWithTableCols('.toolbar-left', '.dynamic-table__content', 0, 4);
+  // syncWidthWithTableCols('.toolbar-left', '.dynamic-table__content', 0, 4);
 
   // Kể cả Jquery bồ cũng ném vào đây luôn, không cần $(document).ready() riêng lẻ nữa
   if (typeof $ !== 'undefined') {
@@ -732,3 +732,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.warn("Active link detection skipped:", err);
   }
 });
+function formSubmit(form, vmod, vdo, vid) {
+  //alert('hi');
+  f = document.getElementById(form);
+  f.mod.value = vmod;
+  f.doo.value = vdo;
+  f.id.value = vid;
+  f.submit();
+}
+
+function formSubmitCancel(form, vmod, vdo, vid) {
+  //alert('hi');
+  let lydo = prompt('Nhập lý do huỷ:');
+  if (lydo != null) {
+    f = document.getElementById(form);
+    f.mod.value = vmod;
+    f.doo.value = vdo;
+    f.id.value = vid;
+    f.lydo.value = lydo;
+    f.submit();
+  }
+}
+
+function activeSubmit(form) {
+  f = document.forms(form);
+  f.plus.value = "active";
+  f.submit();
+}
+
+
+function formSubmitDelNotSign(form, vmod, vdo, vid, vnameform) {
+  //alert('hi');
+  f = document.getElementById(form);
+  f.mod.value = vmod;
+  f.doo.value = vdo;
+  f.id.value = vid;
+  f.tenform.value = vnameform;
+  f.submit();
+}
+

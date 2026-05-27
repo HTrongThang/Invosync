@@ -9,7 +9,9 @@ Customer Group listing module
 $allow_sort_keys = array('id', 'name', 'status');
 $templateFile = 'managecustomergrouplist.tpl.html';
 include_once(ROOT_PATH.'classes/dao/customergroups.class.php');
+include_once(ROOT_PATH.'classes/dao/customers.class.php');
 $customerGroups = new CustomerGroups($storeId);
+$customers = new Customers($storeId);
 
 # Top navigation
 $topNav = array($amessages['dash_board'] => '/'.ADMIN_SCRIPT.'?op=dashboard',
@@ -60,7 +62,11 @@ if($do != 'search' && !$filter_status) $filter_status = 'all';
 $condition = "1>0";
 if($kw) $condition .= " AND (`id`='".controlBackSlashMySQL($kw)."' OR `name` LIKE '%".controlBackSlashMySQL($kw)."%')";
 
-if($filter_status != '' && $filter_status != 'all') $condition .= " AND `status`='$filter_status'";
+if($filter_status != '' && $filter_status != 'all') {
+    $condition .= " AND `status`='$filter_status'";
+} else {
+    $condition .= " AND `status` != '".S_DELETED."'";
+}
 
 $pages_condition = "`store_id` = '$storeId' AND ($condition)";
 $sort = array($sort_key => $sort_direction);
@@ -94,8 +100,8 @@ $template->assign('link',$link);
 if($_POST) {
 	switch($do) {
 		case 'enable':
-			$userInfo->checkPermission('customer','edit');
 			$id = $request->element('id');
+
 			if($id) {
 				$customerGroups->changeStatus($id,S_ENABLED);
 				$result_code = 1;
@@ -118,7 +124,6 @@ if($_POST) {
 			}
 			break;
 		case 'disable':
-			$userInfo->checkPermission('customer','edit');
 			$id = $request->element('id');
 			if($id) {
 				$customerGroups->changeStatus($id,S_DISABLED);
@@ -142,31 +147,43 @@ if($_POST) {
 			}
 			break;
 		case 'delete':
-			$userInfo->checkPermission('customer','delete');
 			$id = $request->element('id');
 			if($id) {
-				$customerGroups->changeStatus($id,S_DELETED);
-				$result_code = 3;
-				
-				# Operation tracking
-				$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa nhóm khách hàng '.$customerGroups->getNameFromId($id),'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+				if($customers->countItems('id', "group_id='$id'") > 0) {
+					$error_code = 11;
+				} else {
+					$customerGroups->changeStatus($id,S_DELETED);
+					$result_code = 3;
+					
+					# Operation tracking
+					$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa nhóm khách hàng '.$customerGroups->getNameFromId($id),'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+				}
 			} else {
 				$ids = $request->element('ids');
 				if($ids) {
 					$listCustomer = '';
+					$hasError = false;
 					foreach ($ids as $id) {
-						$customerGroups->changeStatus($id,S_DELETED);
-						$listCustomer .= ($listCustomer?',&nbsp;':'').$customerGroups->getNameFromId($id);
+						if($customers->countItems('id', "group_id='$id'") > 0) {
+							$hasError = true;
+						} else {
+							$customerGroups->changeStatus($id,S_DELETED);
+							$listCustomer .= ($listCustomer?',&nbsp;':'').$customerGroups->getNameFromId($id);
+						}
 					}
-					$result_code = 3;
-					
-					# Operation tracking
-					$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa nhóm khách hàng '.$listCustomer,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+					if($listCustomer) {
+						$result_code = 3;
+						
+						# Operation tracking
+						$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa nhóm khách hàng '.$listCustomer,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+					}
+					if($hasError) {
+						$error_code = 11;
+					}
 				} else $error_code = 5;
 			}
 			break;
 		case 'cleantrash':
-			$userInfo->checkPermission('customer','clean',0);
 			$customerGroups->cleanTrash();
 			$result_code = 5;
 			
