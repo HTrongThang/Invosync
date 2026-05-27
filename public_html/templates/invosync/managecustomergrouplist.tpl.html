@@ -22,10 +22,10 @@
                 <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
                     <form action="/{$aScript}" method="post" name="formSearch" id="formSearch"
                         class="flex-1 flex gap-20 jus-sb flex-wrap w-full">
-                        <div class="toolbar-left flex center-ver ">
+                        <div class="toolbar-left flex center-ver " style="min-width: 200px !important;">
                             <span
-                                class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green">Số
-                                kết quả mỗi trang</span>
+                                class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green"
+                                style="font-size:12px;">Số kết quả hiển thị mỗi trang</span>
                             <select name="ipp" class="pagination-select cursor-pointer"
                                 onchange="document.formSearch.submit();">
                                 <option value="20" {if $ipp eq 20}selected{/if}>20</option>
@@ -37,9 +37,8 @@
                         <div class="toolbar-right flex center-ver gap-5 flex-wrap">
                             <input type="text" name="kw" value="{$kw}"
                                 class="filter-input exception item-padding-5 input-large"
-                                placeholder="Từ khóa (Tên nhóm...)">
-                            <select name="filter_status" class="filter-input item-padding-5"
-                                style="border:1px solid #ccc;">
+                                placeholder="Tên nhóm khách hàng..." style="font-size:12px;">
+                            <select name="filter_status" class="filter-input item-padding-5" style="font-size:12px;">
                                 <option value="all">-- Tất cả trạng thái --</option>
                                 <option value="1" {if $filter_status eq '1' }selected{/if}>Kích hoạt</option>
                                 <option value="0" {if $filter_status eq '0' }selected{/if}>Vô hiệu hóa</option>
@@ -50,14 +49,16 @@
                             <input type="hidden" name="mod" value="list" />
                             <input type="hidden" name="doo" value="search" />
 
-                            <button type="submit" class="btn-search bg-secondary bold cursor-pointer">
-                                Tìm kiếm
+                            <button type="submit"
+                                class="btn-search bg-secondary bold cursor-pointer flex center-ver gap-5"
+                                style="font-size:12px;">
+                                <i class="ri-search-line" style="font-size:14px;"></i> Tìm kiếm
                             </button>
 
                             <a href="/{$aScript}?op=manage&act=customergroup&mod=add"
                                 class="btn-add-red cursor-pointer flex center-ver center-hor"
-                                style="text-decoration: none;">
-                                <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" alt="Add New"
+                                style="text-decoration: none;" title="Thêm nhóm mới">
+                                <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" alt="Thêm mới"
                                     class="img-content">
                             </a>
                         </div>
@@ -75,14 +76,21 @@
             <form action="/{$aScript}" method="post" name="formType" id="formType">
                 <div class="pos-rel">
                     <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
-                        <table class="fill-view dynamic-table__content w-full">
+                        <style>
+                            #tableCustomerGroup td,
+                            #tableCustomerGroup th {
+                                padding: 6px 8px;
+                                font-size: 13px;
+                            }
+                        </style>
+                        <table id="tableCustomerGroup" class="fill-view dynamic-table__content w-full">
                             <thead class="bg-third text-color-black">
                                 <tr>
                                     <th class="col-fit text-center"><input type="checkbox" name="all" id="all"
                                             onClick="toggleAllChecks('formType');"></th>
                                     <th class="col-fit text-center">STT</th>
                                     <th class="table-icon__container col-fit text-center">Chức năng</th>
-                                    <th>Tên nhóm</th>
+                                    <th>Tên nhóm khách hàng</th>
                                     <th>Ngày tạo</th>
                                     <th>Trạng thái</th>
                                 </tr>
@@ -92,33 +100,36 @@
                                 {if isset($listItems)}
                                 {foreach key=no from=$listItems item=item}
                                 <tr>
-                                    <td class="text-center"><input type="checkbox" name="ids[]" value="{$item->getId()}"
-                                            class="box3"></td>
+                                    <td class="text-center" style="width:15px !important; padding:1px;"><input
+                                            type="checkbox" name="ids[]" value="{$item->getId()}" class="box3"
+                                            style="width:15px; height:15px !important;"></td>
                                     <td class="text-center">{$startNum+$no}</td>
-                                    <td class="table-icon__container">
-                                        <div class="table-icon flex gap-2 center-hor">
+                                    <td class="table-icon__container" style="text-align:center; vertical-align:middle;">
+                                        <div class="table-icon flex center-ver center-hor"
+                                            style="gap:6px; justify-content:center;">
                                             <a href="/{$aScript}?op=manage&act=customergroup&mod=edit&id={$item->getId()}"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Sửa">
-                                                <i class="ri-pencil-line" style="color: var(--primary-color);"></i>
+                                                <i class="ri-pencil-line"
+                                                    style="color: var(--primary-color); font-size:17px;"></i>
                                             </a>
                                             {if $item->getStatus() == 1}
                                             <a href="javascript:formSubmit('formType','list','disable',{$item->getId()});"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Vô hiệu hóa">
-                                                <i class="ri-eye-off-line" style="color: gray;"></i>
+                                                <i class="ri-eye-off-line" style="color: gray; font-size:17px;"></i>
                                             </a>
                                             {else}
                                             <a href="javascript:formSubmit('formType','list','enable',{$item->getId()});"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Kích hoạt">
-                                                <i class="ri-eye-line" style="color: green;"></i>
+                                                <i class="ri-eye-line" style="color: green; font-size:17px;"></i>
                                             </a>
                                             {/if}
                                             <a href="javascript:if(confirm('Bạn có chắc chắn muốn xoá nhóm này?')) formSubmit('formType','list','delete',{$item->getId()});"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Xóa">
-                                                <img class="img-content"
+                                                <img class="img-content" style="width:17px; height:17px;"
                                                     src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg"
                                                     alt="Delete">
                                             </a>
@@ -150,15 +161,22 @@
                 {if isset($listItems)}
                 <div class="flex jus-sb center-ver" style="margin-top: 15px;">
                     <div class="toolbar-left flex gap-10">
-                        <button type="button" class="btn-search bg-secondary bold cursor-pointer"
+                        <button type="button"
                             onClick="javascript:if(confirm('Bạn có chắc muốn kích hoạt các mục đã chọn?')) formSubmit('formType','list','enable','0');"
-                            style="border: none;">Kích hoạt</button>
-                        <button type="button" class="btn-search bg-secondary bold cursor-pointer"
+                            style="height:24px; padding:0 10px; border:1px solid var(--primary-color); border-radius:3px; background:#fff; color:var(--primary-color); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='var(--primary-color)';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='var(--primary-color)';">Kích
+                            hoạt</button>
+                        <button type="button"
                             onClick="javascript:if(confirm('Bạn có chắc muốn vô hiệu các mục đã chọn?')) formSubmit('formType','list','disable','0');"
-                            style="border: none;">Vô hiệu</button>
-                        <button type="button" class="btn-search bg-secondary bold cursor-pointer"
-                            onClick="javascript:if(confirm('Bạn có chắc muốn xóa các mục đã chọn?')) formSubmit('formType','list','delete','0');"
-                            style="border: none; color: red;">Xoá</button>
+                            style="height:24px; padding:0 10px; border:1px solid #6c757d; border-radius:3px; background:#fff; color:#6c757d; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#6c757d';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#6c757d';">Vô hiệu</button>
+                        <button type="button"
+                            onClick="javascript:if(confirm('Bạn có chắc chắn muốn xóa các mục đã chọn?')) formSubmit('formType','list','delete','0');"
+                            style="height:24px; padding:0 10px; border:1px solid #dc3545; border-radius:3px; background:#fff; color:#dc3545; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#dc3545';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#dc3545';">Xoá</button>
                     </div>
                     <div class="paging">
                         {include file="$userTemplate/corepager.tpl.html" title="pager"}

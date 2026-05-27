@@ -4,11 +4,9 @@ Customer Group listing module
 ----------------------------------------------------------------
 **************************************************************************/
 # Check permission
-$userInfo->checkPermission('customer','view');
 
 # Allowed sort keys - prevent SQL injection
-$allow_sort_keys = array('id','name','date_created','status');
-
+$allow_sort_keys = array('id', 'name', 'status');
 $templateFile = 'managecustomergrouplist.tpl.html';
 include_once(ROOT_PATH.'classes/dao/customergroups.class.php');
 $customerGroups = new CustomerGroups($storeId);
@@ -34,7 +32,7 @@ $template->assign('ipp',$items_per_page);
 $page = $request->element('pg',1);
 $template->assign('pg',$page);
 
-# Sort key
+// # Sort key
 $sort_key = $request->element('sk','id');
 if(!in_array($sort_key,$allow_sort_keys)) $sort_key='id';
 $template->assign('sk',$sort_key);
@@ -42,6 +40,9 @@ $template->assign('sk',$sort_key);
 # Sort direction
 $sort_direction = $request->element('sd','DESC');
 $template->assign('sd',$sort_direction);
+
+# Build Sort
+$sort = array($sort_key => $sort_direction);
 
 # Action
 $do = $request->element('doo','');
@@ -55,7 +56,6 @@ $template->assign('kw',$kw);
 $filter_status = $request->element('filter_status','');
 $template->assign('filter_status',$filter_status);
 if($do != 'search' && !$filter_status) $filter_status = 'all';
-
 # Build WHERE condition
 $condition = "1>0";
 if($kw) $condition .= " AND (`id`='".controlBackSlashMySQL($kw)."' OR `name` LIKE '%".controlBackSlashMySQL($kw)."%')";
@@ -90,7 +90,6 @@ if($error_code) $template->assign('error_code',$error_code);
 # Link
 $link = '/'.ADMIN_SCRIPT."?op=manage&act=customergroup&mod=list&kw=".urlencode($kw)."&filter_status=$filter_status&lang=$lang&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=$page";
 $template->assign('link',$link);
-
 # Submitted form
 if($_POST) {
 	switch($do) {
@@ -180,7 +179,6 @@ if($_POST) {
 			break;
 	}
 	header('location:'.'/'.ADMIN_SCRIPT."?op=manage&act=customergroup&mod=list&doo=$do&kw=".urlencode($kw)."&filter_status=$filter_status&lang=$lang&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=$page&ecode=$error_code&rcode=$result_code");
-} else {
+} 
 
-}
 ?>

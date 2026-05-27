@@ -1,0 +1,21 @@
+<style>
+.paging ul { display: flex; align-items: center; gap: 5px; list-style: none; padding: 0; margin: 0; }
+.paging ul li { display: flex; align-items: center; }
+.paging ul li img { width: 14px; height: 14px; vertical-align: middle; }
+.paging ul li a { display: flex; align-items: center; justify-content: center; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; }
+.paging ul li.current { padding: 4px 8px; background-color: var(--primary-color); color: white; border-radius: 4px; font-weight: bold; }
+.paging ul li.first { font-size: 13px; color: #666; margin-right: 10px; }
+</style>
+{if $rowsPages.pages >= 1}
+<ul>
+<li class="first">{$locale->msg('page')}</li>
+{foreach from=$pager item=pageItem}
+{if $pageItem.current eq 1}
+<li class="current">{$pageItem.name}</li>
+{else}
+<li><a href="{$pageItem.url}">{$pageItem.name}</a></li>
+{/if}
+{/foreach}
+<li class="first" style="margin-left: 15px;">{$locale->msg('total_of')} {$rowsPages.rows|number_format} {$locale->msg('result_display')} {$rowsPages.pages|number_format} {$amessages.page|lower}.</li>
+</ul>
+{/if}

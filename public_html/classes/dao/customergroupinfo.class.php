@@ -69,6 +69,9 @@ class CustomerGroupInfo {
 	{
 		$this->properties[$key]=$nValue;
 	}
+	function getDescription() {
+		return $this->getProperty('description');
+	}
 	
 	function getProperties()
 	{
