@@ -771,3 +771,25 @@ function formSubmitDelNotSign(form, vmod, vdo, vid, vnameform) {
   f.submit();
 }
 
+function confirmBulkAction(formId, moduleName, actionValue, confirmMessage, dialogType = 'info', title = 'Xác nhận') {
+    var form = document.getElementById(formId);
+    if (!form) return;
+    
+    var checkboxes = form.querySelectorAll('input[type="checkbox"][name="ids[]"]:checked');
+    if (checkboxes.length === 0) {
+        if (typeof showGlobalDialog === 'function') {
+            showGlobalDialog('Vui lòng chọn ít nhất một mục để thực hiện thao tác này.', 'warning', 'Chưa chọn dữ liệu');
+        } else {
+            alert('Vui lòng chọn ít nhất một mục để thực hiện thao tác này.');
+        }
+        return;
+    }
+    
+    if (typeof showGlobalConfirmDialog === 'function') {
+        showGlobalConfirmDialog(confirmMessage, () => formSubmit(formId, moduleName, actionValue, '0'), dialogType, title);
+    } else {
+        if (confirm(confirmMessage)) {
+            formSubmit(formId, moduleName, actionValue, '0');
+        }
+    }
+}

@@ -30,6 +30,7 @@ class ProductInfo {
 	public $file_ids;
 	public $avatarImg = null;
 	public $price;
+	public $opening_stock;
 	public $period; # theo kỳ
 	public $features; 
 	public $key_features; 			# tính năng nổi bật 
@@ -436,6 +437,13 @@ class ProductInfo {
 	}
 	function getPriceMin1Year() {
 		return ($this->price * 2.9) / 3;
+	}
+
+	function getOpeningStock() {
+		return $this->opening_stock;
+	}
+	function setOpeningStock($nValue) {
+		$this->opening_stock = $nValue;
 	}
 
 	function getPrice2Year() {

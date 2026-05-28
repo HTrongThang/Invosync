@@ -264,10 +264,76 @@
                 </div>
             </div>
 
-            <a href="/{$aScript}?op=manage&act=system&mod=config" class="nav-item">
+            <div class="nav-item nav-item-dropdown">
                 <i class="ri-settings-4-line"></i>
                 <span>Cấu hình</span>
-            </a>
+                <i class="ri-arrow-down-s-line" style="font-size: 12px; margin-left: 2px;"></i>
+                <div class="nav-dropdown-menu">
+                    <a href="/{$aScript}?op=manage&act=system&mod=config" class="nav-dropdown-link">
+                        <i class="ri-settings-5-line"></i>
+                        <span>Cấu hình chung</span>
+                    </a>
+                    <div class="nav-item-sub-dropdown">
+                        <div class="nav-dropdown-link" style="justify-content: space-between; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="ri-store-2-line"></i>
+                                <span>Địa điểm kinh doanh</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line" style="margin: 0; font-size: 16px;"></i>
+                        </div>
+                        <div class="nav-sub-dropdown-menu">
+                            <a href="/{$aScript}?op=manage&act=business&mod=add" class="nav-dropdown-link">
+                                <i class="ri-add-box-line"></i>
+                                <span>Thêm địa điểm</span>
+                            </a>
+                            <a href="/{$aScript}?op=manage&act=business&mod=list" class="nav-dropdown-link">
+                                <i class="ri-list-check-2"></i>
+                                <span>Danh sách địa điểm</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item-sub-dropdown">
+                        <div class="nav-dropdown-link" style="justify-content: space-between; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="ri-bank-card-line"></i>
+                                <span>Hình thức thanh toán</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line" style="margin: 0; font-size: 16px;"></i>
+                        </div>
+                        <div class="nav-sub-dropdown-menu">
+                            <a href="/{$aScript}?op=manage&act=payment&mod=add" class="nav-dropdown-link">
+                                <i class="ri-add-box-line"></i>
+                                <span>Thêm hình thức</span>
+                            </a>
+                            <a href="/{$aScript}?op=manage&act=payment&mod=list" class="nav-dropdown-link">
+                                <i class="ri-list-check-2"></i>
+                                <span>Danh sách hình thức</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item-sub-dropdown">
+                        <div class="nav-dropdown-link" style="justify-content: space-between; cursor: pointer;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="ri-global-line"></i>
+                                <span>Kênh bán hàng</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line" style="margin: 0; font-size: 16px;"></i>
+                        </div>
+                        <div class="nav-sub-dropdown-menu">
+                            <a href="/{$aScript}?op=manage&act=salechannel&mod=add" class="nav-dropdown-link">
+                                <i class="ri-add-box-line"></i>
+                                <span>Thêm kênh mới</span>
+                            </a>
+                            <a href="/{$aScript}?op=manage&act=salechannel&mod=list" class="nav-dropdown-link">
+                                <i class="ri-list-check-2"></i>
+                                <span>Danh sách kênh</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
 
         <div class="user-widget">

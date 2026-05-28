@@ -79,13 +79,13 @@
             <select name="salechannel" id="salechannel" class="input-field flex-1">
                 {if isset($listSaleChannel) && $listSaleChannel}
                 {foreach key=key from=$listSaleChannel item=item}
-                <option value="{$item->getId()}">{$item->getName()}</option>
+                <option value="{$item->getId()}" {if (isset($error.INPUT) && $error.INPUT.salechannel.value eq $item->
+                    getId()) || (isset($itemInfo) && $itemInfo->getSaleChannelId() eq $item->getId()) ||
+                    (!isset($error.INPUT) && !isset($itemInfo) && $item->getStatusDefault() eq
+                    1)}selected{/if}>{$item->getName()}</option>
                 {/foreach}
                 {else}
-                <option value="Shopee">Shopee</option>
-                <option value="Lazada">Lazada</option>
-                <option value="TikTok Shop">TikTok Shop</option>
-                <option value="Bán trực tiếp">Bán trực tiếp</option>
+                <option value="">Chưa có kênh bán hàng</option>
                 {/if}
             </select>
         </div>
@@ -109,11 +109,13 @@
             <select name="warehouse" id="warehouse" class="input-field flex-1">
                 {if isset($listWarehouse) && $listWarehouse}
                 {foreach key=key from=$listWarehouse item=item}
-                <option value="{$item->getId()}">{$item->getName()}</option>
+                <option value="{$item->getId()}" {if (isset($error.INPUT) && $error.INPUT.warehouse.value eq $item->
+                    getId()) || (isset($itemInfo) && $itemInfo->getWarehouseId() eq $item->getId()) ||
+                    (!isset($error.INPUT) && !isset($itemInfo) && $item->getStatusDefault() eq
+                    1)}selected{/if}>{$item->getName()}</option>
                 {/foreach}
                 {else}
-                <option value="Kho A">Kho A</option>
-                <option value="Kho B">Kho B</option>
+                <option value="">--- Chưa có kho hàng ---</option>
                 {/if}
             </select>
         </div>

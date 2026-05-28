@@ -108,29 +108,37 @@ if ($_POST && $request->element('doo') == 'submit') {
 	
 	
 
-	# =====================================================================
-	# GÁN DỮ LIỆU CHO TEMPLATE
-	# =====================================================================
-	$BusinessObj = $Business->getObjects(1, "`status` = '1'", "", 99);
-	if ($BusinessObj) $template->assign('BusinessObj', $BusinessObj);
-
-
-	$listVat = $vat->getObjects(1, "`status` = '1'", "", 99);
-	if ($listVat) $template->assign('listVat', $listVat);
-	$listPayment = $payments->getObjects(1, "`status` = '1'", "", 99);
-	if ($listPayment) $template->assign('listPayment', $listPayment);
-	$listCurrency = $currencies->getObjects(1, "`status` = '1'", "", 99);
-	if ($listCurrency) $template->assign('listCurrency', $listCurrency);
-	$listWarehouse = $warehouses->getObjects(1, "`status` = '1'", "", 99);
-	if ($listWarehouse) $template->assign('listWarehouse', $listWarehouse);
-	if ($listWarehouse) $template->assign('listWarePro', $listWarehouse);
-
-	$listUnit = $unitsss->getObjects(1, "`status` = '1'", "", 99);
-	if ($listUnit) $template->assign('listUnit', $listUnit);
-	
-	
-
+	// Xử lý các logic khác (nếu có) khi không có POST...
 }
+
+# =====================================================================
+# GÁN DỮ LIỆU CHO TEMPLATE (LUÔN CHẠY)
+# =====================================================================
+$BusinessObj = $Business->getObjects(1, "`status` = '1'", "", 99);
+if ($BusinessObj) $template->assign('BusinessObj', $BusinessObj);
+
+$listVat = $vat->getObjects(1, "`status` = '1'", "", 99);
+if ($listVat) $template->assign('listVat', $listVat);
+
+$listPayment = $payments->getObjects(1, "`status` = '1'", "", 99);
+if ($listPayment) $template->assign('listPayment', $listPayment);
+
+include_once(ROOT_PATH . 'classes/dao/salechannels.class.php');
+$saleChannels = new SaleChannels($storeId);
+$listSaleChannel = $saleChannels->getObjects(1, "`status` = '1'", array('position' => 'ASC'), 99);
+if ($listSaleChannel) $template->assign('listSaleChannel', $listSaleChannel);
+
+$listCurrency = $currencies->getObjects(1, "`status` = '1'", "", 99);
+if ($listCurrency) $template->assign('listCurrency', $listCurrency);
+
+$listWarehouse = $warehouses->getObjects(1, "`status` = '1'", "", 99);
+if ($listWarehouse) {
+	$template->assign('listWarehouse', $listWarehouse);
+	$template->assign('listWarePro', $listWarehouse);
+}
+
+$listUnit = $unitsss->getObjects(1, "`status` = '1'", "", 99);
+if ($listUnit) $template->assign('listUnit', $listUnit);
 
 # =============================================================================
 # HÀM KIỂM TRA DỮ LIỆU ĐẦU VÀO

@@ -45,7 +45,12 @@ if($kw) $template->assign('kw',$kw);
 $condition = "1>0";
 if($kw) $condition .= " AND (`p`.`id`='$kw' OR `p`.`name` LIKE '%$kw%' OR `p`.`slug` LIKE '%$kw%' OR `p`.`keyword` LIKE '%$kw%')";
 $pages_condition = "`p`.`store_id` = '$storeId' AND `p`.`status` != '" . S_DELETED . "' AND ($condition)";
-$sort = array($sort_key => $sort_direction);
+
+$sql_sort_key = $sort_key;
+if ($sort_key == 'opening_stock') {
+    $sql_sort_key = "p.opening_stock";
+}
+$sort = array($sql_sort_key => $sort_direction);
 
 # Page navigation
 // Since Products has complex joins, we need to adapt getNumItems or just use count
@@ -67,11 +72,11 @@ if($page > $rowsPages['pages']) $page = $rowsPages['pages'];
 
 # Since Products::getObjects doesn't support JOIN yet, we'll write a custom query to fetch lists with categories.
 $start = max(0, ($page - 1) * $items_per_page);
-$sql = "SELECT p.id, p.keyword, p.slug, p.name, p.price, p.status, p.properties, c.name AS category_name
+$sql = "SELECT p.id, p.keyword, p.slug, p.name, p.price, p.opening_stock, p.status, p.properties, c.name AS category_name
         FROM " . DB_PREFIX . "products p 
         LEFT JOIN " . DB_PREFIX . "product_categories c ON p.category_id = c.id 
         WHERE $pages_condition 
-        ORDER BY $sort_key $sort_direction 
+        ORDER BY $sql_sort_key $sort_direction 
         LIMIT $start, $items_per_page";
 $res = $db->query($sql);
 $listPage = array();
@@ -92,6 +97,8 @@ $template->assign('pager',$pager);
 # Result code
 $result_code = $request->element('rcode');
 if($result_code) $template->assign('result_code',$result_code);
+$error_code = $request->element('ecode');
+if($error_code) $template->assign('error_code',$error_code);
 
 # Link
 $link = '/'.ADMIN_SCRIPT."?op=manage&act=product&mod=list&kw=$kw&ipp=$items_per_page&sk=$sort_key&sd=$sort_direction&pg=$page";
@@ -154,7 +161,7 @@ if($_POST) {
 				    # Operation tracking
 				    $trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$id,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
                 } else {
-                    $result_code = 8;
+                    $error_code = 12;
                 }
 			} else {
 				$ids = $request->element('ids');
@@ -169,7 +176,7 @@ if($_POST) {
 					}
 					$result_code = 3;
                     if (!$listId) {
-                        $result_code = 8;
+                        $error_code = 12;
                     } else {
 					    # Operation tracking
 					    $trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
@@ -178,6 +185,8 @@ if($_POST) {
 			}
 			break;
 	}
-	header('location:'.$link.'&rcode='.$result_code);
+	$redirectUrl = $link.'&rcode='.$result_code;
+	if (isset($error_code)) $redirectUrl .= '&ecode='.$error_code;
+	header('location:'.$redirectUrl);
 }
 ?>

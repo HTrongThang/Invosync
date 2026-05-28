@@ -82,12 +82,13 @@ if($_POST && $request->element('doo') == 'submit') {
 					  'name' => Filter($request->element('name')),
 					  'keyword' => Filter($request->element('sku')),
 					  'description' => Filter($request->element('description')),
-					  'price' => str_replace(array(',', '.'), '', $request->element('price')),
+					  'price' => $request->element('price') ? (float)str_replace(array(',', '.'), '', $request->element('price')) : 0,
+					  'opening_stock' => $request->element('opening_stock') ? (int)str_replace(array(',', '.'), '', $request->element('opening_stock')) : 0,
 					  'expiration_date' => $request->element('expiration_date'),
 					  'properties' => serialize($properties),
 					  'date_created' => date("Y-m-d H:i:s"),
 					  'date_updated' => date("Y-m-d H:i:s"),
-					  'status' => (int)$request->element('status') ? (int)$request->element('status') : 1);
+					  'status' => $request->element('status') !== '' ? (int)$request->element('status') : 1);
 					  
 		$newId = $products->addData($data);
 		if($newId) {

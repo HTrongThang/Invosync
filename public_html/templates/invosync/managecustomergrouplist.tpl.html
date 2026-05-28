@@ -159,18 +159,18 @@
                 <div class="flex jus-sb center-ver" style="margin-top: 15px;">
                     <div class="toolbar-left flex gap-10">
                         <button type="button"
-                            onClick="showGlobalConfirmDialog('Bạn có chắc muốn kích hoạt các mục đã chọn?', () => formSubmit('formType','list','enable','0'), 'info');"
+                            onClick="confirmBulkAction('formType','list','enable','Bạn có chắc muốn kích hoạt các mục đã chọn?', 'info');"
                             style="height:24px; padding:0 10px; border:1px solid var(--primary-color); border-radius:3px; background:#fff; color:var(--primary-color); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
                             onmouseover="this.style.background='var(--primary-color)';this.style.color='#fff';"
                             onmouseout="this.style.background='#fff';this.style.color='var(--primary-color)';">Kích
                             hoạt</button>
                         <button type="button"
-                            onClick="showGlobalConfirmDialog('Bạn có chắc muốn vô hiệu các mục đã chọn?', () => formSubmit('formType','list','disable','0'), 'info');"
+                            onClick="confirmBulkAction('formType','list','disable','Bạn có chắc muốn vô hiệu các mục đã chọn?', 'info');"
                             style="height:24px; padding:0 10px; border:1px solid #6c757d; border-radius:3px; background:#fff; color:#6c757d; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
                             onmouseover="this.style.background='#6c757d';this.style.color='#fff';"
                             onmouseout="this.style.background='#fff';this.style.color='#6c757d';">Vô hiệu</button>
                         <button type="button"
-                            onClick="showGlobalConfirmDialog('Bạn có chắc chắn muốn xóa các mục đã chọn?', () => formSubmit('formType','list','delete','0'));"
+                            onClick="confirmBulkAction('formType','list','delete','Bạn có chắc chắn muốn xóa các mục đã chọn?', 'error');"
                             style="height:24px; padding:0 10px; border:1px solid #dc3545; border-radius:3px; background:#fff; color:#dc3545; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
                             onmouseover="this.style.background='#dc3545';this.style.color='#fff';"
                             onmouseout="this.style.background='#fff';this.style.color='#dc3545';">Xoá</button>

@@ -2,40 +2,36 @@
 <style>
     .dynamic-table__content th {
         font-size: 15px !important;
-        padding: 8px 8px !important;
+        padding: 10px 5px !important;
     }
 
     .dynamic-table__content td {
-        font-size: 15px !important;
-        padding: 6px 8px !important;
+        font-size: 14px !important;
     }
 </style>
 <main class="container-f flex flex-col flex-1 pos-rel" style="background-color: #ffffff;">
     <section class="container-f flex flex-col bg-white">
         <div class="invoice-main-wrapper flex flex-col gap-10">
             <div class="invoice-top-section flex flex-col">
-
                 <div class="invoice-header border-bottom-dark">
-                    <h1 class="invoice-title uppercase bold text-primary">DANH SÁCH KHO HÀNG HÓA</h1>
+                    <h1 class="invoice-title uppercase bold text-primary">DANH SÁCH HÌNH THỨC THANH TOÁN</h1>
                 </div>
-
                 <div class="invoice-breadcrumb-row flex jus-sb center-ver">
                     <div class="breadcrumb-text flex gap-5 center-ver">
                         <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
                         <p>|</p>
-                        <a href="/{$aScript}?op=manage&act=warehouse&mod=list">Kho hàng hóa</a>
+                        <a href="/{$aScript}?op=manage&act=payment&mod=list">Hình thức thanh toán</a>
                         <p>|</p>
-                        <a href="javascript:void(0)">Danh sách kho</a>
+                        <a href="javascript:void(0)">Danh sách</a>
                     </div>
                 </div>
-
                 <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
                     <form action="/{$aScript}" method="post" name="formSearch" id="formSearch"
                         class="flex-1 flex gap-20 jus-sb flex-wrap w-full">
-                        <div class="toolbar-left flex center-ver" style="width: 270px !important;">
+                        <div class="toolbar-left flex center-ver ">
                             <span
                                 class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green"
-                                style="font-size:12px;">Số kết quả hiển thị mỗi trang</span>
+                                style="font-size:12px;">Số kết quả mỗi trang</span>
                             <select name="ipp" class="pagination-select cursor-pointer"
                                 onchange="document.formSearch.submit();">
                                 <option value="20" {if $ipp eq 20}selected{/if}>20</option>
@@ -43,29 +39,34 @@
                                 <option value="100" {if $ipp eq 100}selected{/if}>100</option>
                             </select>
                         </div>
-
                         <div class="toolbar-right flex center-ver gap-5 flex-wrap">
                             <input type="text" name="kw" value="{$kw}"
-                                class="filter-input exception item-padding-5 input-large"
-                                placeholder="Từ khóa (Tên kho...)" style="font-size:12px;">
-
-                            <input type="hidden" name="op" value="manage" />
-                            <input type="hidden" name="act" value="warehouse" />
-                            <input type="hidden" name="mod" value="list" />
-                            <input type="hidden" name="doo" value="search" />
+                                class="filter-input exception item-padding-5 input-large" placeholder="Từ khóa (Tên...)"
+                                style="font-size:13px;">
+                            <select name="filter_status" class="filter-input item-padding-5"
+                                style="font-size:12px; min-width:140px;">
+                                <option value="all">-- Tất cả trạng thái --</option>
+                                <option value="1" {if isset($filter_status) && $filter_status eq '1' }selected{/if}>Kích
+                                    hoạt</option>
+                                <option value="0" {if isset($filter_status) && $filter_status eq '0' }selected{/if}>Vô
+                                    hiệu hóa</option>
+                            </select>
 
                             <button type="submit"
                                 class="btn-search bg-secondary bold cursor-pointer flex center-ver gap-5"
                                 style="font-size:12px;">
                                 <i class="ri-search-line" style="font-size:14px;"></i> Tìm kiếm
                             </button>
-
-                            <a href="/{$aScript}?op=manage&act=warehouse&mod=add"
+                            <a href="/{$aScript}?op=manage&act=payment&mod=add"
                                 class="btn-add-red cursor-pointer flex center-ver center-hor"
-                                style="text-decoration: none;" title="Thêm kho mới">
-                                <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" style="width: 26px;"
-                                    alt="Thêm mới" class="img-content">
+                                style="text-decoration: none;" title="Thêm mới">
+                                <i class="ri-add-line" style="font-size: 20px;"></i>
                             </a>
+
+                            <input type="hidden" name="op" value="manage" />
+                            <input type="hidden" name="act" value="payment" />
+                            <input type="hidden" name="mod" value="list" />
+                            <input type="hidden" name="doo" value="search" />
                         </div>
                     </form>
                 </div>
@@ -81,24 +82,22 @@
             <form action="/{$aScript}" method="post" name="formType" id="formType">
                 <div class="pos-rel">
                     <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
-                        <table id="tableProductType" class="fill-view dynamic-table__content w-full">
+                        <table class="fill-view dynamic-table__content w-full" style="font-size: 15px;">
                             <thead class="bg-third text-color-black">
                                 <tr>
                                     <th class="col-fit text-center"><input type="checkbox" name="all" id="all"
                                             onClick="toggleAllChecks('formType');"></th>
                                     <th class="col-fit text-center">STT</th>
                                     <th class="table-icon__container col-fit text-center">Chức năng</th>
-                                    <th class="text-left" style="width: 20%;">Tên kho</th>
-                                    <th class="text-left" style="width: 25%;">Địa chỉ</th>
-                                    <th class="text-left" style="width: 15%;">Ghi chú</th>
-                                    <th class="text-center" style="width: 10%;">Mặc định</th>
+                                    <th class="text-left" style="width: 40%;">Tên hình thức</th>
+                                    <th class="text-center" style="width: 20%;">Mặc định xuất hoá đơn</th>
                                     <th class="text-right" style="width: 15%;">Ngày tạo</th>
                                     <th class="text-center" style="width: 15%;">Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {if isset($listItems)}
-                                {assign var=stt value=$rowsPages.start+1}
+                                {assign var=stt value=$paging.page*20-19}
                                 {foreach from=$listItems item=item}
                                 <tr>
                                     <td class="text-center" style="width:15px !important; padding:1px;"><input
@@ -108,7 +107,7 @@
                                     <td class="table-icon__container" style="text-align:center; vertical-align:middle;">
                                         <div class="table-icon flex center-ver center-hor"
                                             style="gap:6px; justify-content:center;">
-                                            <a href="/{$aScript}?op=manage&act=warehouse&mod=edit&id={$item->getId()}"
+                                            <a href="/{$aScript}?op=manage&act=payment&mod=edit&id={$item->getId()}"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Sửa">
                                                 <i class="ri-pencil-line"
@@ -128,24 +127,18 @@
                                             </a>
                                             {/if}
                                             <a href="javascript:void(0)"
-                                                onclick="showGlobalConfirmDialog('Bạn có chắc chắn muốn xoá kho này?', () => formSubmit('formType','list','delete', '{$item->getId()}'));"
+                                                onclick="showGlobalConfirmDialog('Bạn có chắc chắn muốn xoá hình thức thanh toán này?', () => formSubmit('formType','list','delete', {$item->getId()}));"
                                                 class="table-icon__image cursor-pointer flex center-ver center-hor"
                                                 title="Xóa">
-                                                <img class="img-content" style="width:17px; height:17px;"
-                                                    src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg"
-                                                    alt="Delete">
+                                                <img class="img-content" style="width:17px; height:17px;" src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
-                                        <strong>{$item->getName()}</strong>
-                                    </td>
-                                    <td class="text-left">{$item->getAddress()}</td>
-                                    <td class="text-left" style="color: #64748b;">{$item->getNote()}
-                                    </td>
+                                    <td><strong>{$item->getName()}</strong></td>
                                     <td class="text-center">
-                                        {if $item->getStatusDefault() == 1}
-                                        <i class="ri-star-fill" style="color: #f59e0b; font-size: 16px;"></i>
+                                        {if $item->getStatusInv() == 1}
+                                        <i class="ri-check-line"
+                                            style="color: green; font-weight: bold; font-size: 18px;"></i>
                                         {else}
                                         -
                                         {/if}
@@ -153,16 +146,16 @@
                                     <td class="text-right">{$item->getDateCreated()|date_format:"%H:%M %d/%m/%Y"}</td>
                                     <td class="text-center">
                                         {if $item->getStatus() == 1}
-                                        <span style="color: green; font-weight: bold;">Hoạt động</span>
+                                        <span style="color: green; font-weight: bold;">Đang kích hoạt</span>
                                         {else}
-                                        <span style="color: red;">Ngừng hoạt động</span>
+                                        <span style="color: red;">Đã vô hiệu</span>
                                         {/if}
                                     </td>
                                 </tr>
                                 {/foreach}
                                 {else}
                                 <tr>
-                                    <td colspan="9" class="text-center" style="padding: 20px;">Không có dữ liệu</td>
+                                    <td colspan="7" class="text-center" style="padding: 20px;">Không có dữ liệu</td>
                                 </tr>
                                 {/if}
                             </tbody>
@@ -197,7 +190,7 @@
                 {/if}
 
                 <input type="hidden" name="op" value="manage" />
-                <input type="hidden" name="act" value="warehouse" />
+                <input type="hidden" name="act" value="payment" />
                 <input type="hidden" name="mod" value="list" />
                 <input type="hidden" name="doo" value="" />
                 <input type="hidden" name="kw" value="{$kw}" />

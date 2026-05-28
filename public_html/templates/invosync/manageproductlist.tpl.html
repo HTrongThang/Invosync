@@ -9,6 +9,33 @@
         font-size: 14px !important;
         padding: 14px 10px !important;
     }
+
+    .btn-action-enable {
+        color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+    }
+    .btn-action-enable:hover {
+        background-color: var(--primary-color) !important;
+        color: #ffffff !important;
+    }
+
+    .btn-action-disable {
+        color: #6c757d !important;
+        border-color: #6c757d !important;
+    }
+    .btn-action-disable:hover {
+        background-color: #6c757d !important;
+        color: #ffffff !important;
+    }
+
+    .btn-action-delete {
+        color: #dc3545 !important;
+        border-color: #dc3545 !important;
+    }
+    .btn-action-delete:hover {
+        background-color: #dc3545 !important;
+        color: #ffffff !important;
+    }
 </style>
 <main class="container-f flex flex-col flex-1 pos-rel" style="background-color: #ffffff;">
     <section class="container-f flex flex-col bg-white">
@@ -95,9 +122,42 @@
                                     <th class="text-left" style="width: 10%;">Mã SKU</th>
                                     <th class="text-left" style="width: 25%;">Tên sản phẩm</th>
                                     <th class="text-left" style="width: 15%;">Nhóm sản phẩm</th>
-                                    <th class="text-right" style="width: 10%;">Đơn giá</th>
-                                    <th class="text-right" style="width: 8%;">Tồn kho</th>
-                                    <th class="text-center col-fit" style="width: 5%;">Trạng thái</th>
+                                    <th class="text-right" style="width: 10%;">
+                                        <a href="/{$aScript}?op=manage&act=product&mod=list&sk=p.price&sd={if $sk eq 'p.price' and $sd eq 'DESC'}ASC{else}DESC{/if}&kw={$kw}&ipp={$ipp}"
+                                            style="color: inherit; text-decoration: none; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+                                            Đơn giá
+                                            {if $sk eq 'p.price'}
+                                            <i class="ri-sort-{if $sd eq 'DESC'}desc{else}asc{/if}"></i>
+                                            {else}
+                                            <i class="ri-arrow-up-down-line"
+                                                style="color: #94a3b8; font-size: 14px;"></i>
+                                            {/if}
+                                        </a>
+                                    </th>
+                                    <th class="text-right" style="width: 8%;">
+                                        <a href="/{$aScript}?op=manage&act=product&mod=list&sk=opening_stock&sd={if $sk eq 'opening_stock' and $sd eq 'DESC'}ASC{else}DESC{/if}&kw={$kw}&ipp={$ipp}"
+                                            style="color: inherit; text-decoration: none; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+                                            Tồn kho
+                                            {if $sk eq 'opening_stock'}
+                                            <i class="ri-sort-{if $sd eq 'DESC'}desc{else}asc{/if}"></i>
+                                            {else}
+                                            <i class="ri-arrow-up-down-line"
+                                                style="color: #94a3b8; font-size: 14px;"></i>
+                                            {/if}
+                                        </a>
+                                    </th>
+                                    <th class="text-center col-fit" style="width: 5%;">
+                                        <a href="/{$aScript}?op=manage&act=product&mod=list&sk=p.status&sd={if $sk eq 'p.status' and $sd eq 'DESC'}ASC{else}DESC{/if}&kw={$kw}&ipp={$ipp}"
+                                            style="color: inherit; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                            Trạng thái
+                                            {if $sk eq 'p.status'}
+                                            <i class="ri-sort-{if $sd eq 'DESC'}desc{else}asc{/if}"></i>
+                                            {else}
+                                            <i class="ri-arrow-up-down-line"
+                                                style="color: #94a3b8; font-size: 14px;"></i>
+                                            {/if}
+                                        </a>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
@@ -118,38 +178,46 @@
                                             </a>
                                             {if $item.status eq 1}
                                             <a href="javascript:void(0);"
-                                                onclick="submitSingleAction('disable', {$item.id});"
+                                                onclick="submitSingleAction('disable', '{$item.id}');"
                                                 title="Đang bán (Nhấn để Khóa)">
                                                 <i class="ri-toggle-fill" style="font-size: 18px; color: #16a34a;"></i>
                                             </a>
                                             {else}
                                             <a href="javascript:void(0);"
-                                                onclick="submitSingleAction('enable', {$item.id});"
+                                                onclick="submitSingleAction('enable', '{$item.id}');"
                                                 title="Đang khóa (Nhấn để Mở bán)">
                                                 <i class="ri-toggle-line" style="font-size: 18px; color: #94a3b8;"></i>
                                             </a>
                                             {/if}
-                                            <a href="javascript:void(0);" onclick="submitSingleAction('duplicate', {$item.id});" title="Nhân bản (Copy)">
-                                                <i class="ri-file-copy-line" style="font-size: 16px; color: #f59e0b;"></i>
+                                            <a href="javascript:void(0);"
+                                                onclick="submitSingleAction('duplicate', '{$item.id}');"
+                                                title="Nhân bản (Copy)">
+                                                <i class="ri-file-copy-line"
+                                                    style="font-size: 16px; color: #f59e0b;"></i>
                                             </a>
                                             {if $item.status eq 0}
-                                            <a href="javascript:void(0);" onclick="submitSingleAction('delete', {$item.id});" title="Xóa">
-                                                <i class="ri-delete-bin-line" style="font-size: 16px; color: #ef4444;"></i>
+                                            <a href="javascript:void(0);"
+                                                onclick="submitSingleAction('delete', '{$item.id}');" title="Xóa">
+                                                <i class="ri-delete-bin-line"
+                                                    style="font-size: 16px; color: #ef4444;"></i>
                                             </a>
                                             {else}
-                                            <a href="javascript:void(0);" onclick="alert('Bạn phải Khóa (Ngừng kinh doanh) mặt hàng này trước khi Xóa!');" title="Không thể xóa khi đang bán">
-                                                <i class="ri-delete-bin-line" style="font-size: 16px; color: #cbd5e1; cursor: not-allowed;"></i>
+                                            <a href="javascript:void(0);"
+                                                onclick="if (typeof showGlobalDialog === 'function') showGlobalDialog('Bạn phải Khóa (Ngừng kinh doanh) mặt hàng này trước khi Xóa!', 'error'); else alert('Bạn phải Khóa (Ngừng kinh doanh) mặt hàng này trước khi Xóa!');"
+                                                title="Không thể xóa khi đang bán">
+                                                <i class="ri-delete-bin-line"
+                                                    style="font-size: 16px; color: #cbd5e1; cursor: not-allowed;"></i>
                                             </a>
                                             {/if}
                                         </div>
                                     </td>
-                                    <td class="text-left bold">{$item.slug}</td>
+                                    <td class="text-left ">{$item.slug}</td>
                                     <td class="text-left">{$item.keyword}</td>
                                     <td class="text-left" style="color: #0f172a;">{$item.name}</td>
                                     <td class="text-left">{$item.category_name}</td>
                                     <td class="text-right bold" style="color: #d97706;">
                                         {$item.price|number_format:0:',':'.'} đ</td>
-                                    <td class="text-right">{$item.properties.opening_stock|number_format:0:',':'.'}</td>
+                                    <td class="text-right">{$item.opening_stock|number_format:0:',':'.'}</td>
                                     <td class="text-center col-fit">
                                         {if $item.status eq 1}
                                         <span class="status-badge status-badge--active"
@@ -176,14 +244,11 @@
                 <div class="bottom-toolbar flex flex-wrap jus-sb gap-10" style="margin-top: 15px;">
                     <div class="action-buttons flex gap-10 flex-wrap">
                         <button type="button" onClick="submitFormType('enable');"
-                            class="btn-action__custom bg-secondary bold color-text-black"
-                            style="color: var(--primary-color);">Đang bán</button>
+                            class="btn-action__custom bg-secondary bold btn-action-enable">Đang bán</button>
                         <button type="button" onClick="submitFormType('disable');"
-                            class="btn-action__custom bg-secondary bold color-text-black"
-                            style="color: #6c757d; border-color: #6c757d;">Ngừng kinh doanh</button>
+                            class="btn-action__custom bg-secondary bold btn-action-disable">Ngừng kinh doanh</button>
                         <button type="button" onClick="submitFormType('delete');"
-                            class="btn-action__custom bg-secondary bold color-text-black"
-                            style="color: #dc3545; border-color: #dc3545;">Xoá</button>
+                            class="btn-action__custom bg-secondary bold btn-action-delete">Xoá</button>
 
                         <input type="hidden" name="op" value="manage" />
                         <input type="hidden" name="act" value="product" />
@@ -267,7 +332,11 @@
             }
         }
         if (!hasChecked) {
-            alert('Vui lòng chọn ít nhất một mục.');
+            if (typeof showGlobalDialog === 'function') {
+                showGlobalDialog('Vui lòng chọn ít nhất một mục.', 'error');
+            } else {
+                alert('Vui lòng chọn ít nhất một mục.');
+            }
             return;
         }
 

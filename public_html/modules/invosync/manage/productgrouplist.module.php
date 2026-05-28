@@ -123,9 +123,12 @@ if($_POST) {
 			//$userInfo->checkPermission('productgroup','delete');
 			$id = $request->element('id');
 			if($id) {
+                $item = $productCategories->getObject($id);
 				if($products->countItems('id', "category_id='$id' AND status != ".S_DELETED) > 0) {
 					$error_code = 11;
-				} else {
+				} elseif ($item && $item->getStatus() != S_DISABLED) {
+                    $error_code = 12;
+                } else {
 					$productCategories->changeStatus($id,S_DELETED);
 					$result_code = 3;
 					# Operation tracking
@@ -137,9 +140,12 @@ if($_POST) {
 					$listId = '';
 					$hasError = false;
 					foreach ($ids as $id) {
+                        $item = $productCategories->getObject($id);
 						if($products->countItems('id', "category_id='$id' AND status != ".S_DELETED) > 0) {
-							$hasError = true;
-						} else {
+							$hasError = 11;
+						} elseif ($item && $item->getStatus() != S_DISABLED) {
+                            $hasError = 12;
+                        } else {
 							$productCategories->changeStatus($id,S_DELETED);
 							$listId .= ($listId?',&nbsp;':'').$id;
 						}
@@ -150,7 +156,7 @@ if($_POST) {
 						$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa nhóm hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
 					}
 					if($hasError) {
-						$error_code = 11;
+						$error_code = $hasError;
 					}
 				} else $result_code = 5;
 			}

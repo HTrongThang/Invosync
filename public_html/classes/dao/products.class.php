@@ -115,6 +115,7 @@ class Products extends Model
 					$result[0]['id']
 
 				);
+			$object->setOpeningStock($result[0]['opening_stock']);
 			return $object;
 		}
 		return 0;
@@ -223,6 +224,7 @@ class Products extends Model
 					$result['store_id'],
 					$result['id']
 				);
+				end($objects)->setOpeningStock($result['opening_stock']);
 			}
 			return $objects;
 		}
@@ -459,6 +461,7 @@ class Products extends Model
 					$result['store_id'],
 					$result['id']
 				);
+				end($productInfos)->setOpeningStock($result['opening_stock']);
 			}
 			return $productInfos;
 		}

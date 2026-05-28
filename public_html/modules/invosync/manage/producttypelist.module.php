@@ -122,9 +122,12 @@ if($_POST) {
 			//$userInfo->checkPermission('producttype','delete');
 			$id = $request->element('id');
 			if($id) {
+                $item = $productTypes->getObject($id);
 				if($products->countItems('id', "properties LIKE '%\"product_type_id\";s:".strlen($id).":\"$id\"%' AND status != ".S_DELETED) > 0) {
 					$error_code = 11;
-				} else {
+				} elseif ($item && $item->getStatus() != S_DISABLED) {
+                    $error_code = 12;
+                } else {
 					$productTypes->changeStatus($id,S_DELETED);
 					$result_code = 3;
 					# Operation tracking
@@ -136,20 +139,23 @@ if($_POST) {
 					$listId = '';
 					$hasError = false;
 					foreach ($ids as $id) {
+                        $item = $productTypes->getObject($id);
 						if($products->countItems('id', "properties LIKE '%\"product_type_id\";s:".strlen($id).":\"$id\"%' AND status != ".S_DELETED) > 0) {
-							$hasError = true;
-						} else {
+							$hasError = 11;
+						} elseif ($item && $item->getStatus() != S_DISABLED) {
+                            $hasError = 12;
+                        } else {
 							$productTypes->changeStatus($id,S_DELETED);
 							$listId .= ($listId?',&nbsp;':'').$id;
 						}
-					}
-					if($hasError) {
-						$error_code = 11;
 					}
 					if($listId) {
 						$result_code = 3;
 						# Operation tracking
 						$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa loại hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+					}
+					if($hasError) {
+						$error_code = $hasError;
 					}
 				} else $result_code = 5;
 			}
