@@ -44,7 +44,7 @@ if($kw) $template->assign('kw',$kw);
 # Build WHERE condition
 $condition = "1>0";
 if($kw) $condition .= " AND (`p`.`id`='$kw' OR `p`.`name` LIKE '%$kw%' OR `p`.`slug` LIKE '%$kw%' OR `p`.`keyword` LIKE '%$kw%')";
-$pages_condition = "`p`.`store_id` = '$storeId' AND ($condition)";
+$pages_condition = "`p`.`store_id` = '$storeId' AND `p`.`status` != '" . S_DELETED . "' AND ($condition)";
 $sort = array($sort_key => $sort_direction);
 
 # Page navigation
@@ -147,21 +147,33 @@ if($_POST) {
 			//$userInfo->checkPermission('product','delete');
 			$id = $request->element('id');
 			if($id) {
-				$products->changeStatus($id,S_DELETED);
-				$result_code = 3;
-				# Operation tracking
-				$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$id,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+                $item = $products->getObject($id);
+                if ($item && $item->getStatus() == S_DISABLED) {
+				    $products->changeStatus($id,S_DELETED);
+				    $result_code = 3;
+				    # Operation tracking
+				    $trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$id,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+                } else {
+                    $result_code = 8;
+                }
 			} else {
 				$ids = $request->element('ids');
 				if($ids) {
 					$listId = '';
 					foreach ($ids as $id) {
-						$products->changeStatus($id,S_DELETED);
-						$listId .= ($listId?',&nbsp;':'').$id;
+                        $item = $products->getObject($id);
+                        if ($item && $item->getStatus() == S_DISABLED) {
+						    $products->changeStatus($id,S_DELETED);
+						    $listId .= ($listId?',&nbsp;':'').$id;
+                        }
 					}
 					$result_code = 3;
-					# Operation tracking
-					$trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+                    if (!$listId) {
+                        $result_code = 8;
+                    } else {
+					    # Operation tracking
+					    $trackings->addData(array('store_id'=>$storeId,'username'=>$userInfo->getUsername(),'action'=>'Xóa hàng hóa ID '.$listId,'date_created'=>date("Y-m-d H:i:s"),'ip'=>$_SERVER['REMOTE_ADDR']));
+                    }
 				} else $result_code = 5;
 			}
 			break;

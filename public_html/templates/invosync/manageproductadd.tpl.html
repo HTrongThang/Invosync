@@ -54,7 +54,7 @@
                     <p>Các thông tin định danh và phân loại hàng hóa.</p>
                 </div>
                 <div class="section-content">
-                    <div class="modern-grid">
+                    <div class="modern-grid" style="width: 100%;">
 
                         <div
                             class="modern-input-group col-span-2 {if isset($error.INPUT) && $error.INPUT.name.error}errormsg{/if}">
@@ -136,14 +136,16 @@
                     <p>Thiết lập giá bán và số lượng tồn kho đầu kỳ, cảnh báo.</p>
                 </div>
                 <div class="section-content">
-                    <div class="modern-grid">
+                    <div class="modern-grid" style="width: 100%;">
 
                         <div class="modern-input-group col-span-1">
-                            <label for="price">Đơn giá</label>
+                            <label for="price_display">Đơn giá</label>
+
                             <input type="text" class="modern-input text-right format-number"
-                                value="{if isset($item)}{$item->getProperty('price')|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.price.value}{/if}"
-                                id="price_display" data-hidden-target="price" placeholder="Vd: 55.888.000">
-                            <input type="hidden" name="price" id="price" value="{if isset($item)}{$item->getProperty('price')}{elseif isset($error.INPUT)}{$error.INPUT.price.value}{/if}">
+                                value="{if isset($item)}{$item->getPrice()|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.price.value|number_format:0:',':'.'}{/if}"
+                                id="price_display" data-hidden-target="price" placeholder="Vd: 55.888.000"
+                                autocomplete="off" inputmode="numeric"> <input type="hidden" name="price" id="price"
+                                value="{if isset($item)}{$item->getPrice()}{elseif isset($error.INPUT)}{$error.INPUT.price.value}{/if}">
                         </div>
 
                         <div class="modern-input-group col-span-1">
@@ -165,16 +167,18 @@
                             <input type="text" class="modern-input text-right format-number"
                                 value="{if isset($item)}{$item->getProperty('opening_stock')|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.opening_stock.value}{/if}"
                                 id="opening_stock_display" data-hidden-target="opening_stock" placeholder="Vd: 800">
-                            <input type="hidden" name="opening_stock" id="opening_stock" value="{if isset($item)}{$item->getProperty('opening_stock')}{elseif isset($error.INPUT)}{$error.INPUT.opening_stock.value}{/if}">
+                            <input type="hidden" name="opening_stock" id="opening_stock"
+                                value="{if isset($item)}{$item->getProperty('opening_stock')}{elseif isset($error.INPUT)}{$error.INPUT.opening_stock.value}{/if}">
                         </div>
 
                         <div class="modern-input-group col-span-1">
                             <label for="opening_value">Thành tiền đầu kỳ</label>
                             <input type="text" class="modern-input text-right format-number"
                                 value="{if isset($item)}{$item->getProperty('opening_value')|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.opening_value.value}{/if}"
-                                id="opening_value_display" data-hidden-target="opening_value" placeholder="Vd: 55.962.000" readonly
-                                style="background-color: #f1f5f9;">
-                            <input type="hidden" name="opening_value" id="opening_value" value="{if isset($item)}{$item->getProperty('opening_value')}{elseif isset($error.INPUT)}{$error.INPUT.opening_value.value}{/if}">
+                                id="opening_value_display" data-hidden-target="opening_value"
+                                placeholder="Vd: 55.962.000" readonly style="background-color: #f1f5f9;">
+                            <input type="hidden" name="opening_value" id="opening_value"
+                                value="{if isset($item)}{$item->getProperty('opening_value')}{elseif isset($error.INPUT)}{$error.INPUT.opening_value.value}{/if}">
                         </div>
 
 
@@ -184,7 +188,8 @@
                             <input type="text" class="modern-input text-right format-number"
                                 value="{if isset($item)}{$item->getProperty('min_stock')|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.min_stock.value}{/if}"
                                 id="min_stock_display" data-hidden-target="min_stock" placeholder="Vd: 10">
-                            <input type="hidden" name="min_stock" id="min_stock" value="{if isset($item)}{$item->getProperty('min_stock')}{elseif isset($error.INPUT)}{$error.INPUT.min_stock.value}{/if}">
+                            <input type="hidden" name="min_stock" id="min_stock"
+                                value="{if isset($item)}{$item->getProperty('min_stock')}{elseif isset($error.INPUT)}{$error.INPUT.min_stock.value}{/if}">
                         </div>
 
                         <div class="modern-input-group col-span-1">
@@ -192,13 +197,14 @@
                             <input type="text" class="modern-input text-right format-number"
                                 value="{if isset($item)}{$item->getProperty('max_stock')|number_format:0:',':'.'}{elseif isset($error.INPUT)}{$error.INPUT.max_stock.value}{/if}"
                                 id="max_stock_display" data-hidden-target="max_stock" placeholder="Vd: 2000">
-                            <input type="hidden" name="max_stock" id="max_stock" value="{if isset($item)}{$item->getProperty('max_stock')}{elseif isset($error.INPUT)}{$error.INPUT.max_stock.value}{/if}">
+                            <input type="hidden" name="max_stock" id="max_stock"
+                                value="{if isset($item)}{$item->getProperty('max_stock')}{elseif isset($error.INPUT)}{$error.INPUT.max_stock.value}{/if}">
                         </div>
 
                         <div class="modern-input-group col-span-1">
                             <label for="expiration_date">Thời hạn sử dụng</label>
                             <input type="date" class="modern-input"
-                                value="{if isset($item)}{$item->expiration_date|date_format:'%Y-%m-%d'}{elseif isset($error.INPUT)}{$error.INPUT.expiration_date.value}{/if}"
+                                value="{if isset($item)}{$item->getExpirationDate()|date_format:'%Y-%m-%d'}{elseif isset($error.INPUT)}{$error.INPUT.expiration_date.value}{/if}"
                                 name="expiration_date" id="expiration_date">
                         </div>
 
@@ -218,7 +224,7 @@
                     <p>Ghi chú và trạng thái hiển thị.</p>
                 </div>
                 <div class="section-content">
-                    <div class="modern-grid">
+                    <div class="modern-grid" style="width: 100%;">
                         <div class="modern-input-group col-span-4">
                             <label for="description">Ghi chú</label>
                             <textarea class="modern-input" name="description" id="description" rows="3"
@@ -268,83 +274,148 @@
 </form>
 
 <script>
-    function calculateOpeningValue() {
-        let stockInput = document.getElementById('opening_stock').value;
-        let priceInput = document.getElementById('price').value;
+    document.addEventListener("DOMContentLoaded", function () {
 
-        let stock = parseInt(stockInput) || 0;
-        let price = parseInt(priceInput) || 0;
-
-        let total = stock * price;
-
-        if (total > 0) {
-            document.getElementById('opening_value_display').value = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            document.getElementById('opening_value').value = total;
-        } else {
-            document.getElementById('opening_value_display').value = '';
-            document.getElementById('opening_value').value = '';
+        // 1. Hàm dọn dẹp: Chỉ lấy số nguyên, xóa mọi ký tự lạ và số 0 ở đầu
+        function getCleanNumberString(str) {
+            if (!str) return '';
+            return str.toString().replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
         }
-    }
 
-    document.getElementById('price_display').addEventListener('input', calculateOpeningValue);
-    document.getElementById('opening_stock_display').addEventListener('input', calculateOpeningValue);
+        // 2. Hàm định dạng phần ngàn (VD: 1000000 -> 1.000.000)
+        function formatNumberVND(numStr) {
+            if (!numStr) return '';
+            return numStr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
 
-    document.querySelectorAll('.format-number').forEach(function (input) {
-        input.addEventListener('input', function (e) {
-            let cursorPosition = this.selectionStart;
-            let originalValue = this.value;
-            
-            // Đếm số lượng chữ số đứng trước con trỏ chuột
+        // 3. Hàm tính tổng tiền an toàn với BigInt
+        function calculateOpeningValue() {
+            const stockEl = document.getElementById('opening_stock');
+            const priceEl = document.getElementById('price');
+            const displayTotalEl = document.getElementById('opening_value_display');
+            const hiddenTotalEl = document.getElementById('opening_value');
+
+            if (!stockEl || !priceEl || !displayTotalEl || !hiddenTotalEl) return;
+
+            let stockStr = getCleanNumberString(stockEl.value);
+            let priceStr = getCleanNumberString(priceEl.value);
+
+            // Bọc try...catch đề phòng quá trình tính toán xảy ra lỗi ngầm
+            try {
+                let stock = stockStr ? BigInt(stockStr) : 0n;
+                let price = priceStr ? BigInt(priceStr) : 0n;
+                let total = stock * price;
+
+                if (total > 0n) {
+                    let totalStr = total.toString();
+                    displayTotalEl.value = formatNumberVND(totalStr);
+                    hiddenTotalEl.value = totalStr;
+                } else {
+                    displayTotalEl.value = '';
+                    hiddenTotalEl.value = '';
+                }
+            } catch (e) {
+                console.error("Lỗi tính toán: ", e);
+            }
+        }
+
+        // ====================================================================
+        // 4. LẮNG NGHE GÕ PHÍM (Đã gỡ bỏ chặn Unikey để ép format mượt mà 100%)
+        // ====================================================================
+        document.addEventListener('input', function (e) {
+            if (!e.target || !e.target.classList || !e.target.classList.contains('format-number')) return;
+
+            let input = e.target;
+
+            // Cứu cánh: Fix lỗi sập JS nếu thẻ HTML vô tình bị đặt thành type="number"
+            if (input.type === 'number') input.type = 'text';
+
+            let originalValue = input.value;
+            let cursorPosition = originalValue.length;
+
+            // Bọc try-catch lấy vị trí con trỏ (chống lỗi crash)
+            try {
+                if (typeof input.selectionStart === 'number') {
+                    cursorPosition = input.selectionStart;
+                }
+            } catch (err) { }
+
             let digitsBeforeCursor = originalValue.substring(0, cursorPosition).replace(/[^0-9]/g, '').length;
-            
-            let value = originalValue.replace(/[^0-9]/g, '');
-            if (value !== '') {
-                value = parseInt(value, 10).toString();
+
+            let rawValue = originalValue.replace(/[^0-9]/g, '');
+            let parsedValue = rawValue.replace(/^0+(?=\d)/, '');
+            let leadingZerosRemoved = rawValue.length - parsedValue.length;
+
+            digitsBeforeCursor = Math.max(0, digitsBeforeCursor - leadingZerosRemoved);
+
+            let formattedValue = formatNumberVND(parsedValue);
+
+            // CHỈ cập nhật vào ô nhập nếu có sự thay đổi thực sự
+            // -> Tuyệt chiêu này giúp triệt tiêu hoàn toàn sự đơ/giật lag khi bộ gõ Unikey can thiệp
+            if (input.value !== formattedValue) {
+                input.value = formattedValue;
+
+                let newCursorPosition = 0;
+                let digitCount = 0;
+                for (let i = 0; i < formattedValue.length; i++) {
+                    if (/[0-9]/.test(formattedValue[i])) digitCount++;
+                    if (digitCount === digitsBeforeCursor) {
+                        newCursorPosition = i + 1;
+                        break;
+                    }
+                }
+                if (digitsBeforeCursor === 0) newCursorPosition = 0;
+
+                if (document.activeElement === input) {
+                    try {
+                        input.setSelectionRange(newCursorPosition, newCursorPosition);
+                    } catch (err) { }
+                }
             }
 
-            let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            this.value = formattedValue;
-            
-            let targetId = this.getAttribute('data-hidden-target');
+            let targetId = input.getAttribute('data-hidden-target');
             if (targetId) {
-                document.getElementById(targetId).value = value;
-            }
-
-            // Tính toán lại vị trí con trỏ chuột dựa trên số lượng chữ số
-            let newCursorPosition = 0;
-            let digitCount = 0;
-            for (let i = 0; i < formattedValue.length; i++) {
-                if (/[0-9]/.test(formattedValue[i])) {
-                    digitCount++;
-                }
-                if (digitCount === digitsBeforeCursor) {
-                    newCursorPosition = i + 1;
-                    break;
+                let targetEl = document.getElementById(targetId);
+                if (targetEl && targetEl.value !== parsedValue) {
+                    targetEl.value = parsedValue;
                 }
             }
-            
-            // Nếu không có chữ số nào trước con trỏ, đưa về đầu ô
-            if (digitsBeforeCursor === 0) {
-                newCursorPosition = 0;
-            }
 
-            this.setSelectionRange(newCursorPosition, newCursorPosition);
+            if (input.id === 'price_display' || input.id === 'opening_stock_display') {
+                calculateOpeningValue();
+            }
         });
 
-        input.addEventListener('blur', function (e) {
-            let value = this.value.replace(/[^0-9]/g, '');
-            if (value !== '') {
-                value = parseInt(value, 10).toString();
-                this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                
-                let targetId = this.getAttribute('data-hidden-target');
-                if (targetId) {
-                    document.getElementById(targetId).value = value;
+        // ====================================================================
+        // 5. SỰ KIỆN CLICK RA NGOÀI (Dọn dẹp cuối cùng)
+        // ====================================================================
+        document.addEventListener('focusout', function (e) {
+            if (!e.target || !e.target.classList || !e.target.classList.contains('format-number')) return;
+
+            let input = e.target;
+            let parsedValue = getCleanNumberString(input.value);
+            let formattedValue = parsedValue ? formatNumberVND(parsedValue) : '';
+
+            if (input.value !== formattedValue) {
+                input.value = formattedValue;
+            }
+
+            let targetId = input.getAttribute('data-hidden-target');
+            if (targetId) {
+                let targetEl = document.getElementById(targetId);
+                if (targetEl && targetEl.value !== parsedValue) {
+                    targetEl.value = parsedValue;
                 }
             }
+
+            if (input.id === 'price_display' || input.id === 'opening_stock_display') {
+                calculateOpeningValue();
+            }
         });
+
+        // Tính tổng ngay lần đầu load trang
+        calculateOpeningValue();
     });
-
     function validateForm() {
         var name = document.getElementById('name').value.trim();
         var slug = document.getElementById('slug').value.trim();

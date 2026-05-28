@@ -41,7 +41,7 @@
 /* Table checkboxes */
 .dynamic-table input[type="checkbox"] {
     width: 16px;
-    height: 16px;
+    height: 16px !important;
     cursor: pointer;
     accent-color: var(--primary-color);
 }
@@ -1294,6 +1294,7 @@ td.addInvoice input[type="checkbox"] {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    width: 100%;
 }
 
 .col-span-1 {
@@ -1317,7 +1318,7 @@ td.addInvoice input[type="checkbox"] {
 
 .modern-input-group label {
     font-size: 13.5px;
-    font-weight: 500;
+    font-weight: normal;
     color: #334155;
 }
 

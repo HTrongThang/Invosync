@@ -1,0 +1,223 @@
+{include file="$userTemplate/component/header.html"}
+<style>
+    .dynamic-table__content th {
+        font-size: 15px !important;
+        padding: 8px 8px !important;
+    }
+
+    .dynamic-table__content td {
+        font-size: 15px !important;
+        padding: 6px 8px !important;
+    }
+</style>
+<main class="container-f flex flex-col flex-1 pos-rel" style="background-color: #ffffff;">
+    <section class="container-f flex flex-col bg-white">
+        <div class="invoice-main-wrapper flex flex-col gap-10">
+            <div class="invoice-top-section flex flex-col">
+
+                <div class="invoice-header border-bottom-dark">
+                    <h1 class="invoice-title uppercase bold text-primary">DANH SÁCH KHO HÀNG HÓA</h1>
+                </div>
+
+                <div class="invoice-breadcrumb-row flex jus-sb center-ver">
+                    <div class="breadcrumb-text flex gap-5 center-ver">
+                        <a href="/{$aScript}?op=dashboard">Bảng điều khiển</a>
+                        <p>|</p>
+                        <a href="/{$aScript}?op=manage&act=warehouse&mod=list">Kho hàng hóa</a>
+                        <p>|</p>
+                        <a href="javascript:void(0)">Danh sách kho</a>
+                    </div>
+                </div>
+
+                <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
+                    <form action="/{$aScript}" method="post" name="formSearch" id="formSearch"
+                        class="flex-1 flex gap-20 jus-sb flex-wrap w-full">
+                        <div class="toolbar-left flex center-ver" style="width: 270px !important;">
+                            <span
+                                class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green"
+                                style="font-size:12px;">Số kết quả hiển thị mỗi trang</span>
+                            <select name="ipp" class="pagination-select cursor-pointer"
+                                onchange="document.formSearch.submit();">
+                                <option value="20" {if $ipp eq 20}selected{/if}>20</option>
+                                <option value="50" {if $ipp eq 50}selected{/if}>50</option>
+                                <option value="100" {if $ipp eq 100}selected{/if}>100</option>
+                            </select>
+                        </div>
+
+                        <div class="toolbar-right flex center-ver gap-5 flex-wrap">
+                            <input type="text" name="kw" value="{$kw}"
+                                class="filter-input exception item-padding-5 input-large"
+                                placeholder="Từ khóa (Tên kho...)" style="font-size:12px;">
+
+                            <input type="hidden" name="op" value="manage" />
+                            <input type="hidden" name="act" value="warehouse" />
+                            <input type="hidden" name="mod" value="list" />
+                            <input type="hidden" name="doo" value="search" />
+
+                            <button type="submit"
+                                class="btn-search bg-secondary bold cursor-pointer flex center-ver gap-5"
+                                style="font-size:12px;">
+                                <i class="ri-search-line" style="font-size:14px;"></i> Tìm kiếm
+                            </button>
+
+                            <a href="/{$aScript}?op=manage&act=warehouse&mod=add"
+                                class="btn-add-red cursor-pointer flex center-ver center-hor"
+                                style="text-decoration: none;" title="Thêm kho mới">
+                                <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" style="width: 26px;"
+                                    alt="Thêm mới" class="img-content">
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {if isset($result_code)}<div class="alert alert-success"
+                style="padding:10px; background-color:#d4edda; color:#155724; border-radius:5px;">
+                {$amessages.result_code.$result_code}</div>{/if}
+            {if isset($error_code)}<div class="alert alert-danger"
+                style="padding:10px; background-color:#f8d7da; color:#721c24; border-radius:5px;">
+                {$amessages.error_code.$error_code}</div>{/if}
+
+            <form action="/{$aScript}" method="post" name="formType" id="formType">
+                <div class="pos-rel">
+                    <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
+                        <table id="tableProductType" class="fill-view dynamic-table__content w-full">
+                            <thead class="bg-third text-color-black">
+                                <tr>
+                                    <th class="col-fit text-center"><input type="checkbox" name="all" id="all"
+                                            onClick="toggleAllChecks('formType');"></th>
+                                    <th class="col-fit text-center">STT</th>
+                                    <th class="table-icon__container col-fit text-center">Chức năng</th>
+                                    <th class="text-left" style="width: 20%;">Tên kho</th>
+                                    <th class="text-left" style="width: 25%;">Địa chỉ</th>
+                                    <th class="text-left" style="width: 15%;">Ghi chú</th>
+                                    <th class="text-center" style="width: 10%;">Mặc định</th>
+                                    <th class="text-right" style="width: 15%;">Ngày tạo</th>
+                                    <th class="text-center" style="width: 15%;">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if isset($listItems)}
+                                {assign var=stt value=$rowsPages.start+1}
+                                {foreach from=$listItems item=item}
+                                <tr>
+                                    <td class="text-center" style="width:15px !important; padding:1px;"><input
+                                            type="checkbox" name="ids[]" value="{$item->getId()}" class="box3"
+                                            style="width:15px; height:15px !important;"></td>
+                                    <td class="text-center">{$stt++}</td>
+                                    <td class="table-icon__container" style="text-align:center; vertical-align:middle;">
+                                        <div class="table-icon flex center-ver center-hor"
+                                            style="gap:6px; justify-content:center;">
+                                            <a href="/{$aScript}?op=manage&act=warehouse&mod=edit&id={$item->getId()}"
+                                                class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                                title="Sửa">
+                                                <i class="ri-pencil-line"
+                                                    style="color: var(--primary-color); font-size:17px;"></i>
+                                            </a>
+                                            {if $item->getStatus() == 1}
+                                            <a href="javascript:formSubmit('formType','list','disable',{$item->getId()});"
+                                                class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                                title="Vô hiệu hóa">
+                                                <i class="ri-eye-off-line" style="color: gray; font-size:17px;"></i>
+                                            </a>
+                                            {else}
+                                            <a href="javascript:formSubmit('formType','list','enable',{$item->getId()});"
+                                                class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                                title="Kích hoạt">
+                                                <i class="ri-eye-line" style="color: green; font-size:17px;"></i>
+                                            </a>
+                                            {/if}
+                                            <a href="javascript:void(0)"
+                                                onclick="showGlobalConfirmDialog('Bạn có chắc chắn muốn xoá kho này?', () => formSubmit('formType','list','delete', '{$item->getId()}'));"
+                                                class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                                title="Xóa">
+                                                <img class="img-content" style="width:17px; height:17px;"
+                                                    src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg"
+                                                    alt="Delete">
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong>{$item->getName()}</strong>
+                                    </td>
+                                    <td class="text-left">{$item->getAddress()}</td>
+                                    <td class="text-left" style="color: #64748b;">{$item->getNote()}
+                                    </td>
+                                    <td class="text-center">
+                                        {if $item->getStatusDefault() == 1}
+                                        <i class="ri-star-fill" style="color: #f59e0b; font-size: 16px;"></i>
+                                        {else}
+                                        -
+                                        {/if}
+                                    </td>
+                                    <td class="text-right">{$item->getDateCreated()|date_format:"%H:%M %d/%m/%Y"}</td>
+                                    <td class="text-center">
+                                        {if $item->getStatus() == 1}
+                                        <span style="color: green; font-weight: bold;">Hoạt động</span>
+                                        {else}
+                                        <span style="color: red;">Ngừng hoạt động</span>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/foreach}
+                                {else}
+                                <tr>
+                                    <td colspan="9" class="text-center" style="padding: 20px;">Không có dữ liệu</td>
+                                </tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {if isset($listItems)}
+                <div class="bottom-toolbar flex jus-sb center-ver" style="margin-top: 15px;">
+                    <div class="toolbar-left flex gap-10">
+                        <button type="button"
+                            onClick="showGlobalConfirmDialog('Bạn có chắc muốn kích hoạt các mục đã chọn?', () => formSubmit('formType','list','enable','0'), 'info');"
+                            style="height:24px; padding:0 10px; border:1px solid var(--primary-color); border-radius:3px; background:#fff; color:var(--primary-color); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='var(--primary-color)';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='var(--primary-color)';">Kích
+                            hoạt</button>
+                        <button type="button"
+                            onClick="showGlobalConfirmDialog('Bạn có chắc muốn vô hiệu các mục đã chọn?', () => formSubmit('formType','list','disable','0'), 'info');"
+                            style="height:24px; padding:0 10px; border:1px solid #6c757d; border-radius:3px; background:#fff; color:#6c757d; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#6c757d';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#6c757d';">Vô hiệu</button>
+                        <button type="button"
+                            onClick="showGlobalConfirmDialog('Bạn có chắc chắn muốn xóa các mục đã chọn?', () => formSubmit('formType','list','delete','0'));"
+                            style="height:24px; padding:0 10px; border:1px solid #dc3545; border-radius:3px; background:#fff; color:#dc3545; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s ease;"
+                            onmouseover="this.style.background='#dc3545';this.style.color='#fff';"
+                            onmouseout="this.style.background='#fff';this.style.color='#dc3545';">Xoá</button>
+                    </div>
+                    <div class="paging">
+                        {include file="$userTemplate/corepager.tpl.html" title="pager"}
+                    </div>
+                </div>
+                {/if}
+
+                <input type="hidden" name="op" value="manage" />
+                <input type="hidden" name="act" value="warehouse" />
+                <input type="hidden" name="mod" value="list" />
+                <input type="hidden" name="doo" value="" />
+                <input type="hidden" name="kw" value="{$kw}" />
+                <input type="hidden" name="lang" value="{$lang}" />
+                <input type="hidden" name="ipp" value="{$ipp}" />
+                <input type="hidden" name="pg" value="{$pg}" />
+                <input type="hidden" name="id" value="" />
+            </form>
+        </div>
+    </section>
+</main>
+<script>
+    function toggleAllChecks(formName) {
+        var form = document.getElementById(formName);
+        var allChecked = document.getElementById('all').checked;
+        for (var i = 0; i < form.elements.length; i++) {
+            if (form.elements[i].type == 'checkbox' && form.elements[i].name != 'all') {
+                form.elements[i].checked = allChecked;
+            }
+        }
+    }
+</script>
+{include file="$userTemplate/component/footer.html"}
