@@ -391,11 +391,14 @@ function toggleAllChecksPrefix(formName, prefix) {
 }
 
 function formSubmit(form, vmod, vdo, vid) {
-	f = document.getElementById(form);
-	f.mod.value = vmod;
-	f.doo.value = vdo;
-	f.id.value = vid;
-	f.submit();
+	var f = document.getElementById(form);
+	if (f) {
+		if (f.elements['mod']) f.elements['mod'].value = vmod;
+		if (f.elements['doo']) f.elements['doo'].value = vdo;
+		if (f.elements['id']) f.elements['id'].value = vid;
+		if (typeof f.submit === 'function') f.submit();
+		else HTMLFormElement.prototype.submit.call(f);
+	}
 }
 
 function activeSubmit(form) {

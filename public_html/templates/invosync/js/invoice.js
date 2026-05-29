@@ -276,31 +276,92 @@ function handleProductSelection(checkboxElement, rowKey) {
   toggleInputState(senderTaxCode, isProductSelected);
   toggleInputState(senderIdentifier, isProductSelected);
 }
+var searchTimeout;
 function searchInfoProductInvoice(ob, lengthValue = 50) {
   var value = $(ob).val();
   var row = $('#inv_search_line').val(); //get so dong nhap vao
   var op = "invoice_searchpro";
+  var box = $(ob).parents('tr').find(".prosku-searching-box");
+
+  clearTimeout(searchTimeout);
 
   if (value.length >= 2 && value.length <= lengthValue) {
-    $.ajax({
-      type: "POST",
-      url: "/ajax.php",
-      data: {
-        op: op,
-        value: value,
-        row: row //get so dong nhap vao
-      },
-      success: function (data) {
-        // console.log('searchInfoProductInvoice',data);
-        $(ob).parents('tr').find(".prosku-searching-box").show();
-        $(ob).parents('tr').find(".prosku-searching-box").html(data);
-      }
-    });
+    searchTimeout = setTimeout(function () {
+      $.ajax({
+        type: "POST",
+        url: "/ajax.php",
+        dataType: "json",
+        data: {
+          op: op,
+          value: value,
+          row: row
+        },
+        success: function (res) {
+          box.empty();
+          if (res && res.success && res.data && res.data.length > 0) {
+            var wrapper = $('<div style="position: absolute; z-index: 9999; min-width: 380px; width: max-content; margin-top: 4px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); overflow: hidden;"></div>');
+
+            // Header bar
+            var header = '<div style="padding: 8px 14px; background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-bottom: 1px solid #d1fae5; display: flex; align-items: center; justify-content: space-between;">' +
+              '<span style="color: #166534; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;"><i class="ri-search-line" style="margin-right: 5px;"></i>Kết quả tìm kiếm</span>' +
+              '<span style="background: #dcfce7; color: #166534; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;">' + res.data.length + ' sản phẩm</span>' +
+              '</div>';
+            wrapper.append(header);
+
+            var ul = $('<ul style="list-style:none; padding: 0; margin: 0; max-height: 280px; overflow-y: auto;"></ul>');
+
+            res.data.forEach(function (item) {
+              var skuHtml = item.sku ? '<span style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; margin-left: auto;">SKU: ' + item.sku + '</span>' : '';
+              var seriesHtml = item.series ? '<span style="color: #94a3b8; font-size: 11px; margin-top: 2px;"><i class="ri-hashtag" style="font-size: 10px;"></i> ' + item.series + '</span>' : '';
+
+              var li = $('<li data-id="' + item.id + '" style="padding: 9px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: all 0.15s ease; background: #ffffff; border-left: 3px solid transparent;"></li>');
+
+              var html = '<div style="display: flex; align-items: center; gap: 10px;">' +
+                '<div style="width: 30px; height: 30px; border-radius: 6px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="ri-box-3-line" style="color: #64748b; font-size: 14px;"></i></div>' +
+                '<div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">' +
+                '<div style="display: flex; align-items: center; gap: 6px;">' +
+                '<span style="color: #1e293b; font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px;">' + item.name + '</span>' +
+                skuHtml +
+                '</div>' +
+                seriesHtml +
+                '</div>' +
+                '</div>';
+
+              li.html(html);
+
+              li.on('mouseenter', function () {
+                $(this).css({ 'background': '#f8fafc', 'border-left-color': 'var(--primary-color)' });
+              });
+              li.on('mouseleave', function () {
+                $(this).css({ 'background': '#ffffff', 'border-left-color': 'transparent' });
+              });
+              li.on('click', function () { clickSearchProInvoice(this); });
+
+              ul.append(li);
+            });
+
+            wrapper.append(ul);
+            box.append(wrapper);
+            box.show();
+          } else {
+            box.html('<div style="position: absolute; z-index: 9999; min-width: 380px; width: max-content; margin-top: 4px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); overflow: hidden;">' +
+              '<div style="padding: 8px 14px; background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-bottom: 1px solid #d1fae5;"><span style="color: #166534; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;"><i class="ri-search-line" style="margin-right: 5px;"></i>Kết quả tìm kiếm</span></div>' +
+              '<div style="padding: 30px 16px; text-align: center;"><i class="ri-inbox-line" style="font-size: 36px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i><span style="color: #94a3b8; font-size: 12px;">Không tìm thấy sản phẩm nào</span></div>' +
+              '</div>');
+            box.show();
+          }
+        },
+        error: function () {
+          box.hide();
+        }
+      });
+    }, 500);
   } else {
-    $(".prosku-searching-box").hide();
+    box.hide();
+    box.empty();
   }
   checkLengthInput(ob, lengthValue);
-} var searchTimeout;
+}
 
 function searchStaffOutput() {
   var op = "inventory_searchstaff_output";
@@ -320,28 +381,28 @@ function searchStaffOutput() {
         box.empty();
         if (res && res.success && res.data && res.data.length > 0) {
           var ul = $('<ul style="list-style:none; padding: 0; margin: 0; background-color: #ffffff;"></ul>');
-          res.data.forEach(function(item) {
+          res.data.forEach(function (item) {
             var initials = item.fullname ? item.fullname.charAt(0).toUpperCase() : 'N';
             var avatar = '<div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; margin-right: 12px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">' + initials + '</div>';
-            
+
             var details = '<div style="flex: 1; min-width: 0;">' +
-                '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">' +
-                    '<strong style="color: #1e293b; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">' + item.fullname + '</strong>' +
-                    (item.tel ? '<span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px;"><i class="ri-phone-fill" style="color: #94a3b8;"></i> ' + item.tel + '</span>' : '') +
-                '</div>' +
-                '<div style="color: #64748b; font-size: 12px; display: flex; align-items: center; gap: 6px;">' +
-                    '<i class="ri-user-star-line" style="font-size: 14px; color: #94a3b8;"></i> ' + (item.username ? item.username : '<span style="color: #cbd5e1; font-style: italic;">Chưa có TĐN</span>') +
-                '</div>' +
-            '</div>';
+              '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">' +
+              '<strong style="color: #1e293b; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">' + item.fullname + '</strong>' +
+              (item.tel ? '<span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px;"><i class="ri-phone-fill" style="color: #94a3b8;"></i> ' + item.tel + '</span>' : '') +
+              '</div>' +
+              '<div style="color: #64748b; font-size: 12px; display: flex; align-items: center; gap: 6px;">' +
+              '<i class="ri-user-star-line" style="font-size: 14px; color: #94a3b8;"></i> ' + (item.username ? item.username : '<span style="color: #cbd5e1; font-style: italic;">Chưa có TĐN</span>') +
+              '</div>' +
+              '</div>';
 
             var li = $('<li style="padding: 10px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; align-items: center; transition: all 0.2s ease; background-color: #ffffff;"></li>');
-            
+
             li.html(avatar + details);
-            
-            li.on('mouseover', function() { $(this).css('background-color', '#f8fafc'); });
-            li.on('mouseout', function() { $(this).css('background-color', '#ffffff'); });
-            
-            li.on('click', function() {
+
+            li.on('mouseover', function () { $(this).css('background-color', '#f8fafc'); });
+            li.on('mouseout', function () { $(this).css('background-color', '#ffffff'); });
+
+            li.on('click', function () {
               $("#hidden_sales_person").val(item.id || '');
               $("#sales_person").val(item.fullname || '');
               box.hide();
@@ -382,24 +443,24 @@ function searchInfoCusOutput() {
         box.empty();
         if (res && res.success && res.data && res.data.length > 0) {
           var ul = $('<ul style="list-style:none; padding: 0; margin: 0; background-color: #ffffff;"></ul>');
-          res.data.forEach(function(item) {
+          res.data.forEach(function (item) {
             var displayTitle = item.tendonvi || item.tennguoimua;
             var mstBadge = item.masothue ? ('<span style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px;"><i class="ri-article-line"></i> MST: ' + item.masothue + '</span>') : '';
             var buyerIcon = item.tennguoimua ? ('<span style="color: #64748b; font-size: 13px; display: flex; align-items: center; gap: 4px; margin-top: 4px;"><i class="ri-user-line" style="font-size: 14px;"></i> Người mua: ' + item.tennguoimua + '</span>') : '';
 
             var li = $('<li style="padding: 12px 16px; border-bottom: 1px solid #f8fafc; cursor: pointer; transition: all 0.2s ease; background-color: #ffffff;"></li>');
-            
-            li.html('<div style="display: flex; flex-direction: column;">' + 
-                        '<strong style="color: #0f172a; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap;">' + 
-                            '<i class="ri-building-4-line" style="color: var(--primary-color); margin-right: 6px; font-size: 15px;"></i> ' + displayTitle + mstBadge + 
-                        '</strong>' + 
-                        buyerIcon + 
-                    '</div>');
-            
-            li.on('mouseover', function() { $(this).css('background-color', '#f8fafc'); });
-            li.on('mouseout', function() { $(this).css('background-color', '#ffffff'); });
-            
-            li.on('click', function() {
+
+            li.html('<div style="display: flex; flex-direction: column;">' +
+              '<strong style="color: #0f172a; font-size: 14px; display: flex; align-items: center; flex-wrap: wrap;">' +
+              '<i class="ri-building-4-line" style="color: var(--primary-color); margin-right: 6px; font-size: 15px;"></i> ' + displayTitle + mstBadge +
+              '</strong>' +
+              buyerIcon +
+              '</div>');
+
+            li.on('mouseover', function () { $(this).css('background-color', '#f8fafc'); });
+            li.on('mouseout', function () { $(this).css('background-color', '#ffffff'); });
+
+            li.on('click', function () {
               $("#id_customer").val(item.id || '');
               $("#masothue").val(item.masothue || '').attr("value", item.masothue || '');
               $("#madonvi").val(item.madonvi || '');
@@ -419,7 +480,7 @@ function searchInfoCusOutput() {
           box.show();
         }
       },
-      error: function() {
+      error: function () {
         box.html('<div style="padding: 16px; color: #ef4444; text-align: center; font-size: 13px; background-color: #ffffff;"><i class="ri-error-warning-line" style="font-size: 24px; display: block; margin-bottom: 8px;"></i>Lỗi kết nối hoặc lỗi server.</div>');
         box.show();
       }
@@ -431,8 +492,8 @@ function searchInfoCusOutput() {
 
 function selectQuickCustomer(el) {
   var data = $(el).data('info');
-  if(data) {
-    if(typeof data === 'string') data = JSON.parse(data);
+  if (data) {
+    if (typeof data === 'string') data = JSON.parse(data);
     $("#id_customer").val(data.id || '');
     $("#masothue").val(data.masothue || '');
     $("#masothue").attr("value", data.masothue || '');
@@ -446,12 +507,71 @@ function selectQuickCustomer(el) {
   }
 }
 
-$(document).mouseup(function(e) {
-    var container = $("#group-buyer-search");
-    if (container.length && !container.is(e.target) && container.has(e.target).length === 0) {
-        $("#cus-searching-box").hide();
-    }
+$(document).mouseup(function (e) {
+  var container = $("#group-buyer-search");
+  if (container.length && !container.is(e.target) && container.has(e.target).length === 0) {
+    $("#cus-searching-box").hide();
+  }
 });
+
+function clickSearchProInvoice(nv) {
+  var idPro = $(nv).data("id");
+  $(".prosku-searching-box").hide();
+
+  var op = "invoice_getinfopro";
+  $.ajax({
+    type: "POST",
+    url: "/ajax.php",
+    dataType: "json",
+    data: {
+      op: op,
+      idPro: idPro
+    },
+    success: function (data) {
+      if (data["success"] == 1) {
+        $(nv).parents("tr").find(".masku").val(data["proSkuCode"]);
+        $(nv).parents("tr").find(".masku").attr("value", data["proSkuCode"]);
+
+        $(nv).parents("tr").find(".mahang").val(data["proCode"]);
+        $(nv).parents("tr").find(".mahang").attr("value", data["proCode"]);
+
+        $(nv).parents("tr").find(".id_sp").val(data["id_pro"]);
+        $(nv).parents("tr").find(".id_sp").attr("value", data["id_pro"]);
+
+        $(nv).parents("tr").find(".tenhang").val(data["proName"]);
+        $(nv).parents("tr").find(".tenhang").attr("value", data["proName"]);
+
+        $(nv).parents("tr").find(".donvt1").val(data["nameUnit"]);
+        $(nv).parents("tr").find(".donvt1").attr("value", data["nameUnit"]);
+        if (data["unitId"]) {
+          $(nv).parents("tr").find(".hidden_donvt_id").val(data["unitId"]);
+        }
+
+        $(nv).parents("tr").find(".soluong").val(1);
+        $(nv).parents("tr").find(".hidden_soluong").attr("value", 1);
+
+        // Gán giá vào ô đơn giá rồi gọi hàm tính toán có sẵn
+        $(nv).parents("tr").find(".dongia").val(data["proPrice"]);
+        clickChangePriceOutPut($(nv).parents("tr").find(".dongia")[0]);
+
+        // Gán thêm các thông tin phụ nếu có
+        if (data["proIdWarehouse"]) {
+          $(nv).parents("tr").find(".makho").val(data["proIdWarehouse"]);
+        }
+        if (data["proIdParcel"]) {
+          $(nv).parents("tr").find(".solo").val(data["proIdParcel"]);
+        }
+        if (data["proDateExpiry"]) {
+          $(nv).parents("tr").find(".hsd").val(data["proDateExpiry"]);
+        }
+        if (data["proNote"]) {
+          $(nv).parents("tr").find(".ghichu").val(data["proNote"]);
+        }
+      }
+    }
+  });
+}
+
 function callTaxCodeAPI() {
   debugger;
   const taxCodeInput = document.getElementById("masothue");
@@ -1819,12 +1939,11 @@ function toggleDeductionArea() {
 // =========================================================================
 
 function calcuPriceVat(ob) {
-  var vat = $("#phantram_thuesuat").val();
-  if ($("phantram_thuesuat").length) {
-    var vat = 0;
-  }
-  if (vat == "Null") {
-    var vat = $(ob).parents("tr").find(".hidden_GTGT").val();
+  var vat;
+  if ($("#phantram_thuesuat").length && $("#phantram_thuesuat").val() !== "Null") {
+    vat = $("#phantram_thuesuat").val();
+  } else {
+    vat = $(ob).parents("tr").find(".hidden_GTGT").val();
   }
 
   if (
@@ -1838,7 +1957,7 @@ function calcuPriceVat(ob) {
     vat == "Không thay đổi thuế xuất" ||
     vat == "Không chịu thuế"
   ) {
-    var vat = 0;
+    vat = 0;
   }
 
   var priceHidden = $(ob).parents("tr").find(".hidden_dongia").val();
@@ -1948,11 +2067,13 @@ function calcuIntoMoneyGTGT(ob) {
     : "VND";
   var amountGTGTShow = 0;
   var amountGTGTHidden = 0;
-  var vat = $("#phantram_thuesuat").val();
   var storeid = $("#storeId").val();
 
-  if (vat == "Null") {
-    var vat = $(ob).parents("tr").find(".hidden_GTGT").val();
+  var vat;
+  if ($("#phantram_thuesuat").length && $("#phantram_thuesuat").val() !== "Null") {
+    vat = $("#phantram_thuesuat").val();
+  } else {
+    vat = $(ob).parents("tr").find(".hidden_GTGT").val();
   }
 
   if (
@@ -1966,7 +2087,7 @@ function calcuIntoMoneyGTGT(ob) {
     vat == "Không thay đổi thuế xuất" ||
     vat == "Không chịu thuế"
   ) {
-    var vat = 0;
+    vat = 0;
   }
 
   var priceHidden = $(ob).parents("tr").find(".hidden_dongia").val();

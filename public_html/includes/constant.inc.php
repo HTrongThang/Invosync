@@ -17,8 +17,8 @@ define('MAINTENANCE', '0');                    # Maintenance all estores
 define('DEBUG', '1');                        # Debug mode
 define('DEBUG_DISPLAY', '1');                # Display debug information
 // define('DEBUG_IP', '115.78.234.252');        # This IP will see the debug information
-define('DEBUG_IP', '115.75.191.44');// cty
-// define('DEBUG_IP', '115.77.2128.243');
+// define('DEBUG_IP', '115.75.191.44');// cty
+define('DEBUG_IP', '115.77.228.243');
 
 // define('DEBUG_IP', '14.226.244.70');
 // define('DEBUG_IP', '58.187.191.184');

@@ -35,13 +35,11 @@ $op = $request->element("op");
 $templateFolder = "admin/";
 $userTemplate = "admin";
 $templateFile = "xml.html";
-	
 # Language manager
 $lang = $request->element("lang");
 if(!$lang) $lang = DEFAULT_LANGUAGE;
 include_once(ROOT_PATH."languages/".$lang.".php");
 include_once(ROOT_PATH."languages/admin/".$lang.".php");
-
 
 # Action check
 if(!$op) die("Error!");

@@ -733,42 +733,51 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 function formSubmit(form, vmod, vdo, vid) {
-  //alert('hi');
-  f = document.getElementById(form);
-  f.mod.value = vmod;
-  f.doo.value = vdo;
-  f.id.value = vid;
-  f.submit();
+  var f = document.getElementById(form);
+  if (f) {
+    if (f.elements['mod']) f.elements['mod'].value = vmod;
+    if (f.elements['doo']) f.elements['doo'].value = vdo;
+    if (f.elements['id']) f.elements['id'].value = vid;
+    if (typeof f.submit === 'function') f.submit();
+    else HTMLFormElement.prototype.submit.call(f);
+  }
 }
 
 function formSubmitCancel(form, vmod, vdo, vid) {
-  //alert('hi');
   let lydo = prompt('Nhập lý do huỷ:');
   if (lydo != null) {
-    f = document.getElementById(form);
-    f.mod.value = vmod;
-    f.doo.value = vdo;
-    f.id.value = vid;
-    f.lydo.value = lydo;
-    f.submit();
+    var f = document.getElementById(form);
+    if (f) {
+      if (f.elements['mod']) f.elements['mod'].value = vmod;
+      if (f.elements['doo']) f.elements['doo'].value = vdo;
+      if (f.elements['id']) f.elements['id'].value = vid;
+      if (f.elements['lydo']) f.elements['lydo'].value = lydo;
+      if (typeof f.submit === 'function') f.submit();
+      else HTMLFormElement.prototype.submit.call(f);
+    }
   }
 }
 
 function activeSubmit(form) {
-  f = document.forms(form);
-  f.plus.value = "active";
-  f.submit();
+  var f = document.forms[form] || document.getElementById(form);
+  if (f) {
+    if (f.elements['plus']) f.elements['plus'].value = "active";
+    if (typeof f.submit === 'function') f.submit();
+    else HTMLFormElement.prototype.submit.call(f);
+  }
 }
 
 
 function formSubmitDelNotSign(form, vmod, vdo, vid, vnameform) {
-  //alert('hi');
-  f = document.getElementById(form);
-  f.mod.value = vmod;
-  f.doo.value = vdo;
-  f.id.value = vid;
-  f.tenform.value = vnameform;
-  f.submit();
+  var f = document.getElementById(form);
+  if (f) {
+    if (f.elements['mod']) f.elements['mod'].value = vmod;
+    if (f.elements['doo']) f.elements['doo'].value = vdo;
+    if (f.elements['id']) f.elements['id'].value = vid;
+    if (f.elements['tenform']) f.elements['tenform'].value = vnameform;
+    if (typeof f.submit === 'function') f.submit();
+    else HTMLFormElement.prototype.submit.call(f);
+  }
 }
 
 function confirmBulkAction(formId, moduleName, actionValue, confirmMessage, dialogType = 'info', title = 'Xác nhận') {

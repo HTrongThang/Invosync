@@ -103,13 +103,169 @@ if ($_POST && $request->element('doo') == 'submit') {
 	# VALIDATE DỮ LIỆU
 	# =====================================================================
 	$validate = validateData($request);
-	
-} else {
-	
-	
 
-	// Xử lý các logic khác (nếu có) khi không có POST...
-}
+	if ($validate['invalid'] == 0) {
+		# =============================================================
+		# THU THẬP DỮ LIỆU HEADER
+		# =============================================================
+		$serial       = $textFilter->clean($request->element('hidden_sohoadon'));
+		$masothue     = $textFilter->clean($request->element('masothue'));
+		$namedv       = $textFilter->clean($request->element('tendonvi'));
+		$name_cus     = $textFilter->clean($request->element('tennguoimua'));
+		$address      = $textFilter->clean($request->element('diachi'));
+		$date_set_raw = $request->element('hidden_ngayhoadon');
+		$payments     = $textFilter->clean($request->element('payment_method'));
+		$id_customer  = $request->element('id_customer');
+		$salechannel  = $request->element('salechannel');
+		$ghichu       = $textFilter->clean($request->element('ghichu'));
+
+		# Chuyển đổi ngày từ d/m/Y hoặc d-m-Y sang Y-m-d
+		$date_set = '';
+		if ($date_set_raw) {
+			$separator = strpos($date_set_raw, '/') !== false ? '/' : '-';
+			$parts = explode($separator, $date_set_raw);
+			if (count($parts) == 3) {
+				$date_set = $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+			} else {
+				$date_set = date('Y-m-d');
+			}
+		} else {
+			$date_set = date('Y-m-d');
+		}
+
+		# Tổng tiền
+		$subtotal_novat = chuanHoaSo($request->element('hidden_tongthanhtien'));
+		$sub_total      = chuanHoaSo($request->element('hidden_tongcongpriceGTGT'));
+		$total_name     = $textFilter->clean($request->element('hidden_bangchuGTGT'));
+
+		# Properties (thông tin phụ lưu serialize)
+		$propertiesArray = array(
+			'ghichu'              => $ghichu,
+			'warehouse'           => $request->element('warehouse'),
+			'businessBranch'      => $IdbusinessBranch,
+			'nameBusinessBranch'  => $nameBusinessBranch,
+			'addressBusinessBranch' => $addressBusinessBranch,
+			'codeBusinessBranch'  => $codeBusinessBranch,
+			'debit_term'          => $request->element('debit_term'),
+			'payment_term'        => $request->element('hidden_payment_term'),
+			'sales_person'        => $request->element('sales_person'),
+			'hidden_sales_person' => $request->element('hidden_sales_person'),
+		);
+
+		# =============================================================
+		# INSERT INVOICE HEADER
+		# =============================================================
+		$invoiceData = array(
+			'serial'           => $serial,
+			'masothue'         => $masothue,
+			'namedv'           => $namedv,
+			'name_cus'         => $name_cus,
+			'email'            => '',
+			'address'          => $address,
+			'stk'              => '',
+			'date_set'         => $date_set,
+			'payments'         => $payments,
+			'date_created'     => date('Y-m-d H:i:s'),
+			'subtotal_novat'   => $subtotal_novat,
+			'sub_total'        => $sub_total,
+			'total_name'       => $total_name,
+			'properties'       => serialize($propertiesArray),
+			'status'           => 1,
+			'status_sign'      => 0,
+			'status_censored'  => 0,
+			'status_replace'   => 0,
+			'status_repair'    => 0,
+			'status_pdf'       => 0,
+			'status_convert'   => 0,
+			'status_delete'    => 0,
+			'auto_sign'        => 0,
+			'auto_post_togdt'  => 0,
+			'confirmation_code' => '',
+			'status_sale'      => 0,
+			'reasonsale'       => '',
+			'id_sale_channel'  => $salechannel ? $salechannel : 0,
+			'id_symbol'        => 0,
+			'id_bill'          => 0,
+			'id_cus'           => $id_customer ? $id_customer : 0,
+			'store_id'         => $storeId,
+		);
+
+		$invoiceId = $invoicenewss->addData($invoiceData);
+
+		if ($invoiceId) {
+			# =============================================================
+			# INSERT LINE ITEMS
+			# =============================================================
+			$arrTenHang     = isset($_POST['tenhang'])              ? $_POST['tenhang']              : array();
+			$arrMaHang      = isset($_POST['mahang'])               ? $_POST['mahang']               : array();
+			$arrMaSKU       = isset($_POST['masku'])                ? $_POST['masku']                : array();
+			$arrIdSP        = isset($_POST['id_sp'])                ? $_POST['id_sp']                : array();
+			$arrDonVT       = isset($_POST['donvt'])                ? $_POST['donvt']                : array();
+			$arrDonVTId     = isset($_POST['hidden_donvt_id'])      ? $_POST['hidden_donvt_id']      : array();
+			$arrSoLuong     = isset($_POST['hidden_soluong'])       ? $_POST['hidden_soluong']       : array();
+			$arrDonGia      = isset($_POST['hidden_dongia'])        ? $_POST['hidden_dongia']        : array();
+			$arrDonGiaVat   = isset($_POST['hidden_dongiavat'])     ? $_POST['hidden_dongiavat']     : array();
+			$arrGTGT        = isset($_POST['show_GTGT'])            ? $_POST['show_GTGT']            : array();
+			$arrThueGTGT    = isset($_POST['hidden_thueGTGT'])      ? $_POST['hidden_thueGTGT']      : array();
+			$arrThanhTienGTGT = isset($_POST['hidden_thanhtienGTGT']) ? $_POST['hidden_thanhtienGTGT'] : array();
+			$arrChietKhau   = isset($_POST['chietkhau2'])           ? $_POST['chietkhau2']           : array();
+			$arrKhuyenMai   = isset($_POST['khuyenmai2'])           ? $_POST['khuyenmai2']           : array();
+			$arrHHDacTrung  = isset($_POST['featuredProductStatus']) ? $_POST['featuredProductStatus'] : array();
+
+			for ($i = 0; $i < count($arrTenHang); $i++) {
+				# Bỏ qua dòng trống (không có tên hàng)
+				if (empty(trim($arrTenHang[$i]))) continue;
+
+				$itemProperties = serialize(array(
+					'masku'   => isset($arrMaSKU[$i]) ? $arrMaSKU[$i] : '',
+					'unit_id' => isset($arrDonVTId[$i]) ? $arrDonVTId[$i] : '',
+				));
+
+				$quantity    = isset($arrSoLuong[$i])   ? chuanHoaSo($arrSoLuong[$i])   : 0;
+				$price       = isset($arrDonGia[$i])    ? chuanHoaSo($arrDonGia[$i])    : 0;
+				$pricedv     = isset($arrDonGiaVat[$i]) ? chuanHoaSo($arrDonGiaVat[$i]) : 0;
+				$vatPercent  = isset($arrGTGT[$i])      ? $arrGTGT[$i]                  : '';
+				$thueGTGT    = isset($arrThueGTGT[$i])  ? chuanHoaSo($arrThueGTGT[$i])  : 0;
+				$thuedv      = $quantity * $price; // Thành tiền chưa thuế
+				$price_vat   = $thueGTGT;        // Tiền thuế GTGT
+
+				$itemData = array(
+					'ma_sp'          => isset($arrMaHang[$i]) ? $textFilter->clean($arrMaHang[$i]) : '',
+					'name'           => $textFilter->clean($arrTenHang[$i]),
+					'dvt'            => isset($arrDonVT[$i]) ? $textFilter->clean($arrDonVT[$i]) : '',
+					'quantity'       => $quantity,
+					'price'          => $price,
+					'thuedv'         => $thuedv,
+					'pricedv'        => $pricedv,
+					'vat'            => $vatPercent,
+					'price_vat'      => $price_vat,
+					'chietkhau'      => isset($arrChietKhau[$i]) ? $arrChietKhau[$i] : 0,
+					'khuyenmai'      => isset($arrKhuyenMai[$i]) ? $arrKhuyenMai[$i] : 0,
+					'hangHoaDacTrung' => isset($arrHHDacTrung[$i]) ? $arrHHDacTrung[$i] : 0,
+					'properties'     => $itemProperties,
+					'status'         => 1,
+					'date_cretead'   => date('Y-m-d H:i:s'),
+					'id_product'     => isset($arrIdSP[$i]) ? intval($arrIdSP[$i]) : 0,
+					'id_iv'          => $invoiceId,
+					'store_id'       => $storeId,
+				);
+
+				$invoicenewitem->addData($itemData);
+			}
+
+			# =============================================================
+			# REDIRECT SAU KHI LƯU THÀNH CÔNG
+			# =============================================================
+			header("Location: /" . ADMIN_SCRIPT . "?op=newinvoice&act=new&mod=list&rcode=1");
+			exit;
+		} else {
+			$template->assign('error_code', 'Lỗi khi lưu hóa đơn vào cơ sở dữ liệu.');
+		}
+	} else {
+		# Validate thất bại - gán lỗi cho template để hiển thị
+		$template->assign('error', $validate);
+	}
+} 
 
 # =====================================================================
 # GÁN DỮ LIỆU CHO TEMPLATE (LUÔN CHẠY)
