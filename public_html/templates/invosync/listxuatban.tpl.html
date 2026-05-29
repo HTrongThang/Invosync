@@ -1,7 +1,8 @@
 {include file="$userTemplate/component/header.html"}
 <!-- BẮT ĐẦU GIAO DIỆN NỘI DUNG CHÍNH CỦA BẠN TẠI ĐÂY -->
-<main class="container-f flex flex-col flex-1 pos-rel">
-    <section class="container-f flex flex-col bg-white">
+<main class="container-f flex flex-col flex-1 pos-rel bg-white">
+    <link rel="stylesheet" href="/{$templatePath}/{$userTemplate}/css/common-table.css?v={$version}">
+    <section class="container-f flex flex-col">
         <div class="invoice-main-wrapper flex flex-col gap-10">
             <div class="invoice-top-section flex flex-col">
 
@@ -17,44 +18,53 @@
                         <p>|</p>
                         <a href="javascript:void(0)">Danh sách hóa đơn</a>
                     </div>
-                    <div class="section-icon__wrapper cursor-pointer" data-_toggle-bound="true">
-                        <img class="section-icon img-content"
-                            src="/{$templatePath}/{$userTemplate}/img/icon/btn-popup.png" alt="">
-                    </div>
+
                 </div>
 
-                <div class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
-
+                <form method="GET" action="/{$aScript}" class="invoice-toolbar flex-wrap flex jus-sb center-ver gap-20">
+                    <input type="hidden" name="op" value="newinvoice">
+                    <input type="hidden" name="act" value="new">
+                    <input type="hidden" name="mod" value="list">
                     <div class="toolbar-left flex center-ver ">
                         <span
                             class="pagination-label flex center-ver center-hor flex-1 item-padding-5 border-right-green">Số
                             kết quả mỗi trang</span>
-                        <select class="pagination-select cursor-pointer">
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                        <select name="limit" class="pagination-select cursor-pointer" onchange="this.form.submit()">
+                            <option value="20" {if isset($items_per_page) && $items_per_page==20}selected{/if}>20
+                            </option>
+                            <option value="50" {if isset($items_per_page) && $items_per_page==50}selected{/if}>50
+                            </option>
+                            <option value="100" {if isset($items_per_page) && $items_per_page==100}selected{/if}>100
+                            </option>
                         </select>
                     </div>
 
                     <div class="toolbar-right flex center-ver gap-5 flex-wrap">
-                        <input type="text" class="filter-input  item-padding-5" placeholder="Từ ngày">
-                        <input type="text" class="filter-input  item-padding-5" placeholder="Đến ngày">
-                        <input type="text" class="filter-input  item-padding-5" placeholder="Số hóa đơn">
-                        <input type="text" class="filter-input  item-padding-5" placeholder="Mã số thuế">
-                        <input type="text" class="filter-input exception  item-padding-5 input-large"
+                        <input type="text" name="search_from" value="{if isset($search_from)}{$search_from}{/if}"
+                            class="filter-input item-padding-5" placeholder="Từ ngày">
+                        <input type="text" name="search_to" value="{if isset($search_to)}{$search_to}{/if}"
+                            class="filter-input item-padding-5" placeholder="Đến ngày">
+                        <input type="text" name="search_serial" value="{if isset($search_serial)}{$search_serial}{/if}"
+                            class="filter-input item-padding-5" placeholder="Số hóa đơn">
+                        <input type="text" name="search_masothue"
+                            value="{if isset($search_masothue)}{$search_masothue}{/if}"
+                            class="filter-input item-padding-5" placeholder="Mã số thuế">
+                        <input type="text" name="search_keyword"
+                            value="{if isset($search_keyword)}{$search_keyword}{/if}"
+                            class="filter-input exception item-padding-5 input-large"
                             placeholder="Đơn vị mua hàng / Mã đơn vị">
 
-                        <button type="button" class="btn-search bg-secondary bold cursor-pointer">
-                            Tìm nhanh
+                        <button type="submit" class="btn-search bg-secondary bold cursor-pointer flex center-ver gap-5" style="font-size:14px; padding: 0 15px;">
+                            <i class="ri-search-line" style="font-size:16px;"></i> Tìm kiếm
                         </button>
 
-                        <div class="btn-add-red cursor-pointer flex center-ver center-hor">
-                            <img src="/{$templatePath}/{$userTemplate}/img/icon/plus-white.svg" alt="Add New"
-                                class="img-content">
-                        </div>
+                        <a href="/{$aScript}?op=newinvoice&act=new&mod=add"
+                            class="btn-add-red cursor-pointer flex center-ver center-hor"
+                            style="text-decoration: none;" title="Thêm mới hóa đơn">
+                            <i class="ri-add-line" style="font-size: 20px;"></i>
+                        </a>
                     </div>
-
-                </div>
+                </form>
             </div>
             <div class="pos-rel">
                 <div class="dynamic-table" data-main="005C35" data-second="F4FBF4">
@@ -76,209 +86,59 @@
                         </thead>
 
                         <tbody>
-                            <!-- Dòng 1 -->
+                            {if isset($listInvoices) && $listInvoices}
+                            {foreach from=$listInvoices item=invoice name=foo}
                             <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">1</td>
+                                <td class="text-center"><input type="checkbox" name="ids[]" value="{$invoice->getId()}">
+                                </td>
+                                <td class="text-center">{$smarty.foreach.foo.iteration + ($page - 1) * $items_per_page}
+                                </td>
                                 <td class="table-icon__container">
                                     <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor" title="Xem" onclick="window.location.href='/{$aScript}?op=newinvoice&act=new&mod=view&id={$invoice->getId()}'">
+                                            <i class="ri-eye-line" style="font-size: 20px; color: #2563eb;"></i>
                                         </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor" title="Sửa" onclick="window.location.href='/{$aScript}?op=newinvoice&act=new&mod=edit&id={$invoice->getId()}'">
+                                            <i class="ri-edit-line" style="font-size: 20px; color: #f59e0b;"></i>
                                         </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                            title="Xóa">
+                                            <i class="ri-delete-bin-6-line"
+                                                style="font-size: 20px; color: #dc2626;"></i>
                                         </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                            title="Copy">
+                                            <i class="ri-file-copy-line" style="font-size: 19px; color: #6366f1;"></i>
+                                        </div>
+                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor"
+                                            title="Gửi mail">
+                                            <i class="ri-mail-send-line" style="font-size: 20px; color: #059669;"></i>
                                         </div>
                                     </div>
                                 </td>
-                                <td>D01234567</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Trần Nhật Minh Ánh</td>
-                                <td>Công Ty TNHH Thương Mại Dịch Vụ Sản Xuất Tân Sơn Nhất</td>
-                                <td class="text-right">5,000,000,000</td>
-                                <td>Mới tạo</td>
-                                <td class="text-center">User1</td>
-                            </tr>
-
-                            <!-- Dòng 2 -->
-                            <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">2</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
-                                        </div>
-                                    </div>
+                                <td>{$invoice->getSerial()}</td>
+                                <td class="text-center">
+                                    {if $invoice->getDateSet() != '0000-00-00'}
+                                    {$invoice->getDateSet()|date_format:"%d/%m/%Y"}
+                                    {/if}
                                 </td>
-                                <td>D02345689</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Nguyễn Thị Hồng</td>
-                                <td>Hộ Kinh Doanh Nguyễn Thị Hồng</td>
-                                <td class="text-right">7,500,000</td>
-                                <td>Đã chỉnh</td>
-                                <td class="text-center">User2</td>
-                            </tr>
-
-                            <!-- Dòng 3 -->
-                            <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">3</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
-                                        </div>
-                                    </div>
+                                <td class="text-center">{$invoice->getMasothue()}</td>
+                                <td>{$invoice->getNameCus()}</td>
+                                <td>{$invoice->getNamedv()}</td>
+                                <td class="text-right">{$invoice->getSubTotal()|number_format:0:",":"."}</td>
+                                <td>
+                                    {if $invoice->getStatus() == 1} Mới tạo {else} Khác {/if}
                                 </td>
-                                <td>D03456811</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Nguyễn Thị Hồng</td>
-                                <td>Hộ Kinh Doanh Nguyễn Thị Hồng</td>
-                                <td class="text-right">5,765,000</td>
-                                <td>Mới tạo</td>
-                                <td class="text-center">User2</td>
+                                <td class="text-center">Admin</td>
                             </tr>
-
-                            <!-- Dòng 4 -->
+                            {/foreach}
+                            {else}
                             <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">4</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
-                                        </div>
-                                    </div>
+                                <td colspan="11" class="text-center"
+                                    style="padding: 40px; color: #64748b; font-style: italic;">Không có dữ liệu hóa đơn
                                 </td>
-                                <td>D04567933</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Nguyễn Thị Hồng</td>
-                                <td>Hộ Kinh Doanh Nguyễn Thị Hồng</td>
-                                <td class="text-right">4,030,000</td>
-                                <td>Mới tạo</td>
-                                <td class="text-center">User2</td>
                             </tr>
-
-                            <!-- Dòng 5 -->
-                            <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">5</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>D05679055</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Nguyễn Thị Hồng</td>
-                                <td>Hộ Kinh Doanh Nguyễn Thị Hồng</td>
-                                <td class="text-right">2,295,000</td>
-                                <td>Mới tạo</td>
-                                <td class="text-center">User2</td>
-                            </tr>
-
-                            <!-- Dòng 6 -->
-                            <tr>
-                                <td class="text-center"><input type="checkbox"></td>
-                                <td class="text-center">6</td>
-                                <td class="table-icon__container">
-                                    <div class="table-icon flex gap-2 center-hor">
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/view.svg" alt="View">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/delete.svg" alt="Delete">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/copy.svg" alt="Copy">
-                                        </div>
-                                        <div class="table-icon__image cursor-pointer flex center-ver center-hor">
-                                            <img class="img-content"
-                                                src="/{$templatePath}/{$userTemplate}/img/icon/mail.svg" alt="Mail">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>D06790177</td>
-                                <td class="text-center">7/7/2026</td>
-                                <td class="text-center">1234567890</td>
-                                <td>Nguyễn Thị Hồng</td>
-                                <td>Hộ Kinh Doanh Nguyễn Thị Hồng</td>
-                                <td class="text-right">560,000</td>
-                                <td>Mới tạo</td>
-                                <td class="text-center">User1</td>
-                            </tr>
+                            {/if}
                         </tbody>
                     </table>
                 </div>

@@ -578,4 +578,9 @@ function buildBreadcrumbSchema($topNav)
     );
 }
 
-
+function generateInvoiceCode($prefix = 'HD', $randomLength = 4) {
+    $dateString = date('dmY');
+    $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomSuffix = substr(str_shuffle(str_repeat($chars, 2)), 0, $randomLength);
+    return $prefix . $dateString . $randomSuffix;
+}

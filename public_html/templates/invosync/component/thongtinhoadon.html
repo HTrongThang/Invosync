@@ -29,15 +29,15 @@
         <div id="group-inv-date" class="form-group date-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Ngày xuất <span class="redcolor">*</span></p>
             <input type="text" name="show_ngayhoadon" id="show_ngayhoadon" class="input-field flex-1 datepicker-custom"
-                value="{$suggestedDate}" autocomplete="off">
-            <input type="hidden" name="hidden_ngayhoadon" id="hidden_ngayhoadon" value="{$suggestedDate}">
+                value="{if isset($itemInfo)}{$itemInfo->getDateSet()|date_format:'%d-%m-%Y'}{else}{$suggestedDate}{/if}" autocomplete="off">
+            <input type="hidden" name="hidden_ngayhoadon" id="hidden_ngayhoadon" value="{if isset($itemInfo)}{$itemInfo->getDateSet()|date_format:'%d-%m-%Y'}{else}{$suggestedDate}{/if}">
         </div>
         <div id="group-inv-serial" class="form-group serial-group flex center-ver jus-sb col-2 flex-1 active">
             <p class="flex input-title">Số phiếu</p>
             <input type="text" name="show_sohoadon" id="show_sohoadon" class="input-field flex-1"
-                value="{$suggestedCode}" disabled>
-            <input type="hidden" name="hidden_sohoadon" id="hidden_sohoadon" value="{$suggestedCode}">
-            <input type="hidden" name="hidden_sohoadon_storage" id="hidden_sohoadon_storage" value="{$suggestedCode}">
+                value="{if isset($itemInfo)}{$itemInfo->getSerial()}{else}{$suggestedCode}{/if}" disabled>
+            <input type="hidden" name="hidden_sohoadon" id="hidden_sohoadon" value="{if isset($itemInfo)}{$itemInfo->getSerial()}{else}{$suggestedCode}{/if}">
+            <input type="hidden" name="hidden_sohoadon_storage" id="hidden_sohoadon_storage" value="{if isset($itemInfo)}{$itemInfo->getSerial()}{else}{$suggestedCode}{/if}">
         </div>
     </div>
 
@@ -55,7 +55,7 @@
             <input type="text" name="show_payment_term" id="show_payment_term"
                 class="input-field datepicker-custom flex-1" value="{$suggestedDate}" autocomplete="off"
                 onchange="dateCalculation2()">
-            <input type="hidden" name="hidden_payment_term" id="hidden_payment_term" value="{$suggestedDate}">
+            <input type="hidden" name="hidden_payment_term" id="hidden_payment_term" value="{if isset($itemInfo)}{$itemInfo->getDateSet()|date_format:'%d-%m-%Y'}{else}{$suggestedDate}{/if}">
         </div>
     </div>
 
@@ -80,7 +80,7 @@
                 {if isset($listSaleChannel) && $listSaleChannel}
                 {foreach key=key from=$listSaleChannel item=item}
                 <option value="{$item->getId()}" {if (isset($error.INPUT) && $error.INPUT.salechannel.value eq $item->
-                    getId()) || (isset($itemInfo) && $itemInfo->getSaleChannelId() eq $item->getId()) ||
+                    getId()) || (isset($itemInfo) && $itemInfo->getIdSaleChannel() eq $item->getId()) ||
                     (!isset($error.INPUT) && !isset($itemInfo) && $item->getStatusDefault() eq
                     1)}selected{/if}>{$item->getName()}</option>
                 {/foreach}
@@ -110,7 +110,7 @@
                 {if isset($listWarehouse) && $listWarehouse}
                 {foreach key=key from=$listWarehouse item=item}
                 <option value="{$item->getId()}" {if (isset($error.INPUT) && $error.INPUT.warehouse.value eq $item->
-                    getId()) || (isset($itemInfo) && $itemInfo->getWarehouseId() eq $item->getId()) ||
+                    getId()) || (isset($itemInfo) && $itemInfo->getProperty('warehouse') eq $item->getId()) ||
                     (!isset($error.INPUT) && !isset($itemInfo) && $item->getStatusDefault() eq
                     1)}selected{/if}>{$item->getName()}</option>
                 {/foreach}

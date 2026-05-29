@@ -1,0 +1,30 @@
+/* Chỉnh font chữ to hơn cho bảng */
+.dynamic-table__content th,
+.dynamic-table__content td {
+    font-size: 14.5px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+/* Chỉnh icon to hơn và xóa viền/nền thừa nếu có */
+.table-icon__image {
+    width: 32px !important;
+    height: 32px !important;
+    transition: all 0.2s;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.table-icon__image img {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.table-icon__image:hover {
+    transform: scale(1.1);
+}
+
+/* Nút Thêm (Phong cách hiện đại) */
+

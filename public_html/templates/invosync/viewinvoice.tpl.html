@@ -1,0 +1,39 @@
+{include file="$userTemplate/component/header.html"}
+
+
+
+<div class="preview-body">
+    {include file="$userTemplate/component/mauhoadon.html"}
+</div>
+
+
+
+<div class="sticky-bottom no-print"
+    style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+    <div class="flex function-container flex-wrap jus-sb"
+        style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+
+        <!-- Nút quay lại -->
+        <button type="button" class="btn-action__custom btn-view-action btn-view-secondary"
+            onclick="window.location.href='/{$aScript}?op=newinvoice&act=new&mod=list'">
+            <i class="ri-arrow-left-line"></i> Danh sách
+        </button>
+
+        <!-- Nhóm nút chức năng -->
+        <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+            <button type="button" class="btn-action__custom btn-view-action btn-view-secondary"
+                onclick="alert('Tính năng Gửi Email đang được phát triển!')">
+                <i class="ri-mail-send-line"></i> Gửi Email
+            </button>
+            <button type="button" class="btn-action__custom btn-view-action btn-view-secondary"
+                onclick="alert('Tính năng Tải PDF đang được phát triển!')">
+                <i class="ri-file-pdf-2-line"></i> Tải PDF
+            </button>
+            <button type="button" class="btn-action__custom btn-view-action btn-view-primary" onclick="window.print()">
+                <i class="ri-printer-line"></i> In hóa đơn
+            </button>
+        </div>
+    </div>
+</div>
+
+{include file="$userTemplate/component/footer.html"}

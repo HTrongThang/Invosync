@@ -6,7 +6,6 @@ if (!isset($_SESSION['userId']) || $_SESSION['userId'] == 0) {
 	exit;
 }
 $templateFile = 'formxuatban.tpl.html';
-
 include_once(ROOT_PATH . "classes/data/textfilter.class.php");
 include_once(ROOT_PATH . 'classes/dao/customers.class.php');
 include_once(ROOT_PATH . 'classes/dao/einvoices.class.php');
@@ -47,17 +46,33 @@ $invoiceformatnumber = $estore->getProperty('formatnumber') ? $estore->getProper
 $invoicedongiachopheple = $estore->getProperty('ledongia') ? $estore->getProperty('ledongia') : 0;
 $invoicesoluongchopheple = $estore->getProperty('lesoluong') ? $estore->getProperty('lesoluong') : 0;
 
+# =====================================================================
 # KẾT QUẢ THÔNG BÁO
+# =====================================================================
 $result_code = $request->element('rcode');
 if ($result_code) $template->assign('result_code', $result_code);
 $error_code = $request->element('ecode');
 if ($error_code) $template->assign('error_code', $error_code);
 
-$suggestedCode = generateInvoiceCode('HD', 4);
-$template->assign('suggestedCode', $suggestedCode);
 
-$pageTitle = "Xuất hóa đơn";
+
+# =====================================================================
+# TIÊU ĐỀ & ĐỊNH DẠNG NGÀY
+# =====================================================================
+$pageTitle = "Chỉnh sửa hóa đơn";
 $template->assign('pageTitle', $pageTitle);
+
+$id = $request->element('id');
+if ($id) {
+    $itemInfo = $invoicenewss->getObject($id);
+    if (!$itemInfo) {
+        header("Location: /" . ADMIN_SCRIPT . "?op=newinvoice&act=new&mod=list&ecode=24");
+        exit;
+    }
+    $template->assign('itemInfo', $itemInfo);
+    $listProductInvoice = $invoicenewitem->getObjects(1, "id_iv='$id'", array('id' => 'ASC'), 9999);
+    $template->assign('listProductInvoice', $listProductInvoice);
+}
 if ($formatdate == '/') {
 	$formatdateModule = 'd/m/Y';
 } else {
@@ -70,14 +85,18 @@ $listVAT = $vat->getObjects(1, "`status`='1'", "", 999999);
 if ($listVAT) $template->assign('listVAT', $listVAT);
 
 
-
+# =====================================================================
+# THIẾT LẬP KÝ HIỆU & SỐ HÓA ĐƠN
+# =====================================================================
 $BusinessObj = $Business->getObjects(1, "`status` = '1'", "", 99);
 if ($BusinessObj) $template->assign('BusinessObj', $BusinessObj);
 
 
 $template->assign('storeId', $storeId);
 
+# =============================================================================
 # XỬ LÝ POST - TẠO HÓA ĐƠN MỚI
+# =============================================================================
 if ($_POST && $request->element('doo') == 'submit') {
 
 	$currentDate = date('dmY');
@@ -175,10 +194,13 @@ if ($_POST && $request->element('doo') == 'submit') {
 			'id_cus'           => $id_customer ? $id_customer : 0,
 			'store_id'         => $storeId,
 		);
+		unset($invoiceData['date_created']); // Don't overwrite creation date on edit
 
-		$invoiceId = $invoicenewss->addData($invoiceData);
+		$updateSuccess = $invoicenewss->updateData($invoiceData, $id);
 
-		if ($invoiceId) {
+		if ($updateSuccess) {
+			$invoiceId = $id;
+			$invoicenewitem->DeleteData1($invoiceId, 'id_iv'); // Xóa chi tiết cũ để thêm lại
 			# INSERT LINE ITEMS
 			$arrTenHang     = isset($_POST['tenhang'])              ? $_POST['tenhang']              : array();
 			$arrMaHang      = isset($_POST['mahang'])               ? $_POST['mahang']               : array();
@@ -311,7 +333,9 @@ function validateData($request)
 	return $error;
 }
 
-
+# =============================================================================
+# HÀM KIỂM TRA NGÀY HÓA ĐƠN
+# =============================================================================
 function checkInvDate($inputDate, $dateRelease, $date_InvBefore, $maxSeriInv)
 {
 	$flag = true;

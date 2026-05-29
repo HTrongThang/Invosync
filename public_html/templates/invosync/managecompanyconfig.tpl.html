@@ -1,0 +1,233 @@
+{include file="$userTemplate/component/header.html"}
+
+<form action="/{$aScript}" method="post" enctype="multipart/form-data" name="formConfig" id="formConfig"
+    class="flex flex-col flex-1">
+    <input type="hidden" name="op" value="manage">
+    <input type="hidden" name="act" value="company">
+    <input type="hidden" name="mod" value="config">
+    <input type="hidden" name="doo" value="submit">
+
+    <main class="container-f flex flex-col pos-rel flex-1 page-background">
+        <div class="modern-form-wrapper">
+
+            <div class="settings-header" style="margin-top: 16px; margin-bottom: 6px;">
+                <h1 class="invoice-title uppercase bold"
+                    style="font-size: 24px; color: #0f172a; letter-spacing: -0.5px; margin-bottom: 8px;">Cấu hình hệ
+                    thống xuất hóa đơn</h1>
+                <p style="color: #64748b; font-size: 15px; margin: 0;">Quản lý hiển thị, định dạng số và các tùy chọn
+                    đặc thù cho doanh nghiệp.</p>
+            </div>
+
+            {if isset($smarty.get.result_code) && $smarty.get.result_code == 1}
+            <div style="background-color: #d1fae5; color: #065f46; border: 1px solid #10b981; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                <i class="ri-checkbox-circle-fill" style="font-size: 20px;"></i>
+                Cập nhật cấu hình công ty và mẫu hóa đơn thành công!
+            </div>
+            {/if}
+
+            <!-- SECTION: THÔNG TIN CƠ BẢN -->
+            <div class="modern-section border-top">
+                <div class="section-meta">
+                    <h3>Thông tin cơ bản</h3>
+                    <p>Tên đơn vị, mã số thuế và các thông tin định danh chính.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid" style="width: 100%;">
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="company_name">Đơn vị bán hàng (Seller)</label>
+                            <input type="text" class="modern-input" name="company_name" id="company_name"
+                                placeholder="Tên công ty / Hộ kinh doanh..."
+                                value="{$configInfo.company_name|default:'Hộ kinh doanh mới 123'}">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="tax_code">Mã số thuế (Tax code)</label>
+                            <input type="text" class="modern-input" name="tax_code" id="tax_code"
+                                placeholder="Nhập mã số thuế..." value="{$configInfo.tax_code|default:'MCh123'}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: LIÊN HỆ -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Thông tin liên hệ</h3>
+                    <p>Địa chỉ trụ sở chính, số điện thoại liên lạc và website.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid" style="width: 100%;">
+
+                        <div class="modern-input-group col-span-2">
+                            <label for="address">Địa chỉ (Address)</label>
+                            <input type="text" class="modern-input" name="address" id="address"
+                                placeholder="Nhập địa chỉ đầy đủ..."
+                                value="{$configInfo.address|default:'314 A lê trong tấn 123'}">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="phone">Điện thoại (Tel)</label>
+                            <input type="text" class="modern-input" name="phone" id="phone"
+                                placeholder="Số điện thoại liên hệ..."
+                                value="{$configInfo.phone|default:'0356 587 127'}">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="website">Website</label>
+                            <input type="text" class="modern-input" name="website" id="website"
+                                placeholder="www.domain.com" value="{$configInfo.website|default:''}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: NGÂN HÀNG -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Thông tin thanh toán</h3>
+                    <p>Số tài khoản và ngân hàng nhận thanh toán.</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid" style="width: 100%;">
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="account_no">Số tài khoản (Account No.)</label>
+                            <input type="text" class="modern-input" name="account_no" id="account_no"
+                                style="max-width: 200px;"
+                                placeholder="Ví dụ: 0123456789" value="{$configInfo.account_no|default:''}">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bank_name">Ngân hàng (Bank)</label>
+                            <input type="text" class="modern-input" name="bank_name" id="bank_name"
+                                placeholder="Tên ngân hàng..." value="{$configInfo.bank_name|default:''}">
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="bank_branch">Chi nhánh (Branch)</label>
+                            <input type="text" class="modern-input" name="bank_branch" id="bank_branch"
+                                placeholder="Tên chi nhánh..." value="{$configInfo.bank_branch|default:''}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: HÌNH ẢNH & TÙY CHỌN HIỂN THỊ -->
+            <div class="modern-section">
+                <div class="section-meta">
+                    <h3>Tùy chọn hiển thị & Hình ảnh</h3>
+                    <p>Cấu hình viền hóa đơn, logo công ty và ảnh nền chìm (watermark).</p>
+                </div>
+                <div class="section-content">
+                    <div class="modern-grid" style="width: 100%;">
+
+                        <div class="modern-input-group col-span-1">
+                            <label
+                                style="display: flex; align-items: center; cursor: pointer; gap: 8px; margin-top: 5px;">
+                                <input type="checkbox" name="hide_invoice_border" value="1" {if
+                                    isset($configInfo.hide_invoice_border) &&
+                                    $configInfo.hide_invoice_border==1}checked{/if}
+                                    style="width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer;">
+                                <span style="font-weight: bold; color: #0f172a;">Bỏ viền ngoài hóa đơn</span>
+                            </label>
+                            <p style="font-size: 13px; color: #64748b; margin-top: 8px;">Chọn nếu không muốn in khung
+                                viền dày bao quanh tờ hóa đơn.</p>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="invoice_border_color">Màu viền hóa đơn</label>
+                            <input type="color" class="modern-input" name="invoice_border_color"
+                                id="invoice_border_color" value="{$configInfo.invoice_border_color|default:'#000000'}"
+                                style="height: 42px; padding: 4px 8px; cursor: pointer; width: 100%;">
+                            <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Chọn màu sắc cho khung viền và
+                                các đường kẻ bảng (Mặc định: Đen).</p>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="invoice_header_font_size">Cỡ chữ thông tin (Người bán/Mua)</label>
+                            <select class="modern-input" name="invoice_header_font_size" id="invoice_header_font_size"
+                                style="width: 100%; cursor: pointer;">
+                                <option value="12" {if isset($configInfo.invoice_header_font_size) &&
+                                    $configInfo.invoice_header_font_size=='12' }selected{/if}>Nhỏ (12px)</option>
+                                <option value="13" {if isset($configInfo.invoice_header_font_size) &&
+                                    $configInfo.invoice_header_font_size=='13' }selected{/if}>Vừa (13px)</option>
+                                <option value="14" {if !isset($configInfo.invoice_header_font_size) ||
+                                    $configInfo.invoice_header_font_size=='14' }selected{/if}>Tiêu chuẩn (14px)</option>
+                                <option value="15" {if isset($configInfo.invoice_header_font_size) &&
+                                    $configInfo.invoice_header_font_size=='15' }selected{/if}>Khá Lớn (15px)</option>
+                                <option value="16" {if isset($configInfo.invoice_header_font_size) &&
+                                    $configInfo.invoice_header_font_size=='16' }selected{/if}>Lớn (16px)</option>
+                            </select>
+                            <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Cỡ chữ áp dụng cho phần thông
+                                tin Người bán & Người mua hàng.</p>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="invoice_table_font_size">Cỡ chữ bảng hàng hóa</label>
+                            <select class="modern-input" name="invoice_table_font_size" id="invoice_table_font_size"
+                                style="width: 100%; cursor: pointer;">
+                                <option value="11" {if isset($configInfo.invoice_table_font_size) &&
+                                    $configInfo.invoice_table_font_size=='11' }selected{/if}>Rất nhỏ (11px)</option>
+                                <option value="12" {if isset($configInfo.invoice_table_font_size) &&
+                                    $configInfo.invoice_table_font_size=='12' }selected{/if}>Nhỏ (12px)</option>
+                                <option value="13" {if !isset($configInfo.invoice_table_font_size) ||
+                                    $configInfo.invoice_table_font_size=='13' }selected{/if}>Tiêu chuẩn (13px)</option>
+                                <option value="14" {if isset($configInfo.invoice_table_font_size) &&
+                                    $configInfo.invoice_table_font_size=='14' }selected{/if}>Khá Lớn (14px)</option>
+                                <option value="15" {if isset($configInfo.invoice_table_font_size) &&
+                                    $configInfo.invoice_table_font_size=='15' }selected{/if}>Lớn (15px)</option>
+                            </select>
+                            <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Cỡ chữ áp dụng cho bảng chi
+                                tiết các mặt hàng, thuế suất.</p>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="company_logo">Logo Công Ty</label>
+                            <input type="file" class="modern-input" name="company_logo" id="company_logo"
+                                accept="image/*" style="padding: 6px; background-color: #fff;">
+                            <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Ảnh vuông, hiển thị rõ trên góc
+                                trái hóa đơn.</p>
+                        </div>
+
+                        <div class="modern-input-group col-span-1">
+                            <label for="company_watermark">Ảnh nền chìm (Watermark)</label>
+                            <input type="file" class="modern-input" name="company_watermark" id="company_watermark"
+                                accept="image/*" style="padding: 6px; background-color: #fff;">
+                            <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Ảnh sẽ được in mờ lớn ở chính
+                                giữa màn hình hóa đơn.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- end modern-form-wrapper -->
+    </main>
+    <div class="sticky-bottom"
+        style="width: 100%; background-color: #ffffff; border-top: 1px solid #e2e8f0; padding: 12px 0;">
+        <div class="flex function-container gap-20 flex-wrap jus-sb"
+            style="max-width: 90%; width: calc(100% - 20px); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <button type="button" id="btn-back" onclick="window.location.href='/{$aScript}?op=dashboard'"
+                class="btn-action__custom bg-secondary bold color-text-black">
+                Quay lại
+            </button>
+            <div class="function-right__container flex gap-10 end-hor" id="btn-group-action">
+                <button type="button" onclick="window.location.reload()"
+                    class="btn-action__custom bg-secondary bold color-text-black">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-action__custom bg-secondary bold color-text-black"
+                    style="background: var(--primary-color); color: white; border-color: var(--primary-color);">
+                    Lưu thông tin
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{include file="$userTemplate/component/footer.html"}

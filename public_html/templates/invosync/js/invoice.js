@@ -15,7 +15,7 @@ function addonerowsOutput() {
 
   // Default disable cho hiá»ƒn thá»‹ sá»‘ lÆ°á»£ng
   clonedv.find(".input-quantity-display, .input-detail-display").prop("disabled", true);
-
+  clonedv.show();
   clonedv.appendTo("#dshanghoa");
   clonedv.find("td.stt").text(counter);
 
@@ -76,6 +76,17 @@ function uncheckRadio(radio) {
   if (radio.checked) {
     radio.checked = false;
   }
+}
+
+function clearBuyerInfo() {
+  $('#info_timnhanh').val('');
+  $('#id_customer').val('');
+  $('#masothue').val('');
+  $('#madonvi').val('');
+  $('#tennguoimua').val('');
+  $('#tendonvi').val('');
+  $('#diachi').val('');
+  $('#email').val('');
 }
 function deleterowsOutput(el, type = "") {
   var tenform = $("#tenform").val();
@@ -1476,6 +1487,7 @@ function addonerowsOutput() {
   clonedv.find(".chietkhau2, .khuyenmai2, .ghichupro2, .featuredProductStatus").val(1);
   clonedv.find(".hasDatepicker").removeClass("hasDatepicker").removeAttr("id");
   clonedv.find(".input-quantity-display, .input-detail-display").prop("disabled", true);
+  clonedv.show();
   clonedv.appendTo("#dshanghoa");
   clonedv.find("td.stt").text(counter);
 

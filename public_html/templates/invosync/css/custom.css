@@ -700,13 +700,18 @@ a.ui-button:active,
     height: 30px;
     width: 30px;
     padding: 5px;
+    background-color: #ffffff;
     border: 1px solid #70ad47;
     border-radius: 4px;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-add-red:hover {
     background-color: #e74c3c;
+    border-color: #e74c3c;
 }
 
 .btn-add-red:hover img {
@@ -1227,7 +1232,6 @@ td.addInvoice input[type="checkbox"] {
     max-width: 90%;
     width: calc(100% - 20px);
     margin: 0 auto;
-    padding: 15px 0;
 }
 
 /* Header Form */
@@ -1469,4 +1473,77 @@ td.addInvoice input[type="checkbox"] {
 .btn-addon:active {
     background: #e2e8f0;
     /* Slate 200 */
+}
+
+/* ==========================================================================
+   CSS DÙNG CHUNG CHO TRANG XEM TRƯỚC HÓA ĐƠN
+   ========================================================================== */
+body:has(.preview-body) {
+    background-color: #ffffff !important;
+}
+
+.preview-body {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Định dạng các nút bấm trên thanh công cụ xem trước */
+.btn-view-action {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    width: auto !important;
+}
+
+.btn-view-action i {
+    font-size: 14px;
+    margin: 0 !important;
+}
+
+.btn-view-secondary {
+    background-color: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+.btn-view-secondary:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.btn-view-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.btn-view-primary:hover {
+    background-color: #1d4ed8;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+}
+
+@media print {
+
+    .preview-header,
+    .no-print {
+        display: none !important;
+    }
+
+    .preview-body {
+        padding: 0 !important;
+    }
+
+    body {
+        background-color: white !important;
+    }
 }
